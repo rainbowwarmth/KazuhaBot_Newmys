@@ -55,3 +55,7 @@
 |                           名称                                                         |        介绍           |
 |:-------------------------------------------------------------:|:------------------:|
 |[KazuhaBot](https://github.com/feilongproject/KazuhaBot)| 飞龙大佬的KazuhaBot |
+
+## 其他
+* 项目仅供学习交流使用，严禁用于任何商业用途和非法行为
+* [MIT 许可证](https://github.com/rainbowwarmth/KazuhaBot_Newmys/blob/main/LICENSE)
