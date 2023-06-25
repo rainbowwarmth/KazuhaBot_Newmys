@@ -8,7 +8,7 @@
         "start": "ts-node src/index.ts"
     },
     "keywords": [],
-    "author": "feilongproject",
+    "author": "feilongproject,rainbowwarmth",
     "license": "ISC",
     "devDependencies": {
         "@types/lodash": "^4.14.182",
