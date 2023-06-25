@@ -7,6 +7,8 @@
 
 ## 使用方法
 > 环境准备： Windows or Linux，Node.js（ [版本至少v16以上](http://nodejs.cn/download/) ）， [Redis](https://redis.io/docs/getting-started/installation/ )
+> 与[KazuhaBot](https://github.com/feilongproject/KazuhaBot)对比
+ * 本项目仅保留了公告推送内容，更加简洁高效。
 
 ### 1.克隆项目
 选择适合的目录，使用下面的方法进行安装(二选一)
