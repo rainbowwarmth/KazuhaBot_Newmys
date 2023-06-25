@@ -10,20 +10,20 @@
 
 ### 1.克隆项目
 选择适合的目录，使用下面的方法进行安装(二选一)
-* git clone --depth=1 https://github.com/rainbowwarmth/KazuhaBot_Newmys.git
+`git clone --depth=1 https://github.com/rainbowwarmth/KazuhaBot_Newmys.git`
 
 或使用ssh（注意：使用该指令必须将SSH keys添加到GitHub中）
 
-* git clone --depth=1 git@github.com:rainbowwarmth/KazuhaBot_Newmys.git
+`git clone --depth=1 git@github.com:rainbowwarmth/KazuhaBot_Newmys.git`
 
 ### 2.安装依赖
 直接安装
-* npm i
+`npm i`
 
 如依赖安装缓慢或失败，可尝试更换国内npm源后再执行install命令
 
-* npm config set registry https://registry.npmmirror.com
-* npm i
+`npm config set registry https://registry.npmmirror.com`
+`npm i`
 
 ### 3.修改设置文件
 
@@ -44,7 +44,7 @@
 * 更新日志
 
 ***以上命令需要加入#字符***
-
+---如和
 ## 致谢
 
 |                           名称                                                         |        介绍           |
