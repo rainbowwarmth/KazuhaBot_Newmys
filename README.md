@@ -1,0 +1,2 @@
+# KazuhaBot_Newmys
+基于KazuhaBot的独立项目，用于推送米游社所有游戏社区的公告
