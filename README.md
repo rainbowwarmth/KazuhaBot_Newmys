@@ -47,7 +47,7 @@
 
 ***以上命令需要加入#字符***
 
-### 如何修改help以及更新更新日志
+### 如何修改help以及更新日志内容
 请前往[qqguid-bot-plugin](https://gitee.com/rainbowwarmth/qqguid-bot-plugin)fork项目，并把里面的json查看原始数据，将浏览器的url复制到`./src/plugins/help.ts`修改即可
 
 ## 致谢
