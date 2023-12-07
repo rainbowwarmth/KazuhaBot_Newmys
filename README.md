@@ -14,11 +14,11 @@
 ### 1.克隆项目
 选择适合的目录，使用下面的方法进行安装(二选一)
 
-`git clone --depth=1 https://github.com/rainbowwarmth/KazuhaBot_Newmys.git`
+`git clone --depth=1 https://github.com/rainbowwarmth/KazuhaBot_Newmys.git ./KazuhaBot`
 
 或使用ssh（注意：使用该指令必须将SSH keys添加到GitHub中）
 
-`git clone --depth=1 git@github.com:rainbowwarmth/KazuhaBot_Newmys.git`
+`git clone --depth=1 git@github.com:rainbowwarmth/KazuhaBot_Newmys.git ./KazuhaBot`
 
 ### 2.安装依赖
 直接安装
