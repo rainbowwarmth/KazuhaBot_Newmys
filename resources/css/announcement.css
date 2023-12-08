@@ -1,4 +1,4 @@
-* {
+﻿* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -2229,7 +2229,7 @@ textarea::placeholder {
 
 @font-face {
   font-family: "iconfont";
-  src: url("../../font/iconfont.fb3712d.woff2");
+  src: url("../font/iconfont.fb3712d.woff2");
 }
 .iconfont {
   font-family: "iconfont" !important;

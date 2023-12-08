@@ -1,6 +1,6 @@
 {
     "initConfig": {
-        "appID": "102010495",
+        "appID": "102056300",
         "token": "",
         "intents": [
             "GUILD_MESSAGES",

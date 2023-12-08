@@ -1,4 +1,4 @@
-import fs from "fs";
+﻿import fs from "fs";
 import puppeteer from "puppeteer";
 import template from "art-template";
 import { writeFileSyncEx } from "./common";
@@ -6,7 +6,7 @@ import { writeFileSyncEx } from "./common";
 //html模板
 const html: any = {};
 //截图数达到时重启浏览器 避免生成速度越来越慢
-var restartNum = 10;
+var restartNum = 30;
 //截图次数
 var renderNum = 0;
 //锁住
@@ -117,13 +117,17 @@ async function browserInit() {
     log.info("puppeteer启动中");
     //初始化puppeteer
     await puppeteer.launch({
-        executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',//chromium其他路径
-        headless: 'new',
+        //executablePath:'',//chromium其他路径
+        headless: true,
         args: [
             "--disable-gpu",
+            "--disable-dev-shm-usage",
             "--disable-setuid-sandbox",
+            "--no-first-run",
             "--no-sandbox",
             "--no-zygote",
+            "--single-process"
+
         ],
     }).then(_browser => {
         global.browser = _browser;
