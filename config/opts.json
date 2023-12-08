@@ -1,4 +1,4 @@
-{
+﻿{
     "desc": "命令总览json,按照顺序进行匹配",
     "command": {
         "admin": {
@@ -185,7 +185,7 @@
                 "describe": "【#未定公告列表】未定事件簿官方公告列表"
             },
             "wdchangePushTask": {
-                "reg": "^#(开启|关闭)?(未定|未定事件簿)公告推送$",
+                "reg": "^#(开启|关闭)未定公告推送$",
                 "fnc": "wdchangePushTask",
                 "type": ["GUILD", "DIRECT"],
                 "describe": "【#开启/关闭未定公告推送】"
@@ -200,27 +200,27 @@
         "NewDBY": {
             "dbynewsContentBBS": {
                 "reg": "^#(大别野|别野)?(公告|活动)[0-9]*$",
-                "fnc": "wdnewsContentBBS",
+                "fnc": "dbynewsContentBBS",
                 "type": ["GUILD", "DIRECT"],
                 "permission": "anyone",
                 "describe": "【#大别野公告】大别野官方公告"
             },
             "dbynewsListBBS": {
                 "reg": "^#(大别野|别野)?(公告|活动)列表$",
-                "fnc": "wdnewsListBBS",
+                "fnc": "dbynewsListBBS",
                 "type": ["GUILD", "DIRECT"],
                 "permission": "anyone",
                 "describe": "【#大别野公告列表】大别野官方公告列表"
             },
             "dbychangePushTask": {
                 "reg": "^#(开启|关闭)?(大别野|别野)公告推送$",
-                "fnc": "wdchangePushTask",
+                "fnc": "dbychangePushTask",
                 "type": ["GUILD", "DIRECT"],
                 "describe": "【#开启/关闭大别野公告推送】"
             },
             "dbytaskPushNews": {
                 "reg": "^#测试(大别野|别野)公告推送$",
-                "fnc": "wdtaskPushNews",
+                "fnc": "dbytaskPushNews",
                 "type": ["GUILD", "DIRECT"],
                 "describe": "【#开启/关闭大别野公告推送】"
             }
