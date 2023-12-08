@@ -45,7 +45,7 @@
                 "describe": "【#原神公告列表】原神官方公告列表"
             },
             "changePushTask": {
-                "reg": "^/(开启|关闭)公告推送原神$",
+                "reg": "^#(开启|关闭)原神公告推送$",
                 "fnc": "changePushTask",
                 "type": ["GUILD", "DIRECT"],
                 "describe": "【#开启/关闭原神公告推送】"
@@ -185,7 +185,7 @@
                 "describe": "【#未定公告列表】未定事件簿官方公告列表"
             },
             "wdchangePushTask": {
-                "reg": "^#(开启|关闭)未定公告推送$",
+                "reg": "^#(开启|关闭)?(未定|未定事件簿)公告推送$",
                 "fnc": "wdchangePushTask",
                 "type": ["GUILD", "DIRECT"],
                 "describe": "【#开启/关闭未定公告推送】"
