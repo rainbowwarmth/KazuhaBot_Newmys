@@ -1,4 +1,4 @@
-import { render } from "../lib/render";
+﻿import { render } from "../lib/render";
 import { IMessageEx, sendImage } from "../lib/IMessageEx";
 import { miGetEmoticon, miGetNewsList, miGetPostFull, PostFullPost } from "../lib/DBYAPI";
 
@@ -7,6 +7,7 @@ var emoticon: Map<any, any> | null = null;
 
 export async function dbynewsContentBBS(msg: IMessageEx) {
     var type = 1;
+    if (msg.content.includes("资讯")) type = 3;
     if (msg.content.includes("活动")) type = 2;
 
     const pagesData = await miGetNewsList(type);
@@ -43,6 +44,7 @@ export async function dbynewsContentBBS(msg: IMessageEx) {
 export async function dbynewsListBBS(msg: IMessageEx) {
 
     var type = 1, typeName = "公告";
+    if (msg.content.includes("资讯")) type = 3, typeName = "资讯";
     if (msg.content.includes("活动")) type = 2, typeName = "活动";
 
     const data = await miGetNewsList(type, 5);

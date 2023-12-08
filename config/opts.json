@@ -199,14 +199,14 @@
         },
         "NewDBY": {
             "dbynewsContentBBS": {
-                "reg": "^#(大别野|别野)?(公告|活动)[0-9]*$",
+                "reg": "^#(大别野|别野)?(公告|活动|资讯)[0-9]*$",
                 "fnc": "dbynewsContentBBS",
                 "type": ["GUILD", "DIRECT"],
                 "permission": "anyone",
                 "describe": "【#大别野公告】大别野官方公告"
             },
             "dbynewsListBBS": {
-                "reg": "^#(大别野|别野)?(公告|活动)列表$",
+                "reg": "^#(大别野|别野)?(公告|活动|资讯)列表$",
                 "fnc": "dbynewsListBBS",
                 "type": ["GUILD", "DIRECT"],
                 "permission": "anyone",
