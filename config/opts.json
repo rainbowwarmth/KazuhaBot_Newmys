@@ -27,6 +27,12 @@
                 "fnc": "version",
                 "type": ["GUILD","DIRECT"],
                 "describe": "help信息"
+            },
+            "commits": {
+                "reg": "^#更新日志$",
+                "fnc": "commits",
+                "type": ["GUILD","DIRECT"],
+                "describe": "help信息"
             }
         },
         "NewYuanShen": {
