@@ -1,18 +1,25 @@
-import { IMessageEx } from "../lib/IMessageEx";
+﻿import { IMessageEx } from "../lib/IMessageEx";
+import fs from "fs";
 
 export async function helpimage(msg: IMessageEx) {
-    fetch('https://gitee.com/rainbowwarmth/qqguid-bot-plugin/raw/master/help.json')
-    .then(response => response.json())
-    .then(data =>{
-        return msg.sendMsgEx({
-            content: `${data.New}`+
-            `\n${data.desc}`+
-            `\n${data.NewList}`+
-            `\n${data.Listdesc}`+
-            `\n${data.taskNew}`+
-            `\n${data.taskdesc}`
-        })
-    })
+
+    const markdown = fs.readFileSync('HELP.md', 'utf-8');
+    const { headings, emphasis } = extractContentFromMarkdown(markdown);
+    let content = '米游社小助手使用指南\n';
+
+    // 将解析后的标题和强调内容按顺序添加到content中
+    for (let i = 0; i < headings.length; i++) {
+        content += `\n功能名:${headings[i]}\n`;
+        if (emphasis[i]) {
+            content += `命令:${emphasis[i]}\n`;
+        }
+    
+    }
+
+    // 发送格式化后的消息内容
+    return msg.sendMsgEx({
+        content
+    });
 }
 
 interface Commit {
@@ -80,6 +87,7 @@ function extractContentFromMarkdown(markdown: string): { headings: string[], emp
 
     return { headings, emphasis };
 }
+
 
 export async function info(msg: IMessageEx) {
 
