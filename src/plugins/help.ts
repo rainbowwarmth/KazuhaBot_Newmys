@@ -15,23 +15,6 @@ export async function helpimage(msg: IMessageEx) {
     })
 }
 
-export async function version(msg: IMessageEx){
-    fetch('https://gitee.com/rainbowwarmth/qqguid-bot-plugin/raw/master/version.json')
-    .then(response => response.json())
-    .then(data =>{
-        return msg.sendMsgEx({
-            content: `更新日志`+
-            `\n当前版本：${data.version}`+
-            `\n·${data.content}`+
-            `\n下个版本：${data.upload_version}`+
-            `\n·${data.upload_content}`+
-            `\n上个版本：${data.last_version}`+
-            `\n·${data.last_content}`
-        })
-    })
-
-}
-
 interface Commit {
     commit: {
         author: {
@@ -83,4 +66,38 @@ export async function commits(msg: IMessageEx) {
         console.error('Error fetching or parsing data:', error);
         return null;
     }
+}
+
+function extractContentFromMarkdown(markdown: string): { headings: string[], emphasis: string[] } {
+    const headingRegex = /^#+\s+(.+)/gm;
+    const emphasisRegex = /\*{1,2}(.*?)\*{1,2}/g;
+
+    const headingsMatch = markdown.match(headingRegex);
+    const emphasisMatch = markdown.match(emphasisRegex);
+
+    const headings: string[] = headingsMatch ? headingsMatch.map(match => match.replace(/^#+\s+/, '')) : [];
+    const emphasis: string[] = emphasisMatch ? emphasisMatch.map(match => match.replace(/\*/g, '')) : [];
+
+    return { headings, emphasis };
+}
+
+export async function info(msg: IMessageEx) {
+
+    const markdown = fs.readFileSync('CHANGELOG.md', 'utf-8');
+    const { headings, emphasis } = extractContentFromMarkdown(markdown);
+    let content = '更新日志\n';
+
+    // 将解析后的标题和强调内容按顺序添加到content中
+    for (let i = 0; i < headings.length; i++) {
+        content += `\n版本:${headings[i]}\n`;
+        if (emphasis[i]) {
+            content += `内容:${emphasis[i]}\n`;
+        }
+    
+    }
+
+    // 发送格式化后的消息内容
+    return msg.sendMsgEx({
+        content
+    });
 }
