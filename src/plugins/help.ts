@@ -60,7 +60,7 @@ export async function commits(msg: IMessageEx) {
             console.log('\n');
         });
 
-        let content = '更新日志\n';
+        let content = '提交日志\n';
         extractedData.forEach((commit: Commit) => {
             content += `\n作者：${commit.authorName}\n时间：${commit.authorDate}\n内容：${commit.commitMessage}\n`;
         });
