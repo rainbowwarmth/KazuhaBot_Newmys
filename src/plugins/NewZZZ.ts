@@ -1,4 +1,4 @@
-import { render } from "../lib/render";
+﻿import { render } from "../lib/render";
 import { IMessageEx, sendImage } from "../lib/IMessageEx";
 import { miGetEmoticon, miGetNewsList, miGetPostFull, PostFullPost } from "../lib/ZZZAPI";
 
@@ -24,7 +24,7 @@ export async function zzznewsContentBBS(msg: IMessageEx) {
     const data = await detalData(postFull.post);
     //log.debug(data);
     render({
-        app: "NewZZZ",
+        app: "New",
         type: "NewZZZ",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
@@ -60,7 +60,7 @@ export async function zzznewsListBBS(msg: IMessageEx) {
     });
 
     await render({
-        app: "NewZZZ",
+        app: "New",
         type: "NewZZZList",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
@@ -126,7 +126,7 @@ export async function zzztaskPushNews() {
         const data = await detalData(postFull.post);
         //log.debug(data);
         await render({
-            app: "NewZZZ",
+            app: "New",
             type: "NewZZZ",
             imgType: "jpeg",
             render: { saveId: "NewZZZ" },

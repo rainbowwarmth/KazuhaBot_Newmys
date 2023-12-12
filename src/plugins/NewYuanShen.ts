@@ -1,4 +1,4 @@
-import { render } from "../lib/render";
+﻿import { render } from "../lib/render";
 import { IMessageEx, sendImage } from "../lib/IMessageEx";
 import { miGetEmoticon, miGetNewsList, miGetPostFull, PostFullPost } from "../lib/YuanShenAPI";
 
@@ -24,7 +24,7 @@ export async function newsContentBBS(msg: IMessageEx) {
     const data = await detalData(postFull.post);
     //log.debug(data);
     render({
-        app: "NewYuanShen",
+        app: "New",
         type: "NewYuanShen",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
@@ -60,7 +60,7 @@ export async function newsListBBS(msg: IMessageEx) {
     });
 
     await render({
-        app: "NewYuanShen",
+        app: "New",
         type: "NewYuanShenList",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
@@ -126,7 +126,7 @@ export async function taskPushNews() {
         const data = await detalData(postFull.post);
         //log.debug(data);
         await render({
-            app: "NewYuanShen",
+            app: "New",
             type: "NewYuanShen",
             imgType: "jpeg",
             render: { saveId: "NewYuanShen" },

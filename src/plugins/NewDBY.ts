@@ -24,7 +24,7 @@ export async function dbynewsContentBBS(msg: IMessageEx) {
     const data = await detalData(postFull.post);
     //log.debug(data);
     render({
-        app: "NewDBY",
+        app: "New",
         type: "NewDBY",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
@@ -60,7 +60,7 @@ export async function dbynewsListBBS(msg: IMessageEx) {
     });
 
     await render({
-        app: "NewDBY",
+        app: "New",
         type: "NewDBYList",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
@@ -126,7 +126,7 @@ export async function dbytaskPushNews() {
         const data = await detalData(postFull.post);
         //log.debug(data);
         await render({
-            app: "NewDBY",
+            app: "New",
             type: "NewDBY",
             imgType: "jpeg",
             render: { saveId: "NewDBY" },

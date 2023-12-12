@@ -1,6 +1,6 @@
-import { render } from "../lib/render";
+﻿import { render } from "../lib/render";
 import { IMessageEx, sendImage } from "../lib/IMessageEx";
-import { miGetEmoticon, miGetNewsList, miGetPostFull, PostFullPost } from "../lib/StalRailAPI";
+import { miGetEmoticon, miGetNewsList, miGetPostFull, PostFullPost } from "../lib/StarRailAPI";
 
 
 var emoticon: Map<any, any> | null = null;
@@ -24,7 +24,7 @@ export async function srnewsContentBBS(msg: IMessageEx) {
     const data = await detalData(postFull.post);
     //log.debug(data);
     render({
-        app: "NewStarRail",
+        app: "New",
         type: "NewStarRail",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
@@ -60,7 +60,7 @@ export async function srnewsListBBS(msg: IMessageEx) {
     });
 
     await render({
-        app: "NewStarRail",
+        app: "New",
         type: "NewStarRailList",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
@@ -126,7 +126,7 @@ export async function srtaskPushNews() {
         const data = await detalData(postFull.post);
         //log.debug(data);
         await render({
-            app: "NewStarRail",
+            app: "New",
             type: "NewStarRail",
             imgType: "jpeg",
             render: { saveId: "NewStarRail" },

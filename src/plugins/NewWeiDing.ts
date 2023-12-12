@@ -1,4 +1,4 @@
-import { render } from "../lib/render";
+﻿import { render } from "../lib/render";
 import { IMessageEx, sendImage } from "../lib/IMessageEx";
 import { miGetEmoticon, miGetNewsList, miGetPostFull, PostFullPost } from "../lib/WeiDingAPI";
 
@@ -24,7 +24,7 @@ export async function wdnewsContentBBS(msg: IMessageEx) {
     const data = await detalData(postFull.post);
     //log.debug(data);
     render({
-        app: "NewWeiDing",
+        app: "New",
         type: "NewWeiDing",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
@@ -60,7 +60,7 @@ export async function wdnewsListBBS(msg: IMessageEx) {
     });
 
     await render({
-        app: "NewWeiDing",
+        app: "New",
         type: "NewWeiDingList",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
@@ -126,7 +126,7 @@ export async function wdtaskPushNews() {
         const data = await detalData(postFull.post);
         //log.debug(data);
         await render({
-            app: "NewWeiDing",
+            app: "New",
             type: "NewWeiDing",
             imgType: "jpeg",
             render: { saveId: "NewWeiDing" },

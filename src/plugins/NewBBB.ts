@@ -1,4 +1,4 @@
-import { render } from "../lib/render";
+﻿import { render } from "../lib/render";
 import { IMessageEx, sendImage } from "../lib/IMessageEx";
 import { miGetEmoticon, miGetNewsList, miGetPostFull, PostFullPost } from "../lib/BBBAPI";
 
@@ -24,7 +24,7 @@ export async function bbbnewsContentBBS(msg: IMessageEx) {
     const data = await detalData(postFull.post);
     //log.debug(data);
     render({
-        app: "NewBBB",
+        app: "New",
         type: "NewBBB",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
@@ -60,7 +60,7 @@ export async function bbbnewsListBBS(msg: IMessageEx) {
     });
 
     await render({
-        app: "NewBBB",
+        app: "New",
         type: "NewBBBList",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
@@ -126,7 +126,7 @@ export async function bbbtaskPushNews() {
         const data = await detalData(postFull.post);
         //log.debug(data);
         await render({
-            app: "NewBBB",
+            app: "New",
             type: "NewBBB",
             imgType: "jpeg",
             render: { saveId: "NewBB" },
