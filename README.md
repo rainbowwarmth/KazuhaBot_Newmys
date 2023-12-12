@@ -48,14 +48,13 @@
 * (公告|资讯)+游戏别名+列表
 * (开启|关闭)+公告+游戏别名+推送
 
-2.帮助和更新日志
+2.帮助和提交日志以及版本
 * help
-* 更新日志
+* 版本
+* 提交日志
 
-***以上命令需要加入#字符前缀***
+***以上命令需要加入#字符或/字符前缀***
 
-### 如何修改help以及更新日志内容
-请前往[qqguid-bot-plugin](https://gitee.com/rainbowwarmth/qqguid-bot-plugin)fork项目，并把里面的json查看原始数据，将浏览器的url复制到`./src/plugins/help.ts`修改即可
 
 ## 致谢
 
