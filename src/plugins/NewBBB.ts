@@ -35,6 +35,7 @@ export async function bbbnewsContentBBS(msg: IMessageEx) {
     }).then(savePath => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
+            log.mark(`[崩坏3公告] newsContentBBS/NewBBB.ts`);
     }).catch(err => {
         log.error(err);
     });
@@ -70,6 +71,7 @@ export async function bbbnewsListBBS(msg: IMessageEx) {
         }
     }).then(savePath => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
+        log.mark(`[崩坏3公告列表] newListBBS/NewBBB.ts`);
     }).catch(err => {
         log.error(err);
     });
@@ -145,6 +147,7 @@ export async function bbbtaskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
+            log.mark(`[崩坏学园2公告推送] taskPushNews/NewBBB.ts`);
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });

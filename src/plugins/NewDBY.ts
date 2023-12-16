@@ -35,6 +35,7 @@ export async function dbynewsContentBBS(msg: IMessageEx) {
     }).then(savePath => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
+        log.mark(`[大别野公告] newsContentBBS/NewDBY.ts`);
     }).catch(err => {
         log.error(err);
     });
@@ -70,6 +71,7 @@ export async function dbynewsListBBS(msg: IMessageEx) {
         }
     }).then(savePath => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
+        log.mark(`[崩坏学园2公告列表] newListBBS/NewDBY.ts`);
     }).catch(err => {
         log.error(err);
     });
@@ -145,6 +147,7 @@ export async function dbytaskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
+             log.mark(`[大别野公告推送] taskPushNews/NewDBY.ts`);
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });

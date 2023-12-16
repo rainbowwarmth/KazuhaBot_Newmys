@@ -35,6 +35,7 @@ export async function wdnewsContentBBS(msg: IMessageEx) {
     }).then(savePath => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
+        log.mark(`[未定事件簿公告] newsContentBBS/NewWeiDing.ts`);
     }).catch(err => {
         log.error(err);
     });
@@ -70,6 +71,7 @@ export async function wdnewsListBBS(msg: IMessageEx) {
         }
     }).then(savePath => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
+        log.mark(`[未定事件簿公告列表] newListBBS/NewWeiDing.ts`);
     }).catch(err => {
         log.error(err);
     });
@@ -145,6 +147,7 @@ export async function wdtaskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
+             log.mark(`[未定事件簿公告推送] taskPushNews/NewWeiDing.ts`);
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });

@@ -35,6 +35,7 @@ export async function zzznewsContentBBS(msg: IMessageEx) {
     }).then(savePath => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
+        log.mark(`[绝区零公告] newsContentBBS/NewZZZ.ts`);
     }).catch(err => {
         log.error(err);
     });
@@ -70,6 +71,7 @@ export async function zzznewsListBBS(msg: IMessageEx) {
         }
     }).then(savePath => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
+        log.mark(`[绝区零公告列表] newListBBS/NewZZZ.ts`);
     }).catch(err => {
         log.error(err);
     });
@@ -145,6 +147,7 @@ export async function zzztaskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
+            log.mark(`[绝区零公告推送] taskPushNews/NewZZZ.ts`);
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });
