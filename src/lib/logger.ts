@@ -12,7 +12,7 @@ const log = log4js.configure({
     categories: {
         default: {
             appenders: ["console"],
-            level: "all",
+            level: "mark",
             enableCallStack: true,
         }
     },

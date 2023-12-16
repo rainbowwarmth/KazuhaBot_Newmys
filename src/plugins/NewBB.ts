@@ -35,6 +35,7 @@ export async function bbnewsContentBBS(msg: IMessageEx) {
     }).then(savePath => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
+            log.mark(`[崩坏学园2公告] newsContentBBS/NewBB.ts`);
     }).catch(err => {
         log.error(err);
     });
@@ -70,6 +71,7 @@ export async function bbnewsListBBS(msg: IMessageEx) {
         }
     }).then(savePath => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
+        log.mark(`[崩坏学园2公告列表] newListBBS/NewBB.ts`);
     }).catch(err => {
         log.error(err);
     });
@@ -105,7 +107,7 @@ export async function bbtaskPushNews() {
     }
     if (sendChannels.length == 0) return;
 
-    log.mark(` 崩坏学园2官方公告检查中`);
+    log.info(` 崩坏学园2官方公告检查中`);
     const ignoreReg = /已开奖|大别野/;
     const pagesData = [{ type: "公告", list: (await miGetNewsList(1))?.list }, { type: "资讯", list: (await miGetNewsList(3))?.list }];
     const postIds: string[] = [];
@@ -145,6 +147,7 @@ export async function bbtaskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
+            log.mark(`[崩坏学园2公告推送] taskPushNews/NewBB.ts`);
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });
@@ -154,7 +157,7 @@ export async function bbtaskPushNews() {
         });
     }
 
-    log.mark(`崩坏学园2官方公告检查完成`);
+    log.info(`崩坏学园2官方公告检查完成`);
 }
 
 async function detalData(data: PostFullPost) {

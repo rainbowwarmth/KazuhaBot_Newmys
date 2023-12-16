@@ -105,7 +105,7 @@ export async function dbytaskPushNews() {
     }
     if (sendChannels.length == 0) return;
 
-    log.mark(`大别野官方公告检查中`);
+    log.info(`大别野官方公告检查中`);
     const ignoreReg = /冒险助力礼包|纪行|预下载|脚本外挂|集中反馈|作品展示|同人|已开奖|一图流|云·原神||OST/;
     const pagesData = [{ type: "公告", list: (await miGetNewsList(1))?.list }, { type: "资讯", list: (await miGetNewsList(3))?.list }];
     const postIds: string[] = [];
@@ -154,7 +154,7 @@ export async function dbytaskPushNews() {
         });
     }
 
-    log.mark(`大别野官方公告检查完成`);
+    log.info(`大别野官方公告检查完成`);
 }
 
 async function detalData(data: PostFullPost) {

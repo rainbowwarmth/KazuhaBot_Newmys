@@ -105,7 +105,7 @@ export async function wdtaskPushNews() {
     }
     if (sendChannels.length == 0) return;
 
-    log.mark(`未定事件簿官方公告检查中`);
+    log.info(`未定事件簿官方公告检查中`);
     const ignoreReg = /大别野|已开奖/;
     const pagesData = [{ type: "公告", list: (await miGetNewsList(1))?.list }, { type: "资讯", list: (await miGetNewsList(3))?.list }];
     const postIds: string[] = [];
@@ -154,7 +154,7 @@ export async function wdtaskPushNews() {
         });
     }
 
-    log.mark(`未定事件簿官方公告检查完成`);
+    log.info(`未定事件簿官方公告检查完成`);
 }
 
 async function detalData(data: PostFullPost) {

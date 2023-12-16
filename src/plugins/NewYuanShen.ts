@@ -35,6 +35,7 @@ export async function newsContentBBS(msg: IMessageEx) {
     }).then(savePath => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
+            log.mark(`[原神公告] newsContentBBS/NewYuanShen.ts`);
     }).catch(err => {
         log.error(err);
     });
@@ -70,6 +71,7 @@ export async function newsListBBS(msg: IMessageEx) {
         }
     }).then(savePath => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
+        log.mark(`[原神公告列表] newListBBS/NewYuanShen.ts`);
     }).catch(err => {
         log.error(err);
     });
@@ -105,7 +107,7 @@ export async function taskPushNews() {
     }
     if (sendChannels.length == 0) return;
 
-    log.mark(`原神官方公告检查中`);
+    log.info(`原神官方公告检查中`);
     const ignoreReg = /线下赛|晋级赛|战绩更新|海选赛|邀请赛|积分赛|战绩工具|交流平台|首日赛|线上赛|社区内容|个人专访|全民赛|决赛|总决赛|半决赛|淘汰赛|脚本外挂|集中反馈|作品展示|同人|已开奖|大别野/;
     const pagesData = [{ type: "公告", list: (await miGetNewsList(1))?.list }, { type: "资讯", list: (await miGetNewsList(3))?.list }];
     const postIds: string[] = [];
@@ -145,6 +147,7 @@ export async function taskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
+            log.mark(`[原神公告推送] taskPushNews/NewYuanShen.ts`);
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });
@@ -154,7 +157,7 @@ export async function taskPushNews() {
         });
     }
 
-    log.mark(`原神官方公告检查完成`);
+    log.info(`原神官方公告检查完成`);
 }
 
 async function detalData(data: PostFullPost) {

@@ -114,7 +114,7 @@ async function browserInit() {
         return false;
     }
     lock = true;
-    log.info("puppeteer启动中");
+    log.mark("puppeteer启动中");
     //初始化puppeteer
     await puppeteer.launch({
         //executablePath:'',//chromium其他路径
@@ -131,7 +131,7 @@ async function browserInit() {
         ],
     }).then(_browser => {
         global.browser = _browser;
-        log.info("puppeteer启动成功");
+        log.mark("puppeteer启动成功");
         global.browser.on("disconnected", function () {
             log.error("Chromium实例关闭或崩溃！");
             global.browser = null;
