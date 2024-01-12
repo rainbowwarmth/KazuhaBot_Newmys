@@ -107,7 +107,6 @@ export async function srtaskPushNews() {
     }
     if (sendChannels.length == 0) return;
 
-    log.info(`崩坏星穹铁道官方公告检查中`);
     const ignoreReg = /问题说明|意见反馈|账号封禁|工具|直播预告|大别野/;
     const pagesData = [{ type: "公告", list: (await miGetNewsList(1))?.list }, { type: "资讯", list: (await miGetNewsList(3))?.list }];
     const postIds: string[] = [];
@@ -156,8 +155,6 @@ export async function srtaskPushNews() {
             log.error(err);
         });
     }
-
-    log.info(`崩坏星穹铁道官方公告检查完成`);
 }
 
 async function detalData(data: PostFullPost) {

@@ -1,4 +1,4 @@
-import { init, loadGuildTree } from './init';
+﻿import { init, loadGuildTree } from './init';
 import { findOpts } from './lib/findOpts';
 import { IMessageEx } from './lib/IMessageEx';
 
@@ -17,6 +17,7 @@ init().then(() => {
         global.redis.hSet(`genshin:config:${msg.author.id}`, "guildId", msg.guild_id);
         execute(msg);
     });
+
 
     global.ws.on("GUILDS", (data) => {
         log.mark(`重新加载频道树中`);

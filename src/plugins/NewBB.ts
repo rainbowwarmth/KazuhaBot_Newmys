@@ -1,6 +1,7 @@
 ﻿import { render } from "../lib/render";
 import { IMessageEx, sendImage } from "../lib/IMessageEx";
 import { miGetEmoticon, miGetNewsList, miGetPostFull, PostFullPost } from "../lib/BBAPI";
+import c from "../cfg";
 
 
 var emoticon: Map<any, any> | null = null;
@@ -107,7 +108,6 @@ export async function bbtaskPushNews() {
     }
     if (sendChannels.length == 0) return;
 
-    log.info(` 崩坏学园2官方公告检查中`);
     const ignoreReg = /已开奖|大别野/;
     const pagesData = [{ type: "公告", list: (await miGetNewsList(1))?.list }, { type: "资讯", list: (await miGetNewsList(3))?.list }];
     const postIds: string[] = [];
@@ -156,8 +156,6 @@ export async function bbtaskPushNews() {
             log.error(err);
         });
     }
-
-    log.info(`崩坏学园2官方公告检查完成`);
 }
 
 async function detalData(data: PostFullPost) {

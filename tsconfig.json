@@ -1,5 +1,10 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "#kazuha": ["src/plugins/index"]
+      "#kazuha.lib": ["src/lib/index"]
+    },
     "outDir": "./dist",
     "module": "commonjs",
     "target": "es2021",
@@ -20,7 +25,8 @@
     "types": []
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "winston-config.js"
   ],
   "typeRoots": [
     "./src/types"

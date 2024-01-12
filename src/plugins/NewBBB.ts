@@ -106,8 +106,6 @@ export async function bbbtaskPushNews() {
             sendChannels.push(channel);
     }
     if (sendChannels.length == 0) return;
-
-    log.info(`崩坏3官方公告检查中`);
     const ignoreReg = /封禁名单|大别野/;
     const pagesData = [{ type: "公告", list: (await miGetNewsList(1))?.list }, { type: "资讯", list: (await miGetNewsList(3))?.list }];
     const postIds: string[] = [];
@@ -156,8 +154,6 @@ export async function bbbtaskPushNews() {
             log.error(err);
         });
     }
-
-    log.info(`崩坏3官方公告检查完成`);
 }
 
 async function detalData(data: PostFullPost) {

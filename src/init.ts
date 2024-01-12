@@ -3,18 +3,14 @@ import { createClient } from 'redis';
 import schedule from "node-schedule";
 import fs from 'fs';
 import _log, { setDevLog } from './lib/logger';
-import config from '../config/config.json';
-import { bbtaskPushNews } from './plugins/NewBB';
-import { bbbtaskPushNews } from './plugins/NewBBB';
-import { taskPushNews } from './plugins/NewYuanShen';
-import { srtaskPushNews } from './plugins/NewStarRail';
-import { wdtaskPushNews } from './plugins/NewWeiDing';
-import { zzztaskPushNews } from './plugins/NewZZZ';
-import { dbytaskPushNews } from './plugins/NewDBY';
+import c from './cfg';
 
 export async function init() {
-    console.log(`机器人准备运行，正在初始化`);
-
+    _log.mark(`-------(≡^∇^≡)-------`);
+    _log.mark(c.chalk.yellow('KazuhaBot' + ' v' + c.pack.version + '启动中...'))
+    _log.mark(c.chalk.green('https://github.com/rainbowwarmth/KazuhaBot_Newmys'))
+    process.title = 'KazuhaBot' + ' v' + c.pack.version + ' © 2023-2024 ' + c.pack.author;
+    process.env.TZ = "Asia/Shanghai";
     global.adminId = ["2492083538938174755"];
     global._path = process.cwd();
     global.log = _log;
@@ -31,19 +27,19 @@ export async function init() {
 
     log.info(`初始化：正在创建定时任务`);
     ////崩坏2公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => bbtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => c.bbbtaskPushNews());
     ////崩坏3公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => bbbtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => c.bbbtaskPushNews());
     ////原神公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => taskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => c.taskPushNews());
     ////星铁公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => srtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => c.srtaskPushNews());
     ////未定公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => wdtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => c.wdtaskPushNews());
     ////绝区零公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => zzztaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => c.zzztaskPushNews());
     ////大别野公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => dbytaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => c.dbytaskPushNews());
 
     log.info(`初始化：正在创建热加载监听`);
     fs.watch(`${global._path}/src/plugins/`, (event, filename) => {
@@ -76,8 +72,8 @@ export async function init() {
     });
 
     log.info(`初始化：正在创建client与ws`);
-    global.client = createOpenAPI(config.initConfig);
-    global.ws = createWebsocket(config.initConfig as any);
+    global.client = createOpenAPI(c.config.initConfig);
+    global.ws = createWebsocket(c.config.initConfig as any);
 
     log.info(`初始化：正在创建频道树`);
     global.saveGuildsTree = [];
@@ -87,10 +83,10 @@ export async function init() {
 export async function loadGuildTree(init = false) {
     global.saveGuildsTree = [];
     for (const guild of (await global.client.meApi.meGuilds()).data) {
-        if (init) log.mark(`${guild.name}(${guild.id})`);
+        if (init) log.info(`${guild.name}(${guild.id})`);
         var _guild: SaveChannel[] = [];
         for (const channel of (await global.client.channelApi.channels(guild.id)).data) {
-            if (init) log.mark(`${guild.name}(${guild.id})-${channel.name}(${channel.id})-father:${channel.parent_id}`);
+            if (init) log.info(`${guild.name}(${guild.id})-${channel.name}(${channel.id})-father:${channel.parent_id}`);
             _guild.push({ name: channel.name, id: channel.id });
         }
         global.saveGuildsTree.push({ name: guild.name, id: guild.id, channel: _guild });
