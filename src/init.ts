@@ -2,14 +2,14 @@
 import { createClient } from 'redis';
 import schedule from "node-schedule";
 import fs from 'fs';
-import _log, { setDevLog } from './lib/logger';
-import c from './cfg';
+import { _log, setDevLog } from '#kazuha.lib';
+import { kazuha, chalk,bbbtaskPushNews, bbtaskPushNews, taskPushNews, zzztaskPushNews, dbytaskPushNews, srtaskPushNews, wdtaskPushNews } from '#kazuha';
 
 export async function init() {
     _log.mark(`-------(≡^∇^≡)-------`);
-    _log.mark(c.chalk.yellow('KazuhaBot' + ' v' + c.pack.version + '启动中...'))
-    _log.mark(c.chalk.green('https://github.com/rainbowwarmth/KazuhaBot_Newmys'))
-    process.title = 'KazuhaBot' + ' v' + c.pack.version + ' © 2023-2024 ' + c.pack.author;
+    _log.mark(chalk.yellow(kazuha.name + ' v' + kazuha.version + '启动中...'))
+    _log.mark(chalk.green('https://github.com/rainbowwarmth/KazuhaBot_Newmys'))
+    process.title = kazuha.name + ' v' + kazuha.version + ' © 2023-2024 ' + kazuha.author;
     process.env.TZ = "Asia/Shanghai";
     global.adminId = ["2492083538938174755"];
     global._path = process.cwd();
@@ -27,19 +27,19 @@ export async function init() {
 
     log.info(`初始化：正在创建定时任务`);
     ////崩坏2公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => c.bbbtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => bbtaskPushNews());
     ////崩坏3公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => c.bbbtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => bbbtaskPushNews());
     ////原神公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => c.taskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => taskPushNews());
     ////星铁公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => c.srtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => srtaskPushNews());
     ////未定公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => c.wdtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => wdtaskPushNews());
     ////绝区零公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => c.zzztaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => zzztaskPushNews());
     ////大别野公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => c.dbytaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => dbytaskPushNews());
 
     log.info(`初始化：正在创建热加载监听`);
     fs.watch(`${global._path}/src/plugins/`, (event, filename) => {

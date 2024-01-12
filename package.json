@@ -39,8 +39,5 @@
         "redis": "^4.2.0",
         "typescript": "^4.6.4",
         "yaml": "^2.1.1"
-    },
-    "imports": {
-        "#kazuha.lib": "./src/lib/index.ts"
     }
 }

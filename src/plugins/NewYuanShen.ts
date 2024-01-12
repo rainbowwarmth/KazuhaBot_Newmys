@@ -1,6 +1,5 @@
-﻿import { render } from "../lib/render";
-import { IMessageEx, sendImage } from "../lib/IMessageEx";
-import { miGetEmoticon, miGetNewsList, miGetPostFull, PostFullPost } from "../lib/YuanShenAPI";
+﻿import { IMessageEx, sendImage, render } from "#kazuha.lib";
+import { ysmiGetEmoticon, ysmiGetNewsList, ysmiGetPostFull, PostFullPost } from "#kazuha.models";
 
 
 var emoticon: Map<any, any> | null = null;
@@ -10,7 +9,7 @@ export async function newsContentBBS(msg: IMessageEx) {
     if (msg.content.includes("资讯")) type = 3;
     if (msg.content.includes("活动")) type = 2;
 
-    const pagesData = await miGetNewsList(type);
+    const pagesData = await ysmiGetNewsList(type);
     const _page = msg.content.match(/[0-9]+/);
     const page = _page ? parseInt(_page[0]) : 1;
     if (!pagesData) return;
@@ -19,7 +18,7 @@ export async function newsContentBBS(msg: IMessageEx) {
         msg.sendMsgEx({ content: "目前只查前10条最新的公告，请输入1-10之间的整数。" });
         return true;
     }
-    const postFull = await miGetPostFull(pagesData.list[page - 1].post.post_id);
+    const postFull = await ysmiGetPostFull(pagesData.list[page - 1].post.post_id);
     if (!postFull) return;
     const data = await detalData(postFull.post);
     //log.debug(data);
@@ -48,7 +47,7 @@ export async function newsListBBS(msg: IMessageEx) {
     if (msg.content.includes("资讯")) type = 3, typeName = "资讯";
     if (msg.content.includes("活动")) type = 2, typeName = "活动";
 
-    const data = await miGetNewsList(type, 5);
+    const data = await ysmiGetNewsList(type, 5);
     if (!data) return;
 
     var datas = data.list;
@@ -108,7 +107,7 @@ export async function taskPushNews() {
     if (sendChannels.length == 0) return;
 
     const ignoreReg = /线下赛|晋级赛|战绩更新|海选赛|邀请赛|积分赛|战绩工具|交流平台|首日赛|线上赛|社区内容|个人专访|全民赛|决赛|总决赛|半决赛|淘汰赛|脚本外挂|集中反馈|作品展示|同人|已开奖|大别野/;
-    const pagesData = [{ type: "公告", list: (await miGetNewsList(1))?.list }, { type: "资讯", list: (await miGetNewsList(3))?.list }];
+    const pagesData = [{ type: "公告", list: (await ysmiGetNewsList(1))?.list }, { type: "资讯", list: (await ysmiGetNewsList(3))?.list }];
     const postIds: string[] = [];
 
     for (const pageData of pagesData) {
@@ -122,7 +121,7 @@ export async function taskPushNews() {
         }
     }
     for (const postId of postIds) {
-        const postFull = await miGetPostFull(postId);
+        const postFull = await ysmiGetPostFull(postId);
         if (!postFull) return;
         const data = await detalData(postFull.post);
         //log.debug(data);
@@ -201,7 +200,7 @@ async function detalData(data: PostFullPost) {
 
 async function mysEmoticon() {
     const emp = new Map();
-    const res = await miGetEmoticon();
+    const res = await ysmiGetEmoticon();
     if (!res) return null;
     for (const val of res.list) {
         if (!val.icon) continue;

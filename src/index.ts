@@ -1,6 +1,5 @@
-﻿import { init, loadGuildTree } from './init';
-import { findOpts } from './lib/findOpts';
-import { IMessageEx } from './lib/IMessageEx';
+﻿import { init, loadGuildTree } from "#kazuha"
+import { findOpts, IMessageEx } from "#kazuha.lib" 
 
 init().then(() => {
 
