@@ -1,5 +1,5 @@
-import { IMember } from "qq-guild-bot";
-import { IMessageEx } from "../lib/IMessageEx";
+import { IMember } from "#kazuha";
+import { IMessageEx } from "#kazuha.lib";
 
 export async function status(msg: IMessageEx) {
     return msg.sendMsgEx({

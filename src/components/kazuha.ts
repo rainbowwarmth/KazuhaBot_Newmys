@@ -1,3 +1,7 @@
+import { createOpenAPI, createWebsocket, IMember } from 'qq-guild-bot';
+import { createClient } from 'redis';
+import schedule from "node-schedule";
+import fs from 'fs';
 import chalk from 'chalk';
 import { taskPushNews } from "src/plugins/NewYuanShen";
 import { bbbtaskPushNews } from "src/plugins/NewBBB";
@@ -11,7 +15,13 @@ import kazuha from "../../package.json";
 import config from "../../config/config.json"
 
 export { 
+    createOpenAPI,
+    createWebsocket,
+    createClient,
+    schedule,
+    fs,
     chalk,
+    IMember,
     taskPushNews,
     bbbtaskPushNews,
     bbtaskPushNews,

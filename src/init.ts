@@ -1,7 +1,4 @@
-﻿import { createOpenAPI, createWebsocket } from 'qq-guild-bot';
-import { createClient } from 'redis';
-import schedule from "node-schedule";
-import fs from 'fs';
+﻿import { createOpenAPI, createWebsocket, createClient, schedule, fs } from '#kazuha';
 import { _log, setDevLog } from '#kazuha.lib';
 import { kazuha, chalk,bbbtaskPushNews, bbtaskPushNews, taskPushNews, zzztaskPushNews, dbytaskPushNews, srtaskPushNews, wdtaskPushNews } from '#kazuha';
 
