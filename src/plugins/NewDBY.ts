@@ -1,5 +1,6 @@
-﻿import { IMessageEx, sendImage, render } from "#kazuha.lib";
-import { DBYmiGetEmoticon, DBYmiGetNewsList, DBYmiGetPostFull, PostFullPost } from "#kazuha.models";
+﻿import kazuha from "../kazuha";
+import { IMessageEx } from "../lib/IMessageEx";
+import { PostFullPost } from "../models/API";
 
 
 var emoticon: Map<any, any> | null = null;
@@ -9,7 +10,7 @@ export async function dbynewsContentBBS(msg: IMessageEx) {
     if (msg.content.includes("资讯")) type = 3;
     if (msg.content.includes("活动")) type = 2;
 
-    const pagesData = await DBYmiGetNewsList(type);
+    const pagesData = await kazuha.DBYmiGetNewsList(type);
     const _page = msg.content.match(/[0-9]+/);
     const page = _page ? parseInt(_page[0]) : 1;
     if (!pagesData) return;
@@ -18,11 +19,11 @@ export async function dbynewsContentBBS(msg: IMessageEx) {
         msg.sendMsgEx({ content: "目前只查前10条最新的公告，请输入1-10之间的整数。" });
         return true;
     }
-    const postFull = await DBYmiGetPostFull(pagesData.list[page - 1].post.post_id);
+    const postFull = await kazuha.DBYmiGetPostFull(pagesData.list[page - 1].post.post_id);
     if (!postFull) return;
     const data = await detalData(postFull.post);
     //log.debug(data);
-    render({
+    kazuha.render({
         app: "New",
         type: "NewDBY",
         imgType: "jpeg",
@@ -31,11 +32,11 @@ export async function dbynewsContentBBS(msg: IMessageEx) {
             dataConent: data.post.content,
             data,
         }
-    }).then(savePath => {
+    }).then((savePath: any) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-        log.mark(`[大别野公告] newsContentBBS/NewDBY.ts`);
-    }).catch(err => {
+        log.mark(kazuha.chalk.blue(`[大别野公告] newsContentBBS/NewDBY.ts`));
+    }).catch((err: any) => {
         log.error(err);
     });
 
@@ -47,7 +48,7 @@ export async function dbynewsListBBS(msg: IMessageEx) {
     if (msg.content.includes("资讯")) type = 3, typeName = "资讯";
     if (msg.content.includes("活动")) type = 2, typeName = "活动";
 
-    const data = await DBYmiGetNewsList(type, 5);
+    const data = await kazuha.DBYmiGetNewsList(type, 5);
     if (!data) return;
 
     var datas = data.list;
@@ -55,11 +56,11 @@ export async function dbynewsListBBS(msg: IMessageEx) {
         return true;
     }
 
-    datas.forEach(element => {
+    datas.forEach((element: { post: { created_at: number; }; }) => {
         (element.post as any).created_at = new Date(element.post.created_at * 1000).toLocaleString();
     });
 
-    await render({
+    await kazuha.render({
         app: "New",
         type: "NewDBYList",
         imgType: "jpeg",
@@ -68,10 +69,10 @@ export async function dbynewsListBBS(msg: IMessageEx) {
             datas,
             typeName
         }
-    }).then(savePath => {
+    }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        log.mark(`[崩坏学园2公告列表] newListBBS/NewDBY.ts`);
-    }).catch(err => {
+        log.mark(kazuha.chalk.blue(`[崩坏学园2公告列表] newListBBS/NewDBY.ts`));
+    }).catch((err: any) => {
         log.error(err);
     });
 
@@ -107,7 +108,7 @@ export async function dbytaskPushNews() {
     if (sendChannels.length == 0) return;
 
     const ignoreReg = /冒险助力礼包|纪行|预下载|脚本外挂|集中反馈|作品展示|同人|已开奖|一图流|云·原神||OST/;
-    const pagesData = [{ type: "公告", list: (await DBYmiGetNewsList(1))?.list }, { type: "资讯", list: (await DBYmiGetNewsList(3))?.list }];
+    const pagesData = [{ type: "公告", list: (await kazuha.DBYmiGetNewsList(1))?.list }, { type: "资讯", list: (await kazuha.DBYmiGetNewsList(3))?.list }];
     const postIds: string[] = [];
 
     for (const pageData of pagesData) {
@@ -121,11 +122,11 @@ export async function dbytaskPushNews() {
         }
     }
     for (const postId of postIds) {
-        const postFull = await DBYmiGetPostFull(postId);
+        const postFull = await kazuha.DBYmiGetPostFull(postId);
         if (!postFull) return;
         const data = await detalData(postFull.post);
         //log.debug(data);
-        await render({
+        await kazuha.render({
             app: "New",
             type: "NewDBY",
             imgType: "jpeg",
@@ -134,23 +135,23 @@ export async function dbytaskPushNews() {
                 dataConent: data.post.content,
                 data,
             }
-        }).then(savePath => {
+        }).then((savePath: any) => {
             if (savePath) {
                 const _sendQueue: Promise<any>[] = [];
                 for (const sendChannel of sendChannels) {
-                    _sendQueue.push(sendImage({
+                    _sendQueue.push(kazuha.sendImage({
                         msgId,
                         imagePath: savePath,
                         channelId: sendChannel,
                         messageType: "GUILD"
                     }));
                 }
-             log.mark(`[大别野公告推送] taskPushNews/NewDBY.ts`);
+             log.mark(kazuha.chalk.blue(`[大别野公告推送] taskPushNews/NewDBY.ts`));
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });
             }
-        }).catch(err => {
+        }).catch((err: any) => {
             log.error(err);
         });
     }
@@ -199,7 +200,7 @@ async function detalData(data: PostFullPost) {
 
 async function mysEmoticon() {
     const emp = new Map();
-    const res = await DBYmiGetEmoticon();
+    const res = await kazuha.DBYmiGetEmoticon();
     if (!res) return null;
     for (const val of res.list) {
         if (!val.icon) continue;

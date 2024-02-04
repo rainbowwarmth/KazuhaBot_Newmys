@@ -1,5 +1,4 @@
 import log4js from "log4js";
-import c from "../cfg";
 
 const log = log4js.configure({
     appenders: {
@@ -14,7 +13,7 @@ const log = log4js.configure({
     categories: {
         default: {
             appenders: ["console"],
-            level: c.config.loglevel,
+            level: "mark",
             enableCallStack: true,
         },
     },
@@ -31,4 +30,5 @@ export function setDevLog() {
     });
 }
 log.setParseCallStackFunction((error: Error) => { });
+
 export default log

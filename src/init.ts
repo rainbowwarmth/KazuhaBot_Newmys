@@ -1,16 +1,18 @@
-﻿import { createOpenAPI, createWebsocket, createClient, schedule, fs } from '#kazuha';
-import { _log, setDevLog } from '#kazuha.lib';
-import { kazuha, chalk,bbbtaskPushNews, bbtaskPushNews, taskPushNews, zzztaskPushNews, dbytaskPushNews, srtaskPushNews, wdtaskPushNews } from '#kazuha';
+﻿import { createOpenAPI, createWebsocket} from 'qq-guild-bot';
+import { createClient } from 'redis';
+import schedule from "node-schedule";
+import fs from 'fs';
+import kazuha from './kazuha'
 
 export async function init() {
-    _log.mark(`-------(≡^∇^≡)-------`);
-    _log.mark(chalk.yellow(kazuha.name + ' v' + kazuha.version + '启动中...'))
-    _log.mark(chalk.green('https://github.com/rainbowwarmth/KazuhaBot_Newmys'))
-    process.title = kazuha.name + ' v' + kazuha.version + ' © 2023-2024 ' + kazuha.author;
+    kazuha._log.mark(`-------(≡^∇^≡)-------`);
+    kazuha._log.mark(kazuha.chalk.yellow(kazuha.Bot.name + ' v' + kazuha.Bot.version + '启动中...'))
+    kazuha._log.mark(kazuha.chalk.green('https://github.com/rainbowwarmth/KazuhaBot_Newmys.git'))
+    process.title = kazuha.Bot.name + ' v' + kazuha.Bot.version + ' © 2023-2024 ' + kazuha.Bot.author;
     process.env.TZ = "Asia/Shanghai";
     global.adminId = ["2492083538938174755"];
     global._path = process.cwd();
-    global.log = _log;
+    global.log = kazuha._log;
     global.botStatus = {
         startTime: new Date(),
         msgSendNum: 0,
@@ -19,24 +21,24 @@ export async function init() {
     if (process.argv.includes("--dev")) {
         log.mark("当前环境处于开发环境，请注意！");
         global.devEnv = true;
-        setDevLog();
+        kazuha.setDevLog();
     } else global.devEnv = false;
 
     log.info(`初始化：正在创建定时任务`);
     ////崩坏2公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => bbtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.bbtaskPushNews());
     ////崩坏3公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => bbbtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.bbbtaskPushNews());
     ////原神公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => taskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.taskPushNews());
     ////星铁公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => srtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.srtaskPushNews());
     ////未定公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => wdtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.wdtaskPushNews());
     ////绝区零公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => zzztaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.zzztaskPushNews());
     ////大别野公告推送
-    schedule.scheduleJob("0/1 * * * * ?  ", () => dbytaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.dbytaskPushNews());
 
     log.info(`初始化：正在创建热加载监听`);
     fs.watch(`${global._path}/src/plugins/`, (event, filename) => {
@@ -69,8 +71,8 @@ export async function init() {
     });
 
     log.info(`初始化：正在创建client与ws`);
-    global.client = createOpenAPI(c.config.initConfig);
-    global.ws = createWebsocket(c.config.initConfig as any);
+    global.client = createOpenAPI(kazuha.config.initConfig);
+    global.ws = createWebsocket(kazuha.config.initConfig as any);
 
     log.info(`初始化：正在创建频道树`);
     global.saveGuildsTree = [];

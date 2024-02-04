@@ -1,5 +1,6 @@
-﻿import { IMessageEx, sendImage, render } from "#kazuha.lib";
-import { ysmiGetEmoticon, ysmiGetNewsList, ysmiGetPostFull, PostFullPost } from "#kazuha.models";
+﻿import kazuha from "../kazuha";
+import { IMessageEx } from "../lib/IMessageEx";
+import { PostFullPost } from "../models/API";
 
 
 var emoticon: Map<any, any> | null = null;
@@ -9,7 +10,7 @@ export async function newsContentBBS(msg: IMessageEx) {
     if (msg.content.includes("资讯")) type = 3;
     if (msg.content.includes("活动")) type = 2;
 
-    const pagesData = await ysmiGetNewsList(type);
+    const pagesData = await kazuha.ysmiGetNewsList(type);
     const _page = msg.content.match(/[0-9]+/);
     const page = _page ? parseInt(_page[0]) : 1;
     if (!pagesData) return;
@@ -18,11 +19,11 @@ export async function newsContentBBS(msg: IMessageEx) {
         msg.sendMsgEx({ content: "目前只查前10条最新的公告，请输入1-10之间的整数。" });
         return true;
     }
-    const postFull = await ysmiGetPostFull(pagesData.list[page - 1].post.post_id);
+    const postFull = await kazuha.ysmiGetPostFull(pagesData.list[page - 1].post.post_id);
     if (!postFull) return;
     const data = await detalData(postFull.post);
     //log.debug(data);
-    render({
+    kazuha.render({
         app: "New",
         type: "NewYuanShen",
         imgType: "jpeg",
@@ -31,11 +32,11 @@ export async function newsContentBBS(msg: IMessageEx) {
             dataConent: data.post.content,
             data,
         }
-    }).then(savePath => {
+    }).then((savePath: any) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-            log.mark(`[原神公告] newsContentBBS/NewYuanShen.ts`);
-    }).catch(err => {
+            log.mark(kazuha.chalk.blue(`[原神公告] newsContentBBS/NewYuanShen.ts`));
+    }).catch((err: any) => {
         log.error(err);
     });
 
@@ -47,7 +48,7 @@ export async function newsListBBS(msg: IMessageEx) {
     if (msg.content.includes("资讯")) type = 3, typeName = "资讯";
     if (msg.content.includes("活动")) type = 2, typeName = "活动";
 
-    const data = await ysmiGetNewsList(type, 5);
+    const data = await kazuha.ysmiGetNewsList(type, 5);
     if (!data) return;
 
     var datas = data.list;
@@ -55,11 +56,11 @@ export async function newsListBBS(msg: IMessageEx) {
         return true;
     }
 
-    datas.forEach(element => {
+    datas.forEach((element: { post: { created_at: number; }; }) => {
         (element.post as any).created_at = new Date(element.post.created_at * 1000).toLocaleString();
     });
 
-    await render({
+    await kazuha.render({
         app: "New",
         type: "NewYuanShenList",
         imgType: "jpeg",
@@ -68,10 +69,10 @@ export async function newsListBBS(msg: IMessageEx) {
             datas,
             typeName
         }
-    }).then(savePath => {
+    }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        log.mark(`[原神公告列表] newListBBS/NewYuanShen.ts`);
-    }).catch(err => {
+        log.mark(kazuha.chalk.blue(`[原神公告列表] newListBBS/NewYuanShen.ts`));
+    }).catch((err: any) => {
         log.error(err);
     });
 
@@ -107,7 +108,7 @@ export async function taskPushNews() {
     if (sendChannels.length == 0) return;
 
     const ignoreReg = /线下赛|晋级赛|战绩更新|海选赛|邀请赛|积分赛|战绩工具|交流平台|首日赛|线上赛|社区内容|个人专访|全民赛|决赛|总决赛|半决赛|淘汰赛|脚本外挂|集中反馈|作品展示|同人|已开奖|大别野/;
-    const pagesData = [{ type: "公告", list: (await ysmiGetNewsList(1))?.list }, { type: "资讯", list: (await ysmiGetNewsList(3))?.list }];
+    const pagesData = [{ type: "公告", list: (await kazuha.ysmiGetNewsList(1))?.list }, { type: "资讯", list: (await kazuha.ysmiGetNewsList(3))?.list }];
     const postIds: string[] = [];
 
     for (const pageData of pagesData) {
@@ -121,11 +122,11 @@ export async function taskPushNews() {
         }
     }
     for (const postId of postIds) {
-        const postFull = await ysmiGetPostFull(postId);
+        const postFull = await kazuha.ysmiGetPostFull(postId);
         if (!postFull) return;
         const data = await detalData(postFull.post);
         //log.debug(data);
-        await render({
+        await kazuha.render({
             app: "New",
             type: "NewYuanShen",
             imgType: "jpeg",
@@ -134,23 +135,23 @@ export async function taskPushNews() {
                 dataConent: data.post.content,
                 data,
             }
-        }).then(savePath => {
+        }).then((savePath: any) => {
             if (savePath) {
                 const _sendQueue: Promise<any>[] = [];
                 for (const sendChannel of sendChannels) {
-                    _sendQueue.push(sendImage({
+                    _sendQueue.push(kazuha.sendImage({
                         msgId,
                         imagePath: savePath,
                         channelId: sendChannel,
                         messageType: "GUILD"
                     }));
                 }
-            log.mark(`[原神公告推送] taskPushNews/NewYuanShen.ts`);
+            log.mark(kazuha.chalk.blue(`[原神公告推送] taskPushNews/NewYuanShen.ts`));
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });
             }
-        }).catch(err => {
+        }).catch((err: any) => {
             log.error(err);
         });
     }
@@ -200,7 +201,7 @@ async function detalData(data: PostFullPost) {
 
 async function mysEmoticon() {
     const emp = new Map();
-    const res = await ysmiGetEmoticon();
+    const res = await kazuha.ysmiGetEmoticon();
     if (!res) return null;
     for (const val of res.list) {
         if (!val.icon) continue;

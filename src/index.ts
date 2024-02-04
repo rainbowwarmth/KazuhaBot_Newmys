@@ -1,5 +1,8 @@
-﻿import { init, loadGuildTree } from "#kazuha"
-import { findOpts, IMessageEx } from "#kazuha.lib" 
+﻿import { init, loadGuildTree } from "./init"
+import kazuha from "./kazuha";
+import { IMessageEx } from "./lib/IMessageEx";
+
+
 
 init().then(() => {
 
@@ -32,7 +35,7 @@ async function execute(msg: IMessageEx) {
     try {
         global.redis.set("lastestMsgId", msg.id, { EX: 4 * 60 });
         msg.content = msg.content.trim().replace(/^\//, "#");
-        const opt = await findOpts(msg);
+        const opt = await kazuha.findOpts(msg);
         if (opt.path != "err") {
             if (devEnv) log.debug(`./plugins/${opt.path}:${opt.fnc}`);
             const plugin = await import(`./plugins/${opt.path}.ts`);

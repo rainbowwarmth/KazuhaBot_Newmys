@@ -1,11 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "#kazuha": ["src/components/kazuha"] ,
-      "#kazuha.lib": ["src/components/lib"],
-      "#kazuha.models": ["src/components/models"],
-    },
     "outDir": "./dist",
     "module": "commonjs",
     "target": "es2021",
@@ -25,6 +19,7 @@
     "resolveJsonModule": true,
     "types": []
   },
+  "suppressImplicitAnyIndexErrors":true,
   "include": [
     "src/**/*",
     "winston-config.js"

@@ -1,5 +1,6 @@
-﻿import { IMessageEx, sendImage, render } from "#kazuha.lib";
-import { wdmiGetEmoticon, wdmiGetNewsList, wdmiGetPostFull, PostFullPost } from "#kazuha.models";
+﻿import kazuha from "../kazuha";
+import { IMessageEx } from "../lib/IMessageEx";
+import { PostFullPost } from "../models/API";
 
 
 var emoticon: Map<any, any> | null = null;
@@ -9,7 +10,7 @@ export async function wdnewsContentBBS(msg: IMessageEx) {
     if (msg.content.includes("资讯")) type = 3;
     if (msg.content.includes("活动")) type = 2;
 
-    const pagesData = await wdmiGetNewsList(type);
+    const pagesData = await kazuha.wdmiGetNewsList(type);
     const _page = msg.content.match(/[0-9]+/);
     const page = _page ? parseInt(_page[0]) : 1;
     if (!pagesData) return;
@@ -18,11 +19,11 @@ export async function wdnewsContentBBS(msg: IMessageEx) {
         msg.sendMsgEx({ content: "目前只查前10条最新的公告，请输入1-10之间的整数。" });
         return true;
     }
-    const postFull = await wdmiGetPostFull(pagesData.list[page - 1].post.post_id);
+    const postFull = await kazuha.wdmiGetPostFull(pagesData.list[page - 1].post.post_id);
     if (!postFull) return;
     const data = await detalData(postFull.post);
     //log.debug(data);
-    render({
+    kazuha.render({
         app: "New",
         type: "NewWeiDing",
         imgType: "jpeg",
@@ -31,11 +32,11 @@ export async function wdnewsContentBBS(msg: IMessageEx) {
             dataConent: data.post.content,
             data,
         }
-    }).then(savePath => {
+    }).then((savePath: any) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-        log.mark(`[未定事件簿公告] newsContentBBS/NewWeiDing.ts`);
-    }).catch(err => {
+        log.mark(kazuha.chalk.blue(`[未定事件簿公告] newsContentBBS/NewWeiDing.ts`));
+    }).catch((err: any) => {
         log.error(err);
     });
 
@@ -47,7 +48,7 @@ export async function wdnewsListBBS(msg: IMessageEx) {
     if (msg.content.includes("资讯")) type = 3, typeName = "资讯";
     if (msg.content.includes("活动")) type = 2, typeName = "活动";
 
-    const data = await wdmiGetNewsList(type, 5);
+    const data = await kazuha.wdmiGetNewsList(type, 5);
     if (!data) return;
 
     var datas = data.list;
@@ -55,11 +56,11 @@ export async function wdnewsListBBS(msg: IMessageEx) {
         return true;
     }
 
-    datas.forEach(element => {
+    datas.forEach((element: { post: { created_at: number; }; }) => {
         (element.post as any).created_at = new Date(element.post.created_at * 1000).toLocaleString();
     });
 
-    await render({
+    await kazuha.render({
         app: "New",
         type: "NewWeiDingList",
         imgType: "jpeg",
@@ -68,10 +69,10 @@ export async function wdnewsListBBS(msg: IMessageEx) {
             datas,
             typeName
         }
-    }).then(savePath => {
+    }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        log.mark(`[未定事件簿公告列表] newListBBS/NewWeiDing.ts`);
-    }).catch(err => {
+        log.mark(kazuha.chalk.blue(`[未定事件簿公告列表] newListBBS/NewWeiDing.ts`));
+    }).catch((err: any) => {
         log.error(err);
     });
 
@@ -107,7 +108,7 @@ export async function wdtaskPushNews() {
     if (sendChannels.length == 0) return;
 
     const ignoreReg = /大别野|已开奖/;
-    const pagesData = [{ type: "公告", list: (await wdmiGetNewsList(1))?.list }, { type: "资讯", list: (await wdmiGetNewsList(3))?.list }];
+    const pagesData = [{ type: "公告", list: (await kazuha.wdmiGetNewsList(1))?.list }, { type: "资讯", list: (await kazuha.wdmiGetNewsList(3))?.list }];
     const postIds: string[] = [];
 
     for (const pageData of pagesData) {
@@ -121,11 +122,11 @@ export async function wdtaskPushNews() {
         }
     }
     for (const postId of postIds) {
-        const postFull = await wdmiGetPostFull(postId);
+        const postFull = await kazuha.wdmiGetPostFull(postId);
         if (!postFull) return;
         const data = await detalData(postFull.post);
         //log.debug(data);
-        await render({
+        await kazuha.render({
             app: "New",
             type: "NewWeiDing",
             imgType: "jpeg",
@@ -134,23 +135,23 @@ export async function wdtaskPushNews() {
                 dataConent: data.post.content,
                 data,
             }
-        }).then(savePath => {
+        }).then((savePath: any) => {
             if (savePath) {
                 const _sendQueue: Promise<any>[] = [];
                 for (const sendChannel of sendChannels) {
-                    _sendQueue.push(sendImage({
+                    _sendQueue.push(kazuha.sendImage({
                         msgId,
                         imagePath: savePath,
                         channelId: sendChannel,
                         messageType: "GUILD"
                     }));
                 }
-             log.mark(`[未定事件簿公告推送] taskPushNews/NewWeiDing.ts`);
+             log.mark(kazuha.chalk.blue(`[未定事件簿公告推送] taskPushNews/NewWeiDing.ts`));
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });
             }
-        }).catch(err => {
+        }).catch((err: any) => {
             log.error(err);
         });
     }
@@ -200,7 +201,7 @@ async function detalData(data: PostFullPost) {
 
 async function mysEmoticon() {
     const emp = new Map();
-    const res = await wdmiGetEmoticon();
+    const res = await kazuha.wdmiGetEmoticon();
     if (!res) return null;
     for (const val of res.list) {
         if (!val.icon) continue;

@@ -1,5 +1,5 @@
-﻿import { fs } from "#kazuha";
-import { IMessageEx } from "#kazuha.lib";
+﻿import fs from "fs";
+import { IMessageEx } from "../lib/IMessageEx";
 
 
 export async function helpimage(msg: IMessageEx) {

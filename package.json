@@ -1,16 +1,16 @@
 {
     "name": "KazuhaBot",
     "version": "1.0.7",
-    "description": "",
+    "description": "https://github.com/rainbowwarmth/KazuhaBot_Newmys",
     "main": "src/index.ts",
     "scripts": {
         "dev": "clear && nodemon",
         "start": "ts-node src/index.ts",
-        "pm2:start":"pm2 startOrRestart pm2.yaml",
-        "pm2:stop":"pm2 stop pm2.yaml",
-        "pm2:delete":"pm2 delete pm2.yaml",
-        "pm2:save":"pm2 save --force",
-        "pm2:log":"pm2 logs --lines 400 KazuhaBot"
+        "pm2:start": "pm2 startOrRestart pm2.yaml",
+        "pm2:stop": "pm2 stop pm2.yaml",
+        "pm2:delete": "pm2 delete pm2.yaml",
+        "pm2:save": "pm2 save --force",
+        "pm2:log": "pm2 logs --lines 400 KazuhaBot"
     },
     "keywords": [],
     "author": "feilongproject,rainbowwarmth",

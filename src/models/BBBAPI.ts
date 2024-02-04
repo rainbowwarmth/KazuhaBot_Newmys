@@ -1,7 +1,7 @@
 import md5 from "md5";
 import lodash from "lodash";
 import fetch from "node-fetch";
-import { PostList, PostSearch, PostFull, Emoticon} from "#kazuha.models"
+import { PostList, PostSearch, PostFull, Emoticon} from "./API"
 
 export async function bbbmiGetNewsList(type: number, pageSize = 20) {
     return fetch(`https://bbs-api.mihoyo.com/post/wapi/getNewsList?gids=1&page_size=${pageSize}&type=${type}`, {

@@ -4,6 +4,7 @@ import { PostChannelObj, ChannelType, ChannelSubType  } from "qq-guild-bot";
 import config from '../../config/config.json';
 import internal from "stream";
 
+
 export class PostChannelObjEx implements PostChannelObj {
     id: string;
     guild_id: string;
