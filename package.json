@@ -1,7 +1,7 @@
 {
     "name": "KazuhaBot",
     "version": "2.0.0",
-    "description": "https://github.com/rainbowwarmth/KazuhaBot_Newmys",
+    "description": "QQGuild MYS Bot",
     "main": "src/index.ts",
     "scripts": {
         "dev": "clear && nodemon",
