@@ -1,6 +1,6 @@
 {
     "name": "KazuhaBot",
-    "version": "1.0.7",
+    "version": "2.0.0",
     "description": "https://github.com/rainbowwarmth/KazuhaBot_Newmys",
     "main": "src/index.ts",
     "scripts": {
