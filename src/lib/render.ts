@@ -56,6 +56,7 @@ async function doRender(renderData: Render): Promise<string | null> {
             encoding: "binary",
             quality: 100,
             path: savePic,
+            omitBackground: true,
         });
     }).catch(err => {
         log.error(err);
@@ -96,6 +97,7 @@ export async function renderURL(renderData: RenderURL) {
                 encoding: "binary",
                 quality: 100,
                 path: savePath,
+                omitBackground: true,
             });
         }
     }).catch(err => {
@@ -126,7 +128,8 @@ async function browserInit() {
             "--no-first-run",
             "--no-sandbox",
             "--no-zygote",
-            "--single-process"
+            "--single-process",
+            "--windows-size=1920,1080"
 
         ],
     }).then(_browser => {

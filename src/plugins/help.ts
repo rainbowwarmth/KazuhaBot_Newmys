@@ -1,5 +1,6 @@
-﻿import { IMessageEx } from "../lib/IMessageEx";
-import fs from "fs";
+﻿import fs from "fs";
+import { IMessageEx } from "../lib/IMessageEx";
+
 
 export async function helpimage(msg: IMessageEx) {
 

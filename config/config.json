@@ -10,5 +10,6 @@
     },
     "databaseConfig": {
         "unixsocket": "/run/redis/redis-server.sock"
-    }
+    },
+    "loglevel": "mark"
 }

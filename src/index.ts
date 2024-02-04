@@ -1,6 +1,8 @@
-import { init, loadGuildTree } from './init';
-import { findOpts } from './lib/findOpts';
-import { IMessageEx } from './lib/IMessageEx';
+﻿import { init, loadGuildTree } from "./init"
+import kazuha from "./kazuha";
+import { IMessageEx } from "./lib/IMessageEx";
+
+
 
 init().then(() => {
 
@@ -18,6 +20,7 @@ init().then(() => {
         execute(msg);
     });
 
+
     global.ws.on("GUILDS", (data) => {
         log.mark(`重新加载频道树中`);
         loadGuildTree().then(() => {
@@ -32,7 +35,7 @@ async function execute(msg: IMessageEx) {
     try {
         global.redis.set("lastestMsgId", msg.id, { EX: 4 * 60 });
         msg.content = msg.content.trim().replace(/^\//, "#");
-        const opt = await findOpts(msg);
+        const opt = await kazuha.findOpts(msg);
         if (opt.path != "err") {
             if (devEnv) log.debug(`./plugins/${opt.path}:${opt.fnc}`);
             const plugin = await import(`./plugins/${opt.path}.ts`);

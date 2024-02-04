@@ -65,7 +65,7 @@
         },
         "NewBB": {
             "bbnewsContentBBS": {
-                "reg": "^#(崩二|崩坏学园二|崩坏二)?(公告|资讯|活动)[0-9]*$",
+                "reg": "^#(崩二|崩坏学园二|崩坏二)(公告|资讯|活动)[0-9]*$",
                 "fnc": "bbnewsContentBBS",
                 "type": ["GUILD", "DIRECT"],
                 "permission": "anyone",

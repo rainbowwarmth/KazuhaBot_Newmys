@@ -19,8 +19,10 @@
     "resolveJsonModule": true,
     "types": []
   },
+  "suppressImplicitAnyIndexErrors":true,
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "winston-config.js"
   ],
   "typeRoots": [
     "./src/types"

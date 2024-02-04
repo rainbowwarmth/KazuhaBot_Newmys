@@ -1,6 +1,6 @@
-﻿import { render } from "../lib/render";
-import { IMessageEx, sendImage } from "../lib/IMessageEx";
-import { miGetEmoticon, miGetNewsList, miGetPostFull, PostFullPost } from "../lib/BBBAPI";
+﻿import kazuha from "../kazuha";
+import { IMessageEx } from "../lib/IMessageEx";
+import { PostFullPost } from "../models/API";
 
 
 var emoticon: Map<any, any> | null = null;
@@ -10,7 +10,7 @@ export async function bbbnewsContentBBS(msg: IMessageEx) {
     if (msg.content.includes("资讯")) type = 3;
     if (msg.content.includes("活动")) type = 2;
 
-    const pagesData = await miGetNewsList(type);
+    const pagesData = await kazuha.bbbmiGetNewsList(type);
     const _page = msg.content.match(/[0-9]+/);
     const page = _page ? parseInt(_page[0]) : 1;
     if (!pagesData) return;
@@ -19,11 +19,11 @@ export async function bbbnewsContentBBS(msg: IMessageEx) {
         msg.sendMsgEx({ content: "目前只查前10条最新的公告，请输入1-10之间的整数。" });
         return true;
     }
-    const postFull = await miGetPostFull(pagesData.list[page - 1].post.post_id);
+    const postFull = await kazuha.bbbmiGetPostFull(pagesData.list[page - 1].post.post_id);
     if (!postFull) return;
     const data = await detalData(postFull.post);
     //log.debug(data);
-    render({
+    kazuha.render({
         app: "New",
         type: "NewBBB",
         imgType: "jpeg",
@@ -32,11 +32,11 @@ export async function bbbnewsContentBBS(msg: IMessageEx) {
             dataConent: data.post.content,
             data,
         }
-    }).then(savePath => {
+    }).then((savePath: any) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-            log.mark(`[崩坏3公告] newsContentBBS/NewBBB.ts`);
-    }).catch(err => {
+            log.mark(kazuha.chalk.blue(`[崩坏3公告] newsContentBBS/NewBBB.ts`));
+    }).catch((err: any) => {
         log.error(err);
     });
 
@@ -48,7 +48,7 @@ export async function bbbnewsListBBS(msg: IMessageEx) {
     if (msg.content.includes("资讯")) type = 3, typeName = "资讯";
     if (msg.content.includes("活动")) type = 2, typeName = "活动";
 
-    const data = await miGetNewsList(type, 5);
+    const data = await kazuha.bbbmiGetNewsList(type, 5);
     if (!data) return;
 
     var datas = data.list;
@@ -56,11 +56,11 @@ export async function bbbnewsListBBS(msg: IMessageEx) {
         return true;
     }
 
-    datas.forEach(element => {
+    datas.forEach((element: { post: { created_at: number; }; }) => {
         (element.post as any).created_at = new Date(element.post.created_at * 1000).toLocaleString();
     });
 
-    await render({
+    await kazuha.render({
         app: "New",
         type: "NewBBBList",
         imgType: "jpeg",
@@ -69,10 +69,10 @@ export async function bbbnewsListBBS(msg: IMessageEx) {
             datas,
             typeName
         }
-    }).then(savePath => {
+    }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        log.mark(`[崩坏3公告列表] newListBBS/NewBBB.ts`);
-    }).catch(err => {
+        log.mark(kazuha.chalk.blue(`[崩坏3公告列表] newListBBS/NewBBB.ts`));
+    }).catch((err: any) => {
         log.error(err);
     });
 
@@ -106,10 +106,8 @@ export async function bbbtaskPushNews() {
             sendChannels.push(channel);
     }
     if (sendChannels.length == 0) return;
-
-    log.info(`崩坏3官方公告检查中`);
     const ignoreReg = /封禁名单|大别野/;
-    const pagesData = [{ type: "公告", list: (await miGetNewsList(1))?.list }, { type: "资讯", list: (await miGetNewsList(3))?.list }];
+    const pagesData = [{ type: "公告", list: (await kazuha.bbbmiGetNewsList(1))?.list }, { type: "资讯", list: (await kazuha.bbbmiGetNewsList(3))?.list }];
     const postIds: string[] = [];
 
     for (const pageData of pagesData) {
@@ -123,11 +121,11 @@ export async function bbbtaskPushNews() {
         }
     }
     for (const postId of postIds) {
-        const postFull = await miGetPostFull(postId);
+        const postFull = await kazuha.bbbmiGetPostFull(postId);
         if (!postFull) return;
         const data = await detalData(postFull.post);
         //log.debug(data);
-        await render({
+        await kazuha.render({
             app: "New",
             type: "NewBBB",
             imgType: "jpeg",
@@ -136,28 +134,26 @@ export async function bbbtaskPushNews() {
                 dataConent: data.post.content,
                 data,
             }
-        }).then(savePath => {
+        }).then((savePath: any) => {
             if (savePath) {
                 const _sendQueue: Promise<any>[] = [];
                 for (const sendChannel of sendChannels) {
-                    _sendQueue.push(sendImage({
+                    _sendQueue.push(kazuha.sendImage({
                         msgId,
                         imagePath: savePath,
                         channelId: sendChannel,
                         messageType: "GUILD"
                     }));
                 }
-            log.mark(`[崩坏学园2公告推送] taskPushNews/NewBBB.ts`);
+            log.mark(kazuha.chalk.blue(`[崩坏3公告推送] taskPushNews/NewBBB.ts`));
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });
             }
-        }).catch(err => {
+        }).catch((err: any) => {
             log.error(err);
         });
     }
-
-    log.info(`崩坏3官方公告检查完成`);
 }
 
 async function detalData(data: PostFullPost) {
@@ -203,7 +199,7 @@ async function detalData(data: PostFullPost) {
 
 async function mysEmoticon() {
     const emp = new Map();
-    const res = await miGetEmoticon();
+    const res = await kazuha.bbbmiGetEmoticon();
     if (!res) return null;
     for (const val of res.list) {
         if (!val.icon) continue;
