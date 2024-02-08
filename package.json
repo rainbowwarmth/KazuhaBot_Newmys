@@ -2,10 +2,10 @@
     "name": "KazuhaBot",
     "version": "2.0.0",
     "description": "QQGuild MYS Bot",
-    "main": "src/index.ts",
+    "main": "app.ts",
     "scripts": {
         "dev": "clear && nodemon",
-        "start": "ts-node src/index.ts",
+        "start": "ts-node app.ts",
         "pm2:start": "pm2 startOrRestart pm2.yaml",
         "pm2:stop": "pm2 stop pm2.yaml",
         "pm2:delete": "pm2 delete pm2.yaml",
@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "art-template": "^4.13.2",
+        "chalk": "^4.0.0",
         "lodash": "^4.17.21",
         "log4js": "^6.5.2",
         "md5": "^2.3.0",

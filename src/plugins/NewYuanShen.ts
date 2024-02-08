@@ -35,7 +35,7 @@ export async function newsContentBBS(msg: IMessageEx) {
     }).then((savePath: any) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-            log.mark(kazuha.chalk.blue(`[原神公告] newsContentBBS/NewYuanShen.ts`));
+            log.mark(kazuha.chalk.blueBright(`[原神公告] newsContentBBS/NewYuanShen.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
@@ -71,7 +71,7 @@ export async function newsListBBS(msg: IMessageEx) {
         }
     }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        log.mark(kazuha.chalk.blue(`[原神公告列表] newListBBS/NewYuanShen.ts`));
+        log.mark(kazuha.chalk.blueBright(`[原神公告列表] newListBBS/NewYuanShen.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
@@ -146,7 +146,7 @@ export async function taskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
-            log.mark(kazuha.chalk.blue(`[原神公告推送] taskPushNews/NewYuanShen.ts`));
+            log.mark(kazuha.chalk.blueBright(`[原神公告推送] taskPushNews/NewYuanShen.ts`));
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });

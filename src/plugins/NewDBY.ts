@@ -35,7 +35,7 @@ export async function dbynewsContentBBS(msg: IMessageEx) {
     }).then((savePath: any) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-        log.mark(kazuha.chalk.blue(`[大别野公告] newsContentBBS/NewDBY.ts`));
+        log.mark(kazuha.chalk.blueBright(`[大别野公告] newsContentBBS/NewDBY.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
@@ -71,7 +71,7 @@ export async function dbynewsListBBS(msg: IMessageEx) {
         }
     }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        log.mark(kazuha.chalk.blue(`[崩坏学园2公告列表] newListBBS/NewDBY.ts`));
+        log.mark(kazuha.chalk.blueBright(`[崩坏学园2公告列表] newListBBS/NewDBY.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
@@ -146,7 +146,7 @@ export async function dbytaskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
-             log.mark(kazuha.chalk.blue(`[大别野公告推送] taskPushNews/NewDBY.ts`));
+             log.mark(kazuha.chalk.blueBright(`[大别野公告推送] taskPushNews/NewDBY.ts`));
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });

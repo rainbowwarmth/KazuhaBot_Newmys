@@ -35,7 +35,7 @@ export async function wdnewsContentBBS(msg: IMessageEx) {
     }).then((savePath: any) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-        log.mark(kazuha.chalk.blue(`[未定事件簿公告] newsContentBBS/NewWeiDing.ts`));
+        log.mark(kazuha.chalk.blueBright(`[未定事件簿公告] newsContentBBS/NewWeiDing.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
@@ -71,7 +71,7 @@ export async function wdnewsListBBS(msg: IMessageEx) {
         }
     }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        log.mark(kazuha.chalk.blue(`[未定事件簿公告列表] newListBBS/NewWeiDing.ts`));
+        log.mark(kazuha.chalk.blueBright(`[未定事件簿公告列表] newListBBS/NewWeiDing.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
@@ -146,7 +146,7 @@ export async function wdtaskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
-             log.mark(kazuha.chalk.blue(`[未定事件簿公告推送] taskPushNews/NewWeiDing.ts`));
+             log.mark(kazuha.chalk.blueBright(`[未定事件簿公告推送] taskPushNews/NewWeiDing.ts`));
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });

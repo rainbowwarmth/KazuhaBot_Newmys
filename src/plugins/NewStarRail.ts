@@ -35,7 +35,7 @@ export async function srnewsContentBBS(msg: IMessageEx) {
     }).then((savePath: any) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-        log.mark(kazuha.chalk.blue(`[崩坏星穹铁道公告] newsContentBBS/NewStarRail.ts`));
+        log.mark(kazuha.chalk.blueBright(`[崩坏星穹铁道公告] newsContentBBS/NewStarRail.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
@@ -71,7 +71,7 @@ export async function srnewsListBBS(msg: IMessageEx) {
         }
     }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        log.mark(kazuha.chalk.blue(`[崩坏星穹铁道公告列表] newListBBS/NewStarRail.ts`));
+        log.mark(kazuha.chalk.blueBright(`[崩坏星穹铁道公告列表] newListBBS/NewStarRail.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
@@ -146,7 +146,7 @@ export async function srtaskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
-            log.mark(kazuha.chalk.blue(`[崩坏星穹铁道公告推送] taskPushNews/NewStarRail.ts`));
+            log.mark(kazuha.chalk.blueBright(`[崩坏星穹铁道公告推送] taskPushNews/NewStarRail.ts`));
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });

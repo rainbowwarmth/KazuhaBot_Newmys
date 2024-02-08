@@ -35,7 +35,7 @@ export async function bbnewsContentBBS(msg: IMessageEx) {
     }).then((savePath: any) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-            log.mark(kazuha.chalk.blue(`[崩坏学园2公告] newsContentBBS/NewBB.ts`));
+            log.mark(kazuha.chalk.blueBright(`[崩坏学园2公告] newsContentBBS/NewBB.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
@@ -71,7 +71,7 @@ export async function bbnewsListBBS(msg: IMessageEx) {
         }
     }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        log.mark(kazuha.chalk.blue(`[崩坏学园2公告列表] newListBBS/NewBB.ts`));
+        log.mark(kazuha.chalk.blueBright(`[崩坏学园2公告列表] newListBBS/NewBB.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
@@ -146,7 +146,7 @@ export async function bbtaskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
-            log.mark(kazuha.chalk.blue(`[崩坏学园2公告推送] taskPushNews/NewBB.ts`));
+            log.mark(kazuha.chalk.blueBright(`[崩坏学园2公告推送] taskPushNews/NewBB.ts`));
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });
