@@ -7,6 +7,12 @@ import { IMessageEx } from "./lib/IMessageEx";
 export async function initialize(){
     init().then(() => {
 
+        global.ws.on('READY', (data) =>{
+            log.mark('[READY] 事件接收 :', data)
+        });
+        global.ws.on('ERROR', (data) => {
+            log.mark('[ERROR] 事件接收 :', data);
+          });
         global.ws.on('GUILD_MESSAGES', async (data: IntentMessage) => {
             if (data.eventType != "MESSAGE_CREATE") return;
             const msg = new IMessageEx(data.msg, "GUILD");

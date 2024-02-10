@@ -125,15 +125,6 @@ export interface PostListInfo {
     link_card_list: [];
 }
 
-export interface PostSearch {
-    posts: PostListInfo[];
-    last_id: string;
-    is_last: number;
-    token_list: string[];
-    databox: { [postId: string]: string };
-}
-
-
 export interface PostFull {
     post: PostFullPost;
 }
@@ -240,29 +231,4 @@ export interface PostFullPost {
     is_block_on: boolean;
     forum_rank_info?: any;
     link_card_list: any[];
-}
-
-
-export interface Emoticon {
-    list: {
-        id: number;
-        name: string;
-        icon: string;
-        sort_order: number;
-        num: number;
-        status: string;
-        list: {
-            id: number;
-            name: string;
-            icon: string;
-            sort_order: number;
-            static_icon: string;
-            updated_at: number;
-            is_available: boolean;
-            status: string;
-        }[];
-        updated_at: number;
-        is_available: boolean;
-    }[];
-    recently_emoticon?: any;
 }

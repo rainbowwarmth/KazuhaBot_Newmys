@@ -10,13 +10,13 @@ import { srtaskPushNews } from "./plugins/NewStarRail";
 import { zzztaskPushNews } from "./plugins/NewZZZ";
 import { wdtaskPushNews } from "./plugins/NewWeiDing";
 import { dbytaskPushNews } from "./plugins/NewDBY";
-import { bbbmiGetNewsList, bbbmiGetPostFull, bbbmiSearchPosts, bbbmiGetEmoticon } from "./models/BBBAPI";
-import { bbmiGetNewsList, bbmiGetPostFull, bbmiSearchPosts, bbmiGetEmoticon } from "./models/BBAPI";
-import { DBYmiGetNewsList, DBYmiGetPostFull, DBYmiSearchPosts, DBYmiGetEmoticon } from "./models/DBYAPI";
-import { srmiGetNewsList, srmiGetPostFull, srmiSearchPosts, srmiGetEmoticon } from "./models/StarRailAPI";
-import { wdmiGetNewsList, wdmiGetPostFull, wdmiSearchPosts, wdmiGetEmoticon } from "./models/WeiDingAPI";
-import { ysmiGetNewsList, ysmiGetPostFull, ysmiSearchPosts, ysmiGetEmoticon } from "./models/YuanShenAPI";
-import { zzzmiGetNewsList, zzzmiGetPostFull, zzzmiSearchPosts, zzzmiGetEmoticon } from "./models/ZZZAPI";
+import { bbbmiGetNewsList, bbbmiGetPostFull } from "./models/BBBAPI";
+import { bbmiGetNewsList, bbmiGetPostFull } from "./models/BBAPI";
+import { DBYmiGetNewsList, DBYmiGetPostFull } from "./models/DBYAPI";
+import { srmiGetNewsList, srmiGetPostFull } from "./models/StarRailAPI";
+import { wdmiGetNewsList, wdmiGetPostFull } from "./models/WeiDingAPI";
+import { ysmiGetNewsList, ysmiGetPostFull } from "./models/YuanShenAPI";
+import { zzzmiGetNewsList, zzzmiGetPostFull } from "./models/ZZZAPI";
 import Bot from "../package.json";
 import config from "../config/config.json"
 
@@ -39,32 +39,18 @@ let kazuha: any = {
     render,
     bbbmiGetNewsList,
     bbbmiGetPostFull,
-    bbbmiSearchPosts,
-    bbbmiGetEmoticon,
     bbmiGetNewsList,
     bbmiGetPostFull,
-    bbmiSearchPosts,
-    bbmiGetEmoticon,
     DBYmiGetNewsList,
     DBYmiGetPostFull,
-    DBYmiSearchPosts,
-    DBYmiGetEmoticon,
     srmiGetNewsList,
     srmiGetPostFull,
-    srmiSearchPosts,
-    srmiGetEmoticon,
     wdmiGetNewsList,
     wdmiGetPostFull,
-    wdmiSearchPosts,
-    wdmiGetEmoticon,
     ysmiGetNewsList,
     ysmiGetPostFull,
-    ysmiSearchPosts,
-    ysmiGetEmoticon,
     zzzmiGetNewsList,
     zzzmiGetPostFull,
-    zzzmiSearchPosts,
-    zzzmiGetEmoticon
 }
 
 export default kazuha

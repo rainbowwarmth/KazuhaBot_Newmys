@@ -1,4 +1,5 @@
 import log4js from "log4js";
+import config from "../../config/config.json";
 
 const log = log4js.configure({
     appenders: {
@@ -6,19 +7,18 @@ const log = log4js.configure({
             type: "console",
             layout: {
                 type: "pattern",
-                pattern: "%[[KazuhaBot][%d][%p]%] %m"
-                }
-            },
-        },
+                pattern: "%[[KazuhaBot][%d{yyyy-MM-dd hh:mm:ss.SSS}[%p]%] %m"
+            }
+        }
+    },
     categories: {
         default: {
             appenders: ["console"],
-            level: "mark",
-            enableCallStack: true,
-        },
-    },
-}).getLogger()
-
+            level: config.log_level,
+            enableCallStack: true
+        }
+    }
+}).getLogger();
 
 export function setDevLog() {
     log.setParseCallStackFunction((error: Error) => {
@@ -29,6 +29,5 @@ export function setDevLog() {
             return { fileName: ` [${lineMatch[2].replace(`${_path}/`, "")}:${lineMatch[3]}:${lineMatch[4]}]` };
     });
 }
-log.setParseCallStackFunction((error: Error) => { });
 
-export default log
+export default log;

@@ -3,6 +3,7 @@ import { createOpenAPI, createWebsocket } from 'qq-guild-bot';
 import schedule from "node-schedule";
 import fs from 'fs';
 import kazuha from '../kazuha';
+import { HeartbeatParam } from './qq-guild-bot';
 
 export async function initGlobals() {
     global.adminId = ["2492083538938174755"];

@@ -175,9 +175,6 @@ async function detalData(data: PostFullPost) {
         for (const img of data.post.images) {
             data.post.content = data.post.content.replace(img, img + "?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg");
         }
-        if (!emoticon) {
-            emoticon = await mysEmoticon();
-        }
         data.post.content = data.post.content.replace(/_\([^)]*\)/g, function (t, e) {
             t = t.replace(/_\(|\)/g, "");
             if (emoticon?.has(t)) {
@@ -197,18 +194,4 @@ async function detalData(data: PostFullPost) {
     }
 
     return data;
-}
-
-async function mysEmoticon() {
-    const emp = new Map();
-    const res = await kazuha.ysmiGetEmoticon();
-    if (!res) return null;
-    for (const val of res.list) {
-        if (!val.icon) continue;
-        for (const list of val.list) {
-            if (!list.icon) continue;
-            emp.set(list.name, list.icon);
-        }
-    }
-    return emp;
 }
