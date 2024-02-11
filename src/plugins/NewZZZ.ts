@@ -20,8 +20,8 @@ export async function zzznewsContentBBS(msg: IMessageEx) {
     const data = await kazuha.detalData(postFull.post);
     //log.debug(data);
     kazuha.render({
-        app: "New",
-        type: "NewZZZ",
+        app: "mys",
+        type: "mysNew",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
         data: {
@@ -57,8 +57,8 @@ export async function zzznewsListBBS(msg: IMessageEx) {
     });
 
     await kazuha.render({
-        app: "New",
-        type: "NewZZZList",
+        app: "mys",
+        type: "mysNewList",
         imgType: "jpeg",
         render: { saveId: msg.author.id },
         data: {
