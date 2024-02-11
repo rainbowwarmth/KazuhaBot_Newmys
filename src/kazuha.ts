@@ -19,6 +19,8 @@ import { ysmiGetNewsList, ysmiGetPostFull } from "./models/YuanShenAPI";
 import { zzzmiGetNewsList, zzzmiGetPostFull } from "./models/ZZZAPI";
 import Bot from "../package.json";
 import config from "../config/config.json"
+import { detalData } from "./plugins/NewAPI"
+
 
 
 let kazuha: any = { 
@@ -51,6 +53,7 @@ let kazuha: any = {
     ysmiGetPostFull,
     zzzmiGetNewsList,
     zzzmiGetPostFull,
+    detalData
 }
 
 export default kazuha
