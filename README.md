@@ -1,4 +1,4 @@
-﻿# KazuhaBot_NewMys
+# KazuhaBot_NewMys
 
 <p align="center">
   <a href="https://github.com/rainbowwarmth/KazuhaBot_Newmys"><img src="https://upload-bbs.miyoushe.com/upload/2021/12/05/82642572/3196a8010ff14dd131d5192ba9b9743a_5729765311568100837.jpg?x-oss-process=image/resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg" width="256" height="256" alt="KazuhaBot_NewMys"></a>
@@ -27,11 +27,6 @@
 ### 2.安装依赖
 直接安装
 
-`npm i`
-
-如依赖安装缓慢或失败，可尝试更换国内npm源后再执行install命令
-
-`npm config set registry https://registry.npmmirror.com`
 `npm i`
 
 ### 3.修改设置文件
