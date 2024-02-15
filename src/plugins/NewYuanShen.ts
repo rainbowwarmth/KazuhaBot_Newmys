@@ -1,4 +1,4 @@
-﻿import kazuha from "../kazuha";
+import kazuha from "../kazuha";
 import { IMessageEx } from "../lib/IMessageEx";
 
 export async function newsContentBBS(msg: IMessageEx) {
@@ -123,8 +123,8 @@ export async function taskPushNews() {
         const data = await kazuha.detalData(postFull.post);
         //log.debug(data);
         await kazuha.render({
-            app: "New",
-            type: "NewYuanShen",
+            app: "mys",
+            type: "mysNew",
             imgType: "jpeg",
             render: { saveId: "NewYuanShen" },
             data: {

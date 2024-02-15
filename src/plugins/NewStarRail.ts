@@ -1,4 +1,4 @@
-﻿import kazuha from "../kazuha";
+import kazuha from "../kazuha";
 import { IMessageEx } from "../lib/IMessageEx";
 
 export async function srnewsContentBBS(msg: IMessageEx) {
@@ -123,8 +123,8 @@ export async function srtaskPushNews() {
         const data = await kazuha.detalData(postFull.post);
         //log.debug(data);
         await kazuha.render({
-            app: "New",
-            type: "NewStarRail",
+            app: "mys",
+            type: "mysNew",
             imgType: "jpeg",
             render: { saveId: "NewStarRail" },
             data: {

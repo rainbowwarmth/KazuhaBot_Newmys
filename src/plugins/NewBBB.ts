@@ -1,4 +1,4 @@
-﻿import kazuha from "../kazuha";
+import kazuha from "../kazuha";
 import { IMessageEx } from "../lib/IMessageEx";
 
 export async function bbbnewsContentBBS(msg: IMessageEx) {
@@ -122,8 +122,8 @@ export async function bbbtaskPushNews() {
         const data = await kazuha.detalData(postFull.post);
         //log.debug(data);
         await kazuha.render({
-            app: "New",
-            type: "NewBBB",
+            app: "mys",
+            type: "mysNew",
             imgType: "jpeg",
             render: { saveId: "NewBB" },
             data: {
