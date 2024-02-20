@@ -6,7 +6,7 @@ import fs from 'fs';
 import _log, { setDevLog } from './lib/logger';
 import kazuha from '../package.json';
 import config from '../config/config.json';
-import { taskPushNews } from './plugins/announcementManager';
+import { taskPushNews } from './plugins/NewYuanShen';
 
 export async function init() {
     console.log(`机器人准备运行，正在初始化`);

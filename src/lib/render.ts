@@ -2,7 +2,6 @@ import fs from "fs";
 import puppeteer from "puppeteer";
 import template from "art-template";
 import { writeFileSyncEx } from "./common";
-import { RandQueue } from "../plugins/gacha";
 
 //html模板
 const html: any = {};
@@ -169,11 +168,3 @@ interface RenderURL {
 
 };
 
-interface RenderGachaData {
-    saveId: string;
-    name: string;
-    info: string;
-    list: RandQueue[];
-    resPath?: string;
-    poolName: string;
-};
