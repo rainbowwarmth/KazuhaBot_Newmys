@@ -174,14 +174,14 @@ interface IChannel extends PostChannelObj {
     application_id?: string;
 }
 interface PostChannelObj {
-    id: string;
-    guild_id:string;
     name: string;
     type: ChannelType;
     sub_type?: ChannelSubType;
     position: number;
     parent_id: string;
     private_type?: number;
+    private_user_ids?: string[];
+    permissions?: string;
 }
 declare type PatchChannelObj = Partial<Omit<PostChannelObj, 'sub_type' | 'private_user_ids'>>;
 
@@ -670,6 +670,5 @@ declare class WebsocketClient extends EventEmitter {
 declare function selectOpenAPIVersion(version: APIVersion): false | undefined;
 declare function createOpenAPI(config: Config): OpenAPI;
 declare function createWebsocket(config: GetWsParam): WebsocketClient;
-
 
 export { WebsocketClient, OpenAPI, APIVersion, AnnounceAPI, Ark, ArkKV, ArkObj, ArkObjKV, AudioAPI, AudioControl, AvailableIntentsEventsEnum, ChannelAPI, ChannelPermissionsAPI, ChannelSubType, ChannelType, Config, DirectMessageAPI, DirectMessageToCreate, Embed, EmbedField, EmbedThumbnail, EventTypes, GetWsParam, GuildAPI, GuildMembersPager, GuildPermission, GuildPermissionDemand, GuildPermissionDemandIdentify, GuildPermissionRes, GuildPermissionsAPI, GuildRoles, HeartbeatParam, IAnnounce, IChannel, IChannelPermissions, IChannelRolePermissions, IDirectMessage, IGuild, IMember, IMessage, IMessageRes, IOpenAPI, IPinsMessage, IRole, IRoleFilter, ISchedule, IUser, IVoiceMember, IntentEvents, IntentEventsMapType, Intents, InteractionAPI, InteractionData, MeAPI, MeGuildsReq, MemberAPI, MemberAddRoleBody, MessageAPI, MessageAttachment, MessageReference, MessageToCreate, MessagesPager, MuteAPI, MuteOptions, Nullish, OpCode, OpenAPIRequest, PatchChannelObj, PermissionDemandToCreate, PinsMessageAPI, PostChannelObj, ReactionAPI, ReactionObj, ReactionUserListObj, RecommendChannel, RecommendObj, RoleAPI, ScheduleAPI, ScheduleRemindType, ScheduleToCreate, ScheduleToPatch, SessionEvents, SessionRecord, Token, UpdateChannelPermissions, UpdateRoleRes, WSCodes, WebsocketAPI, WebsocketCloseReason, WebsocketCode, WsAddressObj, WsDataInfo, WsEventType, WsObjRequestOptions, createOpenAPI, createWebsocket, selectOpenAPIVersion, wsResData };

@@ -1,5 +1,5 @@
-import { IMessageEx } from "../lib/IMessageEx";
 import { IMember } from "qq-guild-bot";
+import { IMessageEx } from "../lib/IMessageEx";
 
 export async function status(msg: IMessageEx) {
     return msg.sendMsgEx({
@@ -15,11 +15,6 @@ export async function ping(msg: IMessageEx) {
     msg.sendMsgEx({ content: await global.redis.ping() });
 }
 
-export async function msgconnnet(msg: IMessageEx){
-    return msg.sendMsgEx({
-        content: msg.content
-    })
-}
 
 export async function isAdmin(uid: string, iMember?: IMember, srcGuild?: string): Promise<boolean> {
     if (adminId.includes(uid)) return true;

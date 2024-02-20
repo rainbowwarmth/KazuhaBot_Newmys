@@ -1,62 +1,21 @@
-# KazuhaBot_NewMys
+# 注意: 版本正在重构中, 具体内容在`dev`分支中查看(学业繁忙, 更新时间暂定)
 
-<p align="center">
-  <a href="https://github.com/rainbowwarmth/KazuhaBot_Newmys"><img src="https://upload-bbs.miyoushe.com/upload/2021/12/05/82642572/3196a8010ff14dd131d5192ba9b9743a_5729765311568100837.jpg?x-oss-process=image/resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg" width="256" height="256" alt="KazuhaBot_NewMys"></a>
-</p>
-<h1 align = "center">KazuhaBot_NewMys</h1>
-
-## 使用方法
-> 环境准备： Windows or Linux，Node.js（ [版本至少v16以上](http://nodejs.cn/download/) ）， [Redis](https://redis.io/docs/getting-started/installation/ )
-
-> 与[KazuhaBot](https://github.com/feilongproject/KazuhaBot)对比
- * 本项目仅保留了公告推送内容，更加简洁高效。
-
-### 1.克隆项目
-选择适合的目录，使用下面的方法进行安装(二选一)
-
-`git clone --depth=1 https://github.com/rainbowwarmth/KazuhaBot_Newmys.git`
-
-如果GitHub连不上请使用Gitee镜像
-
-`git clone --depth=1 https://gitee.com/rainbowwarmth/KazuhaBot_Newmys.git`
-
-或使用ssh（注意：使用该指令必须将SSH keys添加到GitHub中）
-
-`git clone --depth=1 git@github.com:rainbowwarmth/KazuhaBot_Newmys.git`
-
-### 2.安装依赖
-直接安装
-
-`npm i`
-
-### 3.修改设置文件
-
-* 重命名config文件夹中的config.example.json为config.json，并更改其中的APP_ID和APP_TOKEN为机器人对应ID与TOKEN
-
-### 4.启动项目
-* 确保redis数据库启动成功
-* 在主目录下使用指令npm start开始启动
-## 命令列表
-
-1.公告资讯
-* (公告|资讯)+游戏别名+[1-9]
-* (公告|资讯)+游戏别名+列表
-* (开启|关闭)+公告+游戏别名+推送
-
-2.帮助和提交日志以及版本
-* help
-* 版本
-* 提交日志
-
-***以上命令需要加入#字符或/字符前缀***
+# KazuhaBot（[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot/) 的 qq 频道实现）
+> 声明：源项目以及本项目均采用 AGPL3.0 协议，请在使用时遵循此原则！
 
 
-## 致谢
+## 使用方法见[Wiki](https://github.com/feilongproject/KazuhaBot/wiki)
 
-|                           名称                                                         |        介绍           |
-|:-------------------------------------------------------------:|:------------------:|
-|[KazuhaBot](https://github.com/feilongproject/KazuhaBot)| 飞龙大佬的KazuhaBot |
 
-## 其他
-* 项目仅供学习交流使用，严禁用于任何商业用途和非法行为
-* [MIT 许可证](https://github.com/rainbowwarmth/KazuhaBot_Newmys/blob/main/LICENSE)
+## TODO
+- [ ] 更多功能的实现  
+- [ ] 同步资源文件到最新版本
+
+~在写了在写了~  
+~我好懒我好懒我好懒我好懒我好懒我好懒我好懒我好懒我好懒我好懒我好懒~
+
+
+## 赞助
+~居然有人来赞助我这个蒟蒻啊啊啊天哪真的非常感谢如果能够赞助的话就可以支持bot开发我也会有动力开发下去的只需要电费就可以我这个电脑因为太蒻用不了多少电的~
+
+![afdian-飞龙project](https://user-images.githubusercontent.com/43880786/201690277-1a7abac5-f232-4ddd-af87-91649d9b2d72.jpg)

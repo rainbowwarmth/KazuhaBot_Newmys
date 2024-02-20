@@ -1,16 +1,10 @@
 {
-    "name": "KazuhaBot",
-    "version": "2.0.0",
-    "description": "QQGuild MYS Bot",
-    "main": "app.ts",
+    "name": "kazuha_bot",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/index.ts",
     "scripts": {
-        "dev": "clear && nodemon",
-        "start": "ts-node app.ts",
-        "pm2:start": "pm2 startOrRestart pm2.yaml",
-        "pm2:stop": "pm2 stop pm2.yaml",
-        "pm2:delete": "pm2 delete pm2.yaml",
-        "pm2:save": "pm2 save --force",
-        "pm2:log": "pm2 logs --lines 400 KazuhaBot"
+        "start": "ts-node src/index.ts"
     },
     "keywords": [],
     "author": "feilongproject,rainbowwarmth",
@@ -18,7 +12,7 @@
     "devDependencies": {
         "@types/lodash": "^4.14.182",
         "@types/md5": "^2.3.2",
-        "@types/node": "^17.0.45",
+        "@types/node": "^17.0.35",
         "@types/node-fetch": "^2.6.2",
         "@types/node-schedule": "^2.1.0",
         "@types/ws": "^8.5.3",
@@ -26,7 +20,6 @@
     },
     "dependencies": {
         "art-template": "^4.13.2",
-        "chalk": "^4.0.0",
         "lodash": "^4.17.21",
         "log4js": "^6.5.2",
         "md5": "^2.3.0",
@@ -34,8 +27,7 @@
         "node-fetch": "^2.6.6",
         "node-schedule": "^2.1.0",
         "nodemon": "^2.0.16",
-        "pm2": "^5.3.0",
-        "puppeteer": "^13.7.0",
+        "puppeteer": "^15.4.0",
         "qq-guild-bot": "^2.9.5",
         "redis": "^4.2.0",
         "typescript": "^4.6.4",

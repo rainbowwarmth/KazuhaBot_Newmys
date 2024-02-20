@@ -46,7 +46,7 @@ export class IMessageEx implements IMessage {
         this.messageType = messageType;
 
         if (messageType == "DIRECT") {
-            log.info(`私信[${msg.guild_id}][${msg.channel_id}](${msg.author.username}):${msg.content}`);
+            log.info(`私信{${msg.guild_id}}[${msg.channel_id}](${msg.author.username}):${msg.content}`);
             return;
         }
 
@@ -56,13 +56,13 @@ export class IMessageEx implements IMessage {
                     if (channel.id == this.channel_id) {
                         this.guild_name = guild.name;
                         this.channel_name = channel.name;
-                        log.info(`频道[${this.guild_name}][${this.channel_name}](${this.author.username}|${this.author.id}):${this.content}`);
+                        log.info(`频道{${this.guild_name}}[${this.channel_name}](${this.author.username}|${this.author.id}):${this.content}`);
                         return;
                     }
                 }
             }
         }
-        log.warn(`unKnown message:[${msg.guild_id}][${msg.channel_id}](${msg.author.username}):${msg.content}`);
+        log.warn(`unKnown message:{${msg.guild_id}}[${msg.channel_id}](${msg.author.username}):${msg.content}`);
     }
 
     async sendMsgEx(option: SendMsgOption) {

@@ -1,9 +1,0 @@
-{
-    "ignore": [".git", "node_modules/**/node_modules", "src/plugins/"],
-    "execMap": {
-        "ts": "tsc"
-    },
-    "watch": ["src/"],
-    "exec": "ts-node src/index.ts --dev",
-    "ext": "ts json"
-}

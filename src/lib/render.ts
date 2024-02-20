@@ -1,12 +1,13 @@
-﻿import fs from "fs";
+import fs from "fs";
 import puppeteer from "puppeteer";
 import template from "art-template";
 import { writeFileSyncEx } from "./common";
+import { RandQueue } from "../plugins/gacha";
 
 //html模板
 const html: any = {};
 //截图数达到时重启浏览器 避免生成速度越来越慢
-var restartNum = 30;
+var restartNum = 400;
 //截图次数
 var renderNum = 0;
 //锁住
@@ -56,7 +57,6 @@ async function doRender(renderData: Render): Promise<string | null> {
             encoding: "binary",
             quality: 100,
             path: savePic,
-            omitBackground: true,
         });
     }).catch(err => {
         log.error(err);
@@ -97,7 +97,6 @@ export async function renderURL(renderData: RenderURL) {
                 encoding: "binary",
                 quality: 100,
                 path: savePath,
-                omitBackground: true,
             });
         }
     }).catch(err => {
@@ -116,10 +115,10 @@ async function browserInit() {
         return false;
     }
     lock = true;
-    log.mark("puppeteer启动中");
+    log.info("puppeteer启动中");
     //初始化puppeteer
     await puppeteer.launch({
-        //executablePath:'',//chromium其他路径
+        // executablePath:'',//chromium其他路径
         headless: true,
         args: [
             "--disable-gpu",
@@ -129,12 +128,10 @@ async function browserInit() {
             "--no-sandbox",
             "--no-zygote",
             "--single-process",
-            "--windows-size=1920,1080"
-
         ],
     }).then(_browser => {
         global.browser = _browser;
-        log.mark("puppeteer启动成功");
+        log.info("puppeteer启动成功");
         global.browser.on("disconnected", function () {
             log.error("Chromium实例关闭或崩溃！");
             global.browser = null;
@@ -146,6 +143,9 @@ async function browserInit() {
 
     return true;
 }
+
+
+
 
 interface Render {
     app: string;
@@ -167,4 +167,13 @@ interface RenderURL {
     url: string;
     saveId: string;
 
+};
+
+interface RenderGachaData {
+    saveId: string;
+    name: string;
+    info: string;
+    list: RandQueue[];
+    resPath?: string;
+    poolName: string;
 };
