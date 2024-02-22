@@ -25,13 +25,12 @@ export async function initGlobals() {
 
     log.info(`初始化：正在创建定时任务`);
     schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.bbtaskPushNews());
-    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.bbbtaskPushNews();
-    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.taskPushNews();
-    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.srtaskPushNews();
-    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.zzztaskPushNews();
-    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.wdtaskPushNews();
-    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.dbytaskPushNews();
-    // 其他定时任务省略...
+    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.bbbtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.taskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.srtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.zzztaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.wdtaskPushNews());
+    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.dbytaskPushNews());
 
     log.info(`初始化：正在创建热加载监听`);
     fs.watch(`${global._path}/src/plugins/`, (event, filename) => {
