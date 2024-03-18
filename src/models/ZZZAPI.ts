@@ -4,9 +4,9 @@ import fetch from "node-fetch";
 import { PostList, PostFull} from "./API"
 
 export async function zzzmiGetNewsList(type: number, pageSize = 10) {
-    return fetch(`https://bbs-api.mihoyo.com/post/wapi/getNewsList?gids=8&page_size=${pageSize}&type=${type}`, {
+    return fetch(`https://bbs-api.miyoushe.com/post/wapi/getNewsList?gids=8&page_size=${pageSize}&type=${type}`, {
         method: "GET",
-        headers: { Referer: "https://www.miyoushe.com",
+        headers: { Referer: 'https://www.miyoushe.com',
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36' }
     }).then(res => {
         return res.json();
@@ -20,9 +20,9 @@ export async function zzzmiGetNewsList(type: number, pageSize = 10) {
 }
 
 export async function zzzmiGetPostFull(postId: string) {
-    return fetch(`https://bbs-api.mihoyo.com/post/wapi/getPostFull?gids=8&read=1&post_id=${postId}`, {
+    return fetch(`https://bbs-api.miyoushe.com/post/wapi/getPostFull?gids=8&read=1&post_id=${postId}`, {
         method: "GET",
-        headers: { Referer: "https://www.miyoushe.com",
+        headers: { Referer: 'https://www.miyoushe.com',
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36' }
     }).then(res => {
         return res.json();
