@@ -1,10 +1,16 @@
 {
-    "name": "KazuhaBot",
-    "version": "2.1.5",
-    "description": "QQGuild MYS Bot",
+    "name": "kazuha-bot",
+    "version": "2.2.0",
+    "description": "QQ频道米游社推送Bot",
+    "type": "module",
+    "private": false,
+    "homepage": "https://github.com/rainbowwarmth/KazuhaBot",
+    "bugs": {
+      "url": "https://github.com/rainbowwarmth/KazuhaBot/issues"
+    },
     "scripts": {
         ".": "node src/app.js .",
-        "build": "tsc",
+        "build": "node build.js",
         "start": "node src/app.js start",
         "pm2:start": "pm2 startOrRestart ./config/pm2/pm2.yaml",
         "pm2:stop": "pm2 stop ./config/pm2/pm2.yaml",
@@ -16,9 +22,8 @@
         "type": "git",
         "url": "git+https://github.com/rainbowwarmth/KazuhaBot"
     },
-    "keywords": [],
     "author": "feilongproject,rainbowwarmth",
-    "license": "ISC",
+    "license": "MIT",
     "devDependencies": {
         "@types/lodash": "^4.17.7",
         "@types/md5": "^2.3.2",

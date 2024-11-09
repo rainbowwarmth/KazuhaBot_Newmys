@@ -11,47 +11,80 @@
 > 与[KazuhaBot](https://github.com/feilongproject/KazuhaBot)对比
  * 本项目仅保留了公告推送内容，更加简洁高效。
 
-### 1.克隆项目
-选择适合的目录，使用下面的方法进行安装(二选一)
+> 注意V2.1.5开始使用js运行，抛弃之前的ts方法，请务必进行编译后运行项目
 
-`git clone --depth=1 https://github.com/rainbowwarmth/KazuhaBot.git`
+---
 
-如果GitHub连不上请使用Gitee镜像
+## 安装[pnpm](https://pnpm.io/zh/installation)
 
-`git clone --depth=1 https://gitee.com/rainbowwarmth/KazuhaBot_Newmys.git`
+> 已安装的可以跳过
 
-或使用ssh（注意：使用该指令必须将SSH keys添加到GitHub中）
+```sh
+npm install pnpm -g
+```
 
-`git clone --depth=1 git@github.com:rainbowwarmth/KazuhaBot_Newmys.git`
+## 安装项目
+### 使用PNPM安装（优先推荐）
 
-### 2.安装依赖
-直接安装
+请先创建一个空目录，然后在 你创建的空目录 根目录夹打开终端，运行下述指令之一
 
-`pnpm i`
+```
+// 使用PNPM
+pnpm install kazuha-bot
 
-### 3.修改设置文件
+// 使用PNPM镜像(网络不好首选)
+pnpm i kazuha-bot --registry=https://registry.npmmirror.com
+```
 
-* 重命名config文件夹中的config.example.json为config.json，并更改其中的APP_ID和APP_TOKEN为机器人对应ID与TOKEN
+### 使用Git安装（第二推荐）
+> 请根据网络情况选择Github安装或Gitee安装
 
-### 4.编译启动项目
-* 确保redis数据库启动成功
-* 在主目录下使用`npm run build` 编译完后，cd进dist目录，然后发送`npm start`运行
+```
+// 使用gitee
+git clone --depth=1 https://gitee.com/rainbowwarmth/KazuhaBot
+pnpm install -P
+
+// 使用github
+git clone --depth=1 https://github.com/rainbowwarmth/KazuhaBot
+pnpm install -P
+```
+
+### 手工下载安装（不推荐）
+
+手工下载安装包，解压后重命名为 KazuhaBot
+
+不能使用git pull 故不推荐
+
+---
 
 
-## 命令列表
+## 安装依赖
+> 注意只有使用Git安装和手工下载安装才要进行此步，使用PNPM安装的请直接下一步
+> 外网环境请修改的本地npm配置.npmrc
 
-1.公告资讯
-* (公告|资讯)+游戏别名+[1-9]
-* (公告|资讯)+游戏别名+列表
-* (开启|关闭)+公告+游戏别名+推送
+```sh
+# 直接安装
+pnpm install -P
+```
 
-2.帮助和提交日志以及版本
-* help
-* 版本
-* 提交日志
+---
 
-***以上命令需要加入#字符或/字符前缀***
+## 修改设置文件
 
+打开config文件夹中的config.json，并更改其中的APP_ID和APP_TOKEN为机器人对应ID与TOKEN
+
+---
+
+## 编译
+终端进入 KazuhaBot 根目录，运行`npm run build`
+
+---
+
+## 运行
+> 启动redis后
+在终端输入`npm start`运行
+
+---
 
 ## 致谢
 

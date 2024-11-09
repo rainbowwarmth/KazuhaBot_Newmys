@@ -21,8 +21,7 @@
   },
   "suppressImplicitAnyIndexErrors":true,
   "include": [
-    "src/**/*",
-    "winston-config.js"
+    "src/**/*"
   ],
   "typeRoots": [
     "./src/types"
