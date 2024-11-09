@@ -41,9 +41,9 @@ jobs:
           # 指定密钥，即在第一步中设置的
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           # 指定推送到的远程分支
-          BRANCH: pages
+          BRANCH: build
           # 指定构建之后的产物要推送哪个目录的代码
-          FOLDER: build
+          FOLDER: dist
       - run: npm publish
         env:
           # 刚刚设置的 NPM_TOKEN
