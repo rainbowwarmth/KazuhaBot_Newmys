@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import FormData from 'form-data';
 import { Ark, Embed, IMember, IMessage, IUser, MessageAttachment } from "qq-guild-bot";
 import config from '../../config/config.json';
+import { botStatus, client } from "../models/global";
 
 export class IMessageEx implements IMessage {
     id: string;
@@ -66,7 +67,7 @@ export class IMessageEx implements IMessage {
     }
 
     async sendMsgEx(option: SendMsgOption) {
-        global.botStatus.msgSendNum++;
+        botStatus.msgSendNum++;
         const { ref, imagePath, content, initiative } = option;
         const { id, guild_id, channel_id } = this;
         if (imagePath) {
@@ -77,13 +78,13 @@ export class IMessageEx implements IMessage {
             return sendImage(option);
         } else {
             if (this.messageType == "GUILD") {
-                return global.client.messageApi.postMessage(channel_id, {
+                return client.messageApi.postMessage(channel_id, {
                     content: content,
                     msg_id: initiative ? undefined : id,
                     message_reference: ref ? { message_id: id, } : undefined
                 });
             } else {
-                return global.client.directMessageApi.postDirectMessage(guild_id, {
+                return client.directMessageApi.postDirectMessage(guild_id, {
                     msg_id: initiative ? undefined : id,
                     content: content,
                 });

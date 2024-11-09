@@ -1,53 +1,46 @@
-import { createClient } from 'redis';
-import { createOpenAPI, createWebsocket } from 'qq-guild-bot';
+import {_path, redis, saveGuildsTree, client, ws} from '../models/global'
 import schedule from "node-schedule";
 import fs from 'fs';
 import kazuha from '../kazuha';
-import { HeartbeatParam } from './qq-guild-bot';
 
 export async function initGlobals() {
-    global.adminId = ["2492083538938174755"];
-    global._path = process.cwd();
-    global.log = kazuha._log;
-    global.botStatus = {
-        startTime: new Date(),
-        msgSendNum: 0,
-        imageRenderNum: 0,
-    };
+    global.log = kazuha._log
 
-    if (process.argv.includes("--dev")) {
-        log.mark("当前环境处于开发环境，请注意！");
-        global.devEnv = true;
-        kazuha.setDevLog();
-    } else {
-        global.devEnv = false;
-    }
+    log.info('初始化：正在创建定时任务');
 
-    log.info(`初始化：正在创建定时任务`);
-    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.bbtaskPushNews());
-    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.bbbtaskPushNews());
-    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.taskPushNews());
-    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.srtaskPushNews());
-    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.zzztaskPushNews());
-    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.wdtaskPushNews());
-    schedule.scheduleJob("0/1 * * * * ?  ", () => kazuha.dbytaskPushNews());
+    // 将相同的调度计划合并为一个通用任务调用
+    const taskList = [
+        kazuha.bbtaskPushNews,
+        kazuha.bbbtaskPushNews,
+        kazuha.taskPushNews,
+        kazuha.srtaskPushNews,
+        kazuha.zzztaskPushNews,
+        kazuha.wdtaskPushNews,
+        kazuha.dbytaskPushNews
+    ];
+
+    taskList.forEach(task => schedule.scheduleJob('0/1 * * * * ?', task));
 
     log.info(`初始化：正在创建热加载监听`);
-    fs.watch(`${global._path}/src/plugins/`, (event, filename) => {
-        // 热加载监听操作省略...
+    fs.watch(`${_path}/src/plugins/`, (event, filename) => {
+        //log.debug(event, filename);
+        if (event != "change") return;
+        if (require.cache[`${_path}/src/plugins/${filename}`]) {
+            log.mark(`文件${_path}/src/plugins/${filename}已修改，正在执行热更新`);
+            delete require.cache[`${_path}/src/plugins/${filename}`];
+        }
     });
 
-    const optFile = `${global._path}/config/opts.json`;
+    const optFile = `${_path}/config/opts.json`;
     fs.watchFile(optFile, () => {
-        // 文件变化操作省略...
+        if (require.cache[optFile]) {
+            log.mark(`指令配置文件正在进行热更新`);
+            delete require.cache[optFile];
+        }
     });
 
     log.info(`初始化：正在连接数据库`);
-    global.redis = createClient({
-        socket: { host: "127.0.0.1", port: 6379, },
-        database: 1,
-    });
-    await global.redis.connect().then(() => {
+    await redis.connect().then(() => {
         log.info(`初始化：redis数据库连接成功`);
     }).catch(err => {
         log.error(`初始化：redis数据库连接失败，正在退出程序\n${err}`);
@@ -55,8 +48,8 @@ export async function initGlobals() {
     });
 
     log.info(`初始化：正在创建client与ws`);
-    global.client = createOpenAPI(kazuha.config.initConfig);
-    global.ws = createWebsocket(kazuha.config.initConfig as any);
+    client
+    ws
 
     log.info(`初始化：正在创建频道树`);
     global.saveGuildsTree = [];
@@ -65,10 +58,10 @@ export async function initGlobals() {
 
 export async function loadGuildTree(init = false) {
     global.saveGuildsTree = [];
-    for (const guild of (await global.client.meApi.meGuilds()).data) {
+    for (const guild of (await client.meApi.meGuilds()).data) {
         if (init) log.info(`${guild.name}(${guild.id})`);
         var _guild: SaveChannel[] = [];
-        for (const channel of (await global.client.channelApi.channels(guild.id)).data) {
+        for (const channel of (await client.channelApi.channels(guild.id)).data) {
             if (init) log.info(`${guild.name}(${guild.id})-${channel.name}(${channel.id})-father:${channel.parent_id}`);
             _guild.push({ name: channel.name, id: channel.id });
         }

@@ -2,7 +2,8 @@
 import puppeteer from "puppeteer";
 import template from "art-template";
 import { writeFileSyncEx } from "./common";
-
+import { _path, botStatus } from "../models/global";
+import kazuha from "../kazuha";
 //html模板
 const html: any = {};
 //截图数达到时重启浏览器 避免生成速度越来越慢
@@ -17,13 +18,13 @@ var shoting: any[] = [];
 export async function render(renderData: Render) {
 
     //log.debug(renderData);
-    if (renderData.render.template) renderData.render.resFile = `${global._path}/resources/${renderData.app}/${renderData.type}/${renderData.render.template}.html`;
-    else renderData.render.resFile = `${global._path}/resources/${renderData.app}/${renderData.type}/index.html`;
+    if (renderData.render.template) renderData.render.resFile = `${_path}/resources/${renderData.app}/${renderData.type}/${renderData.render.template}.html`;
+    else renderData.render.resFile = `${_path}/resources/${renderData.app}/${renderData.type}/index.html`;
 
     if (!renderData.render.saveFile)
-        renderData.render.saveFile = `${global._path}/generate/html/${renderData.app}/${renderData.type}/${renderData.render.saveId}.html`;
+        renderData.render.saveFile = `${_path}/generate/html/${renderData.app}/${renderData.type}/${renderData.render.saveId}.html`;
     if (!renderData.data.resPath)
-        renderData.data.resPath = `${global._path}/resources`;
+        renderData.data.resPath = `${_path}/resources`;
     //renderData.data.resPath = `/resources`;//测试用
 
     return await doRender(renderData).catch(err => {
@@ -63,7 +64,7 @@ async function doRender(renderData: Render): Promise<string | null> {
     });
     await page.close();
     if (fs.existsSync(savePic)) {
-        global.botStatus.imageRenderNum++;
+        botStatus.imageRenderNum++;
         return savePic;
     } else {
         return null;
@@ -74,7 +75,7 @@ export async function renderURL(renderData: RenderURL) {
 
     var { app, type, imgType, url, saveId } = renderData;
 
-    const savePath = `${global._path}/generate/url/${app}/${type}/${saveId}.${imgType}`;
+    const savePath = `${_path}/generate/url/${app}/${type}/${saveId}.${imgType}`;
 
 
     if (!(await browserInit())) return false;
@@ -109,7 +110,7 @@ export async function renderURL(renderData: RenderURL) {
 
 async function browserInit() {
     if (global.browser) {
-        if (devEnv) log.debug(`puppeteer已经启动`);
+        if (kazuha.devEnv) log.debug(`puppeteer已经启动`);
         return true;
     }
     if (lock) {
@@ -119,7 +120,7 @@ async function browserInit() {
     log.mark("puppeteer启动中");
     //初始化puppeteer
     await puppeteer.launch({
-        //executablePath:'',//chromium其他路径
+        executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',//chromium其他路径
         headless: true,
         args: [
             "--disable-gpu",
@@ -130,8 +131,7 @@ async function browserInit() {
             "--no-zygote",
             "--single-process",
             "--windows-size=1920,1080"
-
-        ],
+        ]
     }).then(_browser => {
         global.browser = _browser;
         log.mark("puppeteer启动成功");

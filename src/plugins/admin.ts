@@ -1,18 +1,18 @@
 import { IMessageEx } from "../lib/IMessageEx";
 import { IMember } from "qq-guild-bot";
-
+import {botStatus, redis, adminId} from "../models/global"
 export async function status(msg: IMessageEx) {
     return msg.sendMsgEx({
         content: `------状态------` +
-            `\n运行时间：${timeConver(new Date().getTime() - global.botStatus.startTime.getTime())}` +
-            `\n发送消息：${global.botStatus.msgSendNum}条` +
-            `\n生成图片：${global.botStatus.imageRenderNum}次` +
+            `\n运行时间：${timeConver(new Date().getTime() - botStatus.startTime.getTime())}` +
+            `\n发送消息：${botStatus.msgSendNum}条` +
+            `\n生成图片：${botStatus.imageRenderNum}次` +
             `\n内存使用：${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)}MB`
     });
 }
 
 export async function ping(msg: IMessageEx) {
-    msg.sendMsgEx({ content: await global.redis.ping() });
+    msg.sendMsgEx({ content: await redis.ping() });
 }
 
 export async function msgconnnet(msg: IMessageEx){

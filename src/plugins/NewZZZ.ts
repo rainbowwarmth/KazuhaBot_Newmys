@@ -1,6 +1,6 @@
 import kazuha from "../kazuha";
 import { IMessageEx } from "../lib/IMessageEx";
-
+import { redis } from "../models/global";
 export async function zzznewsContentBBS(msg: IMessageEx) {
     var type = 1;
     if (msg.content.includes("资讯")) type = 3;
@@ -77,7 +77,7 @@ export async function zzznewsListBBS(msg: IMessageEx) {
 export async function zzzchangePushTask(msg: IMessageEx) {
     if (msg.messageType != "GUILD") return true;
     const value = msg.content.includes("开启") ? true : false;
-    await global.redis.hSet("config:zzznewsPush", parseInt(msg.channel_id), `${value}`).then((v) => {
+    await redis.hSet("config:zzznewsPush", parseInt(msg.channel_id), `${value}`).then((v) => {
         if (value) return msg.sendMsgEx({
             content: `绝区零米游社公告推送已开启` + `\n每1分钟自动检测一次是否存在新更新公告` + `\n如有更新自动发送公告内容至此。`
         });
@@ -90,11 +90,11 @@ export async function zzzchangePushTask(msg: IMessageEx) {
 }
 
 export async function zzztaskPushNews() {
-    const msgId = await global.redis.get("lastestMsgId");
+    const msgId = await redis.get("lastestMsgId");
     if (!msgId) return;
 
     const sendChannels: string[] = [];
-    const _newsPushChannels = await global.redis.hGetAll("config:zzznewsPush").catch(err => { log.error(err); });
+    const _newsPushChannels = await redis.hGetAll("config:zzznewsPush").catch(err => { log.error(err); });
     if (!_newsPushChannels) return;
 
     for (const channel in _newsPushChannels) {
@@ -112,8 +112,8 @@ export async function zzztaskPushNews() {
         for (const page of pageData.list) {
             if (ignoreReg.test(page.post.subject)) continue;
             if (new Date().getTime() / 1000 - page.post.created_at > 3600) continue;
-            if (await global.redis.get(`mysNews:${page.post.post_id}`) == `${true}`) continue;
-            await global.redis.set(`mysNews:${page.post.post_id}`, `${true}`, { EX: 3600 * 2 });
+            if (await redis.get(`mysNews:${page.post.post_id}`) == `${true}`) continue;
+            await redis.set(`mysNews:${page.post.post_id}`, `${true}`, { EX: 3600 * 2 });
             postIds.push(page.post.post_id);
         }
     }
