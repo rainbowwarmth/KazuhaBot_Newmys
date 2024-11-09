@@ -52,7 +52,7 @@ async function execute(msg: IMessageEx) {
         }
         const opt = await kazuha.findOpts(msg);
         if (opt.path != "err") {
-            if (kazuha.devEnv) log.debug(`./plugins/${opt.path}:${opt.fnc}`);
+            if (kazuha.config.devEnv) log.debug(`./plugins/${opt.path}:${opt.fnc}`);
             const plugin = await import(`./plugins/${opt.path}.ts`);
             if (typeof plugin[opt.fnc] == "function") {
                 return (plugin[opt.fnc] as PluginFnc)(msg).catch(err => {

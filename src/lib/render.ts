@@ -111,7 +111,7 @@ export async function renderURL(renderData: RenderURL) {
 
 async function browserInit() {
     if (global.browser) {
-        if (kazuha.devEnv) log.debug(`puppeteer已经启动`);
+        if (kazuha.config.devEnv) log.debug(`puppeteer已经启动`);
         return true;
     }
     if (lock) {
@@ -121,7 +121,7 @@ async function browserInit() {
     log.mark("puppeteer启动中");
     //初始化puppeteer
     await puppeteer.launch({
-        executablePath: kazuha.executablePath,//chromium其他路径
+        executablePath: kazuha.config.executablePath,//chromium其他路径
         headless: true,
         args: [
             "--disable-gpu",
