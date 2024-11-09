@@ -1,6 +1,6 @@
 {
     "name": "KazuhaBot",
-    "version": "2.1.5",
+    "version": "2.1.6",
     "description": "QQGuild MYS Bot",
     "scripts": {
         ".": "node src/app.js .",
