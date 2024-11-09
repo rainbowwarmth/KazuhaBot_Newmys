@@ -14,7 +14,7 @@
 ### 1.克隆项目
 选择适合的目录，使用下面的方法进行安装(二选一)
 
-`git clone --depth=1 https://github.com/rainbowwarmth/KazuhaBot_Newmys.git`
+`git clone --depth=1 https://github.com/rainbowwarmth/KazuhaBot.git`
 
 如果GitHub连不上请使用Gitee镜像
 
@@ -27,15 +27,17 @@
 ### 2.安装依赖
 直接安装
 
-`npm i`
+`pnpm i`
 
 ### 3.修改设置文件
 
 * 重命名config文件夹中的config.example.json为config.json，并更改其中的APP_ID和APP_TOKEN为机器人对应ID与TOKEN
 
-### 4.启动项目
+### 4.编译启动项目
 * 确保redis数据库启动成功
-* 在主目录下使用指令npm start开始启动
+* 在主目录下使用`npm run build` 编译完后，cd进dist目录，然后发送`npm start`运行
+
+
 ## 命令列表
 
 1.公告资讯

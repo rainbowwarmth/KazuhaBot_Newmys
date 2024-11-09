@@ -53,12 +53,12 @@ async function execute(msg: IMessageEx) {
         const opt = await kazuha.findOpts(msg);
         if (opt.path != "err") {
             if (kazuha.config.devEnv) log.debug(`./plugins/${opt.path}:${opt.fnc}`);
-            const plugin = await import(`./plugins/${opt.path}.ts`);
+            const plugin = await import(`./plugins/${opt.path}.js`);
             if (typeof plugin[opt.fnc] == "function") {
                 return (plugin[opt.fnc] as PluginFnc)(msg).catch(err => {
                     log.error(err);
                 });
-            } else log.error(`not found function ${opt.fnc}() at "${_path}/src/plugins/${opt.path}.ts"`);
+            } else log.error(`not found function ${opt.fnc}() at "${_path}/src/plugins/${opt.path}.js"`);
         }
     } catch (err) {
         log.error(err);

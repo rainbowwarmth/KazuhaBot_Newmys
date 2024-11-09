@@ -2,26 +2,30 @@
     "name": "KazuhaBot",
     "version": "2.1.5",
     "description": "QQGuild MYS Bot",
-    "main": "app.ts",
     "scripts": {
-        "start": "ts-node app.ts",
+        ".": "node src/app.js .",
+        "build": "tsc",
+        "start": "node src/app.js start",
         "pm2:start": "pm2 startOrRestart ./config/pm2/pm2.yaml",
         "pm2:stop": "pm2 stop ./config/pm2/pm2.yaml",
         "pm2:delete": "pm2 delete ./config/pm2/pm2.yaml",
         "pm2:save": "pm2 save --force",
         "pm2:log": "pm2 logs --lines 400 KazuhaBot"
     },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/rainbowwarmth/KazuhaBot"
+    },
     "keywords": [],
     "author": "feilongproject,rainbowwarmth",
     "license": "ISC",
     "devDependencies": {
-        "@types/lodash": "^4.14.182",
+        "@types/lodash": "^4.17.7",
         "@types/md5": "^2.3.2",
-        "@types/node": "^17.0.45",
+        "@types/node": "^22.5.0",
         "@types/node-fetch": "^2.6.2",
         "@types/node-schedule": "^2.1.0",
-        "@types/ws": "^8.5.3",
-        "ts-node": "^10.9.1"
+        "@types/ws": "^8.5.12"
     },
     "dependencies": {
         "@redis/client": "^1.6.0",
@@ -40,7 +44,8 @@
         "qq-guild-bot": "^2.9.5",
         "redis": "^4.2.0",
         "resty-client": "^0.0.5",
+        "tsx": "^4.16.2",
         "typescript": "^5.5.4",
-        "yaml": "^2.1.1"
+        "yaml": "^2.5.0"
     }
 }
