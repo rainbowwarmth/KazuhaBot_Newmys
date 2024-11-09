@@ -16,7 +16,7 @@ jobs:
     # 设置 node 版本
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [22]
     steps:
       # 拉取 github 仓库代码
       - uses: actions/checkout@v3
