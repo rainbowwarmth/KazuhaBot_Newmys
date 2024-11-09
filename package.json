@@ -1,10 +1,10 @@
 {
     "name": "KazuhaBot",
-    "version": "2.0.0",
+    "version": "2.1.5",
     "description": "QQGuild MYS Bot",
     "main": "app.ts",
     "scripts": {
-        "start": "ts-node --expose-gc app.ts",
+        "start": "ts-node app.ts",
         "pm2:start": "pm2 startOrRestart ./config/pm2/pm2.yaml",
         "pm2:stop": "pm2 stop ./config/pm2/pm2.yaml",
         "pm2:delete": "pm2 delete ./config/pm2/pm2.yaml",
