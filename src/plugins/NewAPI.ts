@@ -12,7 +12,7 @@ export async function detalData(data: PostFullPost) {
     if (typeof json == "object") {
         if (json.imgs && json.imgs.length > 0) {
             for (const val of json.imgs) {
-                data.post.content = ` <div class="ql-image-box"><img src="${val}?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,png"></div>`;
+                data.post.content = ` <div class="ql-image-box"><img src="${val}?x-oss-process=image//resize,s_300/quality,q_40/auto-orient,0/interlace,1/format,jpg"></div>`;
             }
         }
     } else {

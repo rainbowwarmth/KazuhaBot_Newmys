@@ -45,7 +45,11 @@ export async function initialize(){
 async function execute(msg: IMessageEx) {
     try {
         redis.set("lastestMsgId", msg.id, { EX: 4 * 60 });
-        msg.content = msg.content.trim().replace(/^\//, "#");
+        if (msg && msg.content) {
+            msg.content = msg.content.trim().replace(/^\//, "#");
+        } else {
+            log.error('检查消息为空，可能是图片和GIF导致的');
+        }
         const opt = await kazuha.findOpts(msg);
         if (opt.path != "err") {
             if (kazuha.devEnv) log.debug(`./plugins/${opt.path}:${opt.fnc}`);
