@@ -10,7 +10,7 @@ async function init() {
     kazuha_1.default._log.mark(`-------(≡^∇^≡)-------`);
     kazuha_1.default._log.mark(kazuha_1.default.chalk.cyan(kazuha_1.default.Bot.name + ' v' + kazuha_1.default.Bot.version + '启动中...'));
     kazuha_1.default._log.mark(kazuha_1.default.chalk.greenBright('https://github.com/rainbowwarmth/KazuhaBot_Newmys.git'));
-    process.title = kazuha_1.default.Bot.name + ' v' + kazuha_1.default.Bot.version + ' © 2023-2024 ' + '@' + kazuha_1.default.Bot.author;
+    process.title = 'kazuhaBot' + ' v' + kazuha_1.default.Bot.version + ' © 2023-2024 ' + '@' + kazuha_1.default.Bot.author;
     process.env.TZ = "Asia/Shanghai";
     await (0, Bot_1.initGlobals)();
 }
