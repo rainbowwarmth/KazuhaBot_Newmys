@@ -4,7 +4,7 @@ import { IMessageEx } from "../lib/IMessageEx";
 
 export async function helpimage(msg: IMessageEx) {
 
-    const markdown = fs.readFileSync('HELP.md', 'utf-8');
+    const markdown = fs.readFileSync('resources/markdown/HELP.md', 'utf-8');
     const { headings, emphasis } = extractContentFromMarkdown(markdown);
     let content = '米游社小助手使用指南\n';
 
