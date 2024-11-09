@@ -4,6 +4,8 @@
   <a href="https://github.com/rainbowwarmth/KazuhaBot_Newmys"><img src="https://upload-bbs.miyoushe.com/upload/2021/12/05/82642572/3196a8010ff14dd131d5192ba9b9743a_5729765311568100837.jpg?x-oss-process=image/resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg" width="256" height="256" alt="KazuhaBot_NewMys"></a>
 </p>
 <h1 align = "center">KazuhaBot_NewMys</h1>
+
+[![Node.js Package](https://github.com/rainbowwarmth/KazuhaBot/actions/workflows/npm-publish-github-packages.yml/badge.svg?branch=main)](https://github.com/rainbowwarmth/KazuhaBot/actions/workflows/npm-publish-github-packages.yml)
 [![npm version](https://img.shields.io/npm/v/kazuha-bot.svg)](https://www.npmjs.com/package/kazuha-bot)
 
 ## 使用方法
@@ -42,31 +44,15 @@ pnpm i kazuha-bot --registry=https://registry.npmmirror.com
 
 ```
 // 使用gitee
-git clone --depth=1 https://gitee.com/rainbowwarmth/KazuhaBot
+git clone --depth=1 https://gitee.com/rainbowwarmth/KazuhaBot -b build
 pnpm install -P
 
 // 使用github
-git clone --depth=1 https://github.com/rainbowwarmth/KazuhaBot
+git clone --depth=1 https://github.com/rainbowwarmth/KazuhaBot -b build
 pnpm install -P
 ```
-
-### 手工下载安装（不推荐）
-
-手工下载安装包，解压后重命名为 KazuhaBot
-
-不能使用git pull 故不推荐
 
 ---
-
-
-## 安装依赖
-> 注意只有使用Git安装和手工下载安装才要进行此步，使用PNPM安装的请直接下一步
-> 外网环境请修改的本地npm配置.npmrc
-
-```sh
-# 直接安装
-pnpm install -P
-```
 
 ## 修改设置文件
 
