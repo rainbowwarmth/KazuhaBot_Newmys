@@ -4,7 +4,7 @@
   <a href="https://github.com/rainbowwarmth/KazuhaBot_Newmys"><img src="https://upload-bbs.miyoushe.com/upload/2021/12/05/82642572/3196a8010ff14dd131d5192ba9b9743a_5729765311568100837.jpg?x-oss-process=image/resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg" width="256" height="256" alt="KazuhaBot_NewMys"></a>
 </p>
 <h1 align = "center">KazuhaBot_NewMys</h1>
-[![npm puppeteer package](https://img.shields.io/npm/v/kazuha-bot.svg)](https://npmjs.org/package/kazuha-bot)
+[![npm kazuha-bot package](https://img.shields.io/npm/v/kazuha-bot.svg)](https://npmjs.org/package/kazuha-bot)
 
 ## 使用方法
 > 环境准备： Windows or Linux，Node.js（ [版本至少v16以上](http://nodejs.cn/download/) ）， [Redis](https://redis.io/docs/getting-started/installation/ )
