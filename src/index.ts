@@ -3,6 +3,8 @@ import { loadGuildTree } from "./lib/Bot"
 import kazuha from "./kazuha";
 import { IMessageEx } from "./lib/IMessageEx";
 import { ws, redis, _path } from "./models/global"; 
+import { IntentMessage } from "./lib/type";
+import log from "./lib/logger";
 
 
 export async function initialize(){

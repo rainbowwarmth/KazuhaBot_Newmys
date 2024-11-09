@@ -1,4 +1,6 @@
 import fs from "fs";
+import { _path, redis } from "../models/global";
+import log from "./logger";
 
 export function writeFileSyncEx(filePath: string, data: string | Buffer, options?: fs.WriteFileOptions) {
 
@@ -25,7 +27,7 @@ export function sleep(ms: number) {
 }
 
 export function cacheJson<T>(opt: "w" | "r", app: string, data?: T): T | boolean | null {
-    const jsonPath = `${global._path}/generate/cache/${app}.json`;
+    const jsonPath = `${_path}/generate/cache/${app}.json`;
     try {
         if (opt == "r") {
             if (!fs.existsSync(jsonPath)) return null;
@@ -45,12 +47,12 @@ export function cacheJson<T>(opt: "w" | "r", app: string, data?: T): T | boolean
 
 export async function redisCache(type: "r" | "w", key: string, field: string, data?: string, expire?: number): Promise<string | null> {
     if (type == "r") {
-        return await global.redis.hGet(key, field) || null;
+        return await redis.hGet(key, field) || null;
     };
     if (type == "w") {
-        global.redis.hSet(key, field, data!).then(() => {
+        redis.hSet(key, field, data!).then(() => {
             if (expire)
-                global.redis.expire(key, expire);
+                redis.expire(key, expire);
         });
 
     }

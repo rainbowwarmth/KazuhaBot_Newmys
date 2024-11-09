@@ -1,3 +1,5 @@
 node_modules
-config
+config/pm2
+config/config.json
 pnpm-lock.yaml
+generate

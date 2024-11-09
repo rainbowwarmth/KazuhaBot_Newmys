@@ -2,6 +2,8 @@ import md5 from "md5";
 import lodash from "lodash";
 import fetch from "node-fetch";
 import { PostList, PostFull} from "./API"
+import { MihoyoAPI } from "../lib/type";
+import log from "../lib/logger";
 
 export async function srmiGetNewsList(type: number, pageSize = 10) {
     return fetch(`https://bbs-api-static.miyoushe.com/painter/wapi/getNewsList?gids=6&page_size=${pageSize}&type=${type}`, {

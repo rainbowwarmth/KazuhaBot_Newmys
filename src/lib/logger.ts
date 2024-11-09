@@ -1,5 +1,6 @@
 import log4js from "log4js";
 import config from "../../config/config.json";
+import { _path } from "../models/global";
 
 const log = log4js.configure({
     appenders: {

@@ -17,7 +17,7 @@ export async function detalData(data: PostFullPost) {
         }
     } else {
         for (const img of data.post.images) {
-            data.post.content = data.post.content.replace(img, img + "?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg");
+            data.post.content = data.post.content.replace(img, img + "?x-oss-process=image//resize,s_300/quality,q_40/auto-orient,0/interlace,1/format,jpg");
         }
         data.post.content = data.post.content.replace(/_\([^)]*\)/g, function (t, e) {
             t = t.replace(/_\(|\)/g, "");

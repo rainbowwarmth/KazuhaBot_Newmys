@@ -4,6 +4,7 @@ import FormData from 'form-data';
 import { Ark, Embed, IMember, IMessage, IUser, MessageAttachment } from "qq-guild-bot";
 import config from '../../config/config.json';
 import { botStatus, client } from "../models/global";
+import log from "./logger";
 
 export class IMessageEx implements IMessage {
     id: string;
@@ -51,7 +52,7 @@ export class IMessageEx implements IMessage {
             return;
         }
 
-        for (const guild of global.saveGuildsTree) {
+        for (const guild of saveGuildsTree) {
             if (guild.id == this.guild_id) {
                 for (const channel of guild.channel) {
                     if (channel.id == this.channel_id) {

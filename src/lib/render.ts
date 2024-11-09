@@ -4,6 +4,7 @@ import template from "art-template";
 import { writeFileSyncEx } from "./common";
 import { _path, botStatus } from "../models/global";
 import kazuha from "../kazuha";
+import log from "./logger";
 //html模板
 const html: any = {};
 //截图数达到时重启浏览器 避免生成速度越来越慢
@@ -120,7 +121,7 @@ async function browserInit() {
     log.mark("puppeteer启动中");
     //初始化puppeteer
     await puppeteer.launch({
-        executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',//chromium其他路径
+        executablePath: kazuha.executablePath,//chromium其他路径
         headless: true,
         args: [
             "--disable-gpu",
@@ -134,7 +135,7 @@ async function browserInit() {
         ]
     }).then(_browser => {
         global.browser = _browser;
-        log.mark("puppeteer启动成功");
+        log.info("puppeteer启动成功");
         global.browser.on("disconnected", function () {
             log.error("Chromium实例关闭或崩溃！");
             global.browser = null;

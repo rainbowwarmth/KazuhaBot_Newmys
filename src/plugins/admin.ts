@@ -1,6 +1,8 @@
 import { IMessageEx } from "../lib/IMessageEx";
 import { IMember } from "qq-guild-bot";
-import {botStatus, redis, adminId} from "../models/global"
+import {botStatus, redis, adminId, client} from "../models/global"
+import log from "../lib/logger";
+
 export async function status(msg: IMessageEx) {
     return msg.sendMsgEx({
         content: `------状态------` +

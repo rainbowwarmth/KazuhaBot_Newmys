@@ -1,10 +1,10 @@
-import {_path, redis, saveGuildsTree, client, ws} from '../models/global'
+import {_path, redis, client, ws} from '../models/global'
 import schedule from "node-schedule";
 import fs from 'fs';
 import kazuha from '../kazuha';
+import log from './logger';
 
 export async function initGlobals() {
-    global.log = kazuha._log
 
     log.info('初始化：正在创建定时任务');
 
@@ -52,12 +52,12 @@ export async function initGlobals() {
     ws
 
     log.info(`初始化：正在创建频道树`);
-    global.saveGuildsTree = [];
+    global.saveGuildsTree = []
     await loadGuildTree(true);
 }
 
 export async function loadGuildTree(init = false) {
-    global.saveGuildsTree = [];
+    global.saveGuildsTree = []
     for (const guild of (await client.meApi.meGuilds()).data) {
         if (init) log.info(`${guild.name}(${guild.id})`);
         var _guild: SaveChannel[] = [];
