@@ -19,19 +19,19 @@
             "helpimage": {
                 "reg": "^#help$",
                 "fnc": "helpimage",
-                "type": ["GUILD","DIRECT"],
+                "type": ["GUILD", "DIRECT"],
                 "describe": "help信息"
             },
             "commits": {
                 "reg": "^#提交日志$",
                 "fnc": "commits",
-                "type": ["GUILD","DIRECT"],
+                "type": ["GUILD", "DIRECT"],
                 "describe": "help信息"
             },
             "info": {
                 "reg": "^#版本$",
                 "fnc": "info",
-                "type": ["GUILD","DIRECT"],
+                "type": ["GUILD", "DIRECT"],
                 "describe": "help信息"
             }
         },
@@ -229,7 +229,7 @@
                 "fnc": "dbytaskPushNews",
                 "type": ["GUILD", "DIRECT"],
                 "describe": "【#开启/关闭大别野公告推送】"
-                }
             }
         }
     }
+}

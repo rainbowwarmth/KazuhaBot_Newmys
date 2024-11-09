@@ -1,0 +1,18 @@
+{
+    "initConfig": {
+        "appID": "APPID",
+        "token": "TOKEN",
+        "intents": [
+            "GUILD_MESSAGES",
+            "DIRECT_MESSAGE"
+        ],
+        "sandbox": false
+    },
+    "databaseConfig": {
+        "unixsocket": "/run/redis/redis-server.sock"
+    },
+    "log_level": "all",
+    "devEnv": "false",
+    "executablePath": "",
+    "cron": "0/1 * * * * ?"
+}
