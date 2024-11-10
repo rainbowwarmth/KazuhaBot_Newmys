@@ -5,8 +5,8 @@ const { execSync } = require('child_process');
 // 获取当前工作目录
 const currentDir = process.cwd();
 
-// 定义源目录（node_modules/kazuha-bot/list）和目标目录（当前工作目录）
-const sourceDir = path.join(currentDir, 'node_modules', 'kazuha-bot', 'list');
+// 定义源目录（node_modules/kazuha-bot/dist）和目标目录（当前工作目录）
+const sourceDir = path.join(currentDir, 'node_modules', 'kazuha-bot', 'dist');
 const targetDir = currentDir; // 目标目录为当前工作目录
 
 // 递归复制目录函数
@@ -30,14 +30,15 @@ function copyDir(src, dest) {
   }
 }
 
-// 在当前工作目录下运行 pnpm install
+// 在目标目录下运行 pnpm install
 function installDependencies() {
   try {
-    console.log('Running pnpm install...');
-    execSync('pnpm install --registry=https://registry.npmmirror.com', { stdio: 'inherit' });
-    console.log('Dependencies installed successfully!');
+    console.log('运行 pnpm install...');
+    // Ensure pnpm install runs in the target directory (which is set to the root)
+    execSync('pnpm install --registry=https://registry.npmmirror.com', { stdio: 'inherit', cwd: targetDir });
+    console.log('依赖项安装成功!');
   } catch (error) {
-    console.error('Error during pnpm install:', error);
+    console.error('pnpm 安装期间出错:', error);
   }
 }
 
@@ -47,4 +48,4 @@ installDependencies();
 // 执行复制
 copyDir(sourceDir, targetDir);
 
-console.log('The contents of the "list" directory have been copied to the project root!');
+console.log('“dist” 目录的内容已复制到项目根目录下!');

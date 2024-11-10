@@ -33,10 +33,9 @@ npm install pnpm -g
 
 ```
 // 使用PNPM
-pnpm install kazuha-bot
-
+pnpm init && pnpm pkg set scripts.start="node src/app.js start" && pnpm i kazuha-bot && node node_modules\kazuha-bot\init.js
 // 使用PNPM镜像(网络不好首选)
-pnpm i kazuha-bot --registry=https://registry.npmmirror.com
+pnpm init && pnpm pkg set scripts.start="node src/app.js start" && pnpm i kazuha-bot --registry=https://registry.npmmirror.com && node node_modules\kazuha-bot\init.js
 ```
 
 ### 使用Git安装（第二推荐）
@@ -57,10 +56,6 @@ pnpm install -P
 ## 修改设置文件
 
 打开config文件夹中的config.json，并更改其中的APP_ID和APP_TOKEN为机器人对应ID与TOKEN
-
-## 编译
-> 使用PNPM安装请忽略
-终端进入 KazuhaBot 根目录，运行`npm run build`
 
 ## 运行
 > 启动redis后
