@@ -76,4 +76,28 @@ jobs:
           release-type: node
           package-name: standard-version
           version: ${{ env.VERSION }}  # 动态使用更新后的版本号
-          changelog-types: '[{"type": "types", "section":"Types", "hidden": false},{"type": "revert", "section":"Reverts", "hidden": false},{"type": "feat", "section": "Features", "hidden": false},{"type": "fix", "section": "Bug Fixes", "hidden": false},{"type": "improvement", "section": "Feature Improvem
+          changelog-types: |
+            [
+              {"type": "types", "section": "Types", "hidden": false},
+              {"type": "revert", "section": "Reverts", "hidden": false},
+              {"type": "feat", "section": "Features", "hidden": false},
+              {"type": "fix", "section": "Bug Fixes", "hidden": false},
+              {"type": "improvement", "section": "Feature Improvements", "hidden": false},
+              {"type": "docs", "section": "Docs", "hidden": false},
+              {"type": "style", "section": "Styling", "hidden": false},
+              {"type": "refactor", "section": "Code Refactoring", "hidden": false},
+              {"type": "perf", "section": "Performance Improvements", "hidden": false},
+              {"type": "test", "section": "Tests", "hidden": false},
+              {"type": "build", "section": "Build System", "hidden": false},
+              {"type": "ci", "section": "CI", "hidden": false}
+            ]
+
+      # 8. 提交并推送更新后的版本号
+      - name: Commit version update
+        if: env.VERSION_UPDATED == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          git commit -m "chore: update version to $VERSION"
+          git push origin main
