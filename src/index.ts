@@ -6,7 +6,6 @@ import { ws, redis, _path } from "./models/global";
 import { IntentMessage } from "./lib/type";
 import log from "./lib/logger";
 
-
 export async function initialize(){
     init().then(() => {
 
@@ -52,8 +51,8 @@ async function execute(msg: IMessageEx) {
         }
         const opt = await kazuha.findOpts(msg);
         if (opt.path != "err") {
-            if (kazuha.config.devEnv) log.debug(`./plugins/${opt.path}:${opt.fnc}`);
-            const plugin = await import(`./plugins/${opt.path}.js`);
+            if (kazuha.config.devEnv) log.debug(`./src/plugins/${opt.path}:${opt.fnc}`);
+            const plugin = await import(`./src/plugins/${opt.path}.js`);
             if (typeof plugin[opt.fnc] == "function") {
                 return (plugin[opt.fnc] as PluginFnc)(msg).catch(err => {
                     log.error(err);

@@ -1,16 +1,16 @@
 {
     "name": "kazuha-bot",
-    "version": "2.2.2",
+    "version": "2.2.21",
     "description": "QQ频道米游社推送Bot",
-    "type": "module",
     "private": false,
     "homepage": "https://github.com/rainbowwarmth/KazuhaBot",
     "bugs": {
-      "url": "https://github.com/rainbowwarmth/KazuhaBot/issues"
+        "url": "https://github.com/rainbowwarmth/KazuhaBot/issues"
     },
     "scripts": {
         ".": "node src/app.js .",
         "build": "node build.js",
+        "postinstall": "node create.js",
         "start": "node src/app.js start",
         "pm2:start": "pm2 startOrRestart ./config/pm2/pm2.yaml",
         "pm2:stop": "pm2 stop ./config/pm2/pm2.yaml",
@@ -37,6 +37,7 @@
         "art-template": "^4.13.2",
         "chalk": "^4.0.0",
         "form-data": "^4.0.1",
+        "kazuha-bot": "^2.2.2",
         "lodash": "^4.17.21",
         "log4js": "^6.5.2",
         "md5": "^2.3.0",

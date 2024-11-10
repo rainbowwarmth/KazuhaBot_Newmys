@@ -1,4 +1,4 @@
-const fs = require('fs'); 
+const fs = require('fs');
 const path = require('path');
 
 // 获取当前工作目录（即 D:\Desktop\kazuhabot）
@@ -18,18 +18,14 @@ function copyDir(src, dest) {
     const destPath = path.join(dest, entry.name);
 
     if (entry.isDirectory()) {
-      // 只复制 "config" 和 "resources" 文件夹
-      if (entry.name === 'config' || entry.name === 'resources') {
-        copyDir(srcPath, destPath); // 如果是目录，递归调用
-      }
+      copyDir(srcPath, destPath); // 如果是目录，递归调用
     } else {
-      // 如果是文件，复制文件
-      fs.copyFileSync(srcPath, destPath);
+      fs.copyFileSync(srcPath, destPath); // 如果是文件，复制文件
     }
   }
 }
 
-// 调用复制函数，将 dist 目录中的 "config" 和 "resources" 文件夹复制到当前工作目录
+// 调用复制函数，将 dist 目录中的文件和文件夹复制到当前工作目录
 copyDir(sourceDir, targetDir);
 
-console.log('The "config" and "resources" folders have been copied to the project root directory!');
+console.log('All files and folders from "dist" have been copied to the project root directory!');
