@@ -1,13 +1,14 @@
-import kazuha from "../kazuha";
-import { IMessageEx } from "../lib/IMessageEx";
-import log from "../lib/logger";
-import { redis } from "../models/global";
-export async function newsContentBBS(msg: IMessageEx) {
+import kazuha from "../../kazuha";
+import { IMessageEx } from "../../lib/IMessageEx";
+import log from "../../lib/logger";
+import { redis } from "../../models/global";
+
+export async function dbynewsContentBBS(msg: IMessageEx) {
     var type = 1;
     if (msg.content.includes("资讯")) type = 3;
     if (msg.content.includes("活动")) type = 2;
 
-    const pagesData = await kazuha.ysmiGetNewsList(type);
+    const pagesData = await kazuha.DBYmiGetNewsList(type);
     const _page = msg.content.match(/[0-9]+/);
     const page = _page ? parseInt(_page[0]) : 1;
     if (!pagesData) return;
@@ -16,7 +17,7 @@ export async function newsContentBBS(msg: IMessageEx) {
         msg.sendMsgEx({ content: "目前只查前10条最新的公告，请输入1-10之间的整数。" });
         return true;
     }
-    const postFull = await kazuha.ysmiGetPostFull(pagesData.list[page - 1].post.post_id);
+    const postFull = await kazuha.DBYmiGetPostFull(pagesData.list[page - 1].post.post_id);
     if (!postFull) return;
     const data = await kazuha.detalData(postFull.post);
     //log.debug(data);
@@ -32,20 +33,20 @@ export async function newsContentBBS(msg: IMessageEx) {
     }).then((savePath: any) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-            log.mark(kazuha.chalk.blueBright(`[原神公告] newsContentBBS/NewYuanShen.ts`));
+        log.mark(kazuha.chalk.blueBright(`[大别野公告] newsContentBBS/NewDBY.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
 
 }
 
-export async function newsListBBS(msg: IMessageEx) {
+export async function dbynewsListBBS(msg: IMessageEx) {
 
     var type = 1, typeName = "公告";
     if (msg.content.includes("资讯")) type = 3, typeName = "资讯";
     if (msg.content.includes("活动")) type = 2, typeName = "活动";
 
-    const data = await kazuha.ysmiGetNewsList(type, 5);
+    const data = await kazuha.DBYmiGetNewsList(type, 5);
     if (!data) return;
 
     var datas = data.list;
@@ -68,34 +69,34 @@ export async function newsListBBS(msg: IMessageEx) {
         }
     }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        log.mark(kazuha.chalk.blueBright(`[原神公告列表] newListBBS/NewYuanShen.ts`));
+        log.mark(kazuha.chalk.blueBright(`[崩坏学园2公告列表] newListBBS/NewDBY.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
 
 }
 
-export async function changePushTask(msg: IMessageEx) {
+export async function dbychangePushTask(msg: IMessageEx) {
     if (msg.messageType != "GUILD") return true;
     const value = msg.content.includes("开启") ? true : false;
-    await redis.hSet("config:newsPush", parseInt(msg.channel_id), `${value}`).then((v) => {
+    await redis.hSet("config:dbynewsPush", parseInt(msg.channel_id), `${value}`).then((v) => {
         if (value) return msg.sendMsgEx({
-            content: `原神米游社公告推送已开启` + `\n每30分钟自动检测一次是否存在新更新公告` + `\n如有更新自动发送公告内容至此。`
+            content: `大别野米游社公告推送已开启` + `\n每1分钟自动检测一次是否存在新更新公告` + `\n如有更新自动发送公告内容至此。`
         });
         else {
-            return msg.sendMsgEx({ content: `原神米游社公告推送已关闭` });
+            return msg.sendMsgEx({ content: `大别野米游社公告推送已关闭` });
         }
     }).catch(err => {
         log.error(err);
     });
 }
 
-export async function taskPushNews() {
+export async function dbytaskPushNews() {
     const msgId = await redis.get("lastestMsgId");
     if (!msgId) return;
 
     const sendChannels: string[] = [];
-    const _newsPushChannels = await redis.hGetAll("config:newsPush").catch(err => { log.error(err); });
+    const _newsPushChannels = await redis.hGetAll("config:dbynewsPush").catch((err: any) => { log.error(err); });
     if (!_newsPushChannels) return;
 
     for (const channel in _newsPushChannels) {
@@ -104,8 +105,8 @@ export async function taskPushNews() {
     }
     if (sendChannels.length == 0) return;
 
-    const ignoreReg = /线下赛|晋级赛|战绩更新|海选赛|邀请赛|积分赛|战绩工具|交流平台|首日赛|线上赛|社区内容|个人专访|全民赛|决赛|总决赛|半决赛|淘汰赛|脚本外挂|集中反馈|作品展示|同人|已开奖|大别野/;
-    const pagesData = [{ type: "公告", list: (await kazuha.ysmiGetNewsList(1))?.list }, { type: "资讯", list: (await kazuha.ysmiGetNewsList(3))?.list }];
+    const ignoreReg = /冒险助力礼包|纪行|预下载|脚本外挂|集中反馈|作品展示|同人|已开奖|一图流|云·原神||OST/;
+    const pagesData = [{ type: "公告", list: (await kazuha.DBYmiGetNewsList(1))?.list }, { type: "资讯", list: (await kazuha.DBYmiGetNewsList(3))?.list }];
     const postIds: string[] = [];
 
     for (const pageData of pagesData) {
@@ -119,7 +120,7 @@ export async function taskPushNews() {
         }
     }
     for (const postId of postIds) {
-        const postFull = await kazuha.ysmiGetPostFull(postId);
+        const postFull = await kazuha.DBYmiGetPostFull(postId);
         if (!postFull) return;
         const data = await kazuha.detalData(postFull.post);
         //log.debug(data);
@@ -127,7 +128,7 @@ export async function taskPushNews() {
             app: "mys",
             type: "mysNew",
             imgType: "jpeg",
-            render: { saveId: "NewYuanShen" },
+            render: { saveId: "NewDBY" },
             data: {
                 dataConent: data.post.content,
                 data,
@@ -143,7 +144,7 @@ export async function taskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
-            log.mark(kazuha.chalk.blueBright(`[原神公告推送] taskPushNews/NewYuanShen.ts`));
+             log.mark(kazuha.chalk.blueBright(`[大别野公告推送] taskPushNews/NewDBY.ts`));
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });
@@ -152,5 +153,4 @@ export async function taskPushNews() {
             log.error(err);
         });
     }
-
 }

@@ -5,6 +5,7 @@ import { IMessageEx } from "./lib/IMessageEx";
 import { ws, redis, _path } from "./models/global"; 
 import { IntentMessage } from "./lib/type";
 import log from "./lib/logger";
+import path from "path";
 
 export async function initialize(){
     init().then(() => {
@@ -48,21 +49,31 @@ async function execute(msg: IMessageEx) {
             msg.content = msg.content.trim().replace(/^\//, "#");
         } else {
             log.error('检查消息为空，可能是图片和GIF导致的');
+            return
         }
         const opt = await kazuha.findOpts(msg);
-        if (opt.path != "err") {
-            if (kazuha.config.devEnv) log.debug(`./src/plugins/${opt.path}:${opt.fnc}`);
-            const plugin = await import(`./src/plugins/${opt.path}.js`);
-            if (typeof plugin[opt.fnc] == "function") {
-                return (plugin[opt.fnc] as PluginFnc)(msg).catch(err => {
-                    log.error(err);
-                });
-            } else log.error(`not found function ${opt.fnc}() at "${_path}/src/plugins/${opt.path}.js"`);
+        if (!opt || opt.directory === "err") {
+            return;
         }
-    } catch (err) {
-        log.error(err);
-    }
+        if (kazuha.config.devEnv) {
+            log.debug(`${_path}/src/plugins/${opt.directory}/${opt.file}:${opt.fnc}`);
+        }
+        const pluginPath = path.join(_path, "src/plugins", opt.directory, `${opt.file}.js`);
+        
+        try {
+            const plugin = await import(pluginPath);
+            if (typeof plugin[opt.fnc] === "function") {
+                return (plugin[opt.fnc] as PluginFnc)(msg).catch(err => {});
+            } else {
+                log.error(`未找到函数 ${opt.fnc}() 在 "${pluginPath}"`);
+            }
+        } catch (importErr) {
+            log.error('插件导入失败:', importErr);
+        }
 
+    } catch (err) {
+        log.error('执行过程中发生错误:', err);
+    }
 }
 
 type PluginFnc = (msg: IMessageEx) => Promise<any>

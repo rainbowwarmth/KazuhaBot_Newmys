@@ -1,14 +1,14 @@
-import kazuha from "../kazuha";
-import { IMessageEx } from "../lib/IMessageEx";
-import log from "../lib/logger";
-import { redis } from "../models/global";
+import kazuha from "../../kazuha";
+import { IMessageEx } from "../../lib/IMessageEx";
+import log from "../../lib/logger";
+import { redis } from "../../models/global";
 
-export async function bbnewsContentBBS(msg: IMessageEx) {
+export async function zzznewsContentBBS(msg: IMessageEx) {
     var type = 1;
     if (msg.content.includes("资讯")) type = 3;
     if (msg.content.includes("活动")) type = 2;
 
-    const pagesData = await kazuha.bbmiGetNewsList(type);
+    const pagesData = await kazuha.zzzmiGetNewsList(type);
     const _page = msg.content.match(/[0-9]+/);
     const page = _page ? parseInt(_page[0]) : 1;
     if (!pagesData) return;
@@ -17,7 +17,7 @@ export async function bbnewsContentBBS(msg: IMessageEx) {
         msg.sendMsgEx({ content: "目前只查前10条最新的公告，请输入1-10之间的整数。" });
         return true;
     }
-    const postFull = await kazuha.bbmiGetPostFull(pagesData.list[page - 1].post.post_id);
+    const postFull = await kazuha.zzzmiGetPostFull(pagesData.list[page - 1].post.post_id);
     if (!postFull) return;
     const data = await kazuha.detalData(postFull.post);
     //log.debug(data);
@@ -33,20 +33,20 @@ export async function bbnewsContentBBS(msg: IMessageEx) {
     }).then((savePath: any) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-            log.mark(kazuha.chalk.blueBright(`[崩坏学园2公告] newsContentBBS/NewBB.ts`));
+        log.mark(kazuha.chalk.blueBright(`[绝区零公告] newsContentBBS/NewZZZ.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
 
 }
 
-export async function bbnewsListBBS(msg: IMessageEx) {
+export async function zzznewsListBBS(msg: IMessageEx) {
 
     var type = 1, typeName = "公告";
     if (msg.content.includes("资讯")) type = 3, typeName = "资讯";
     if (msg.content.includes("活动")) type = 2, typeName = "活动";
 
-    const data = await kazuha.bbmiGetNewsList(type, 5);
+    const data = await kazuha.zzzmiGetNewsList(type, 5);
     if (!data) return;
 
     var datas = data.list;
@@ -69,34 +69,34 @@ export async function bbnewsListBBS(msg: IMessageEx) {
         }
     }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        log.mark(kazuha.chalk.blueBright(`[崩坏学园2公告列表] newListBBS/NewBB.ts`));
+        log.mark(kazuha.chalk.blueBright(`[绝区零公告列表] newListBBS/NewZZZ.ts`));
     }).catch((err: any) => {
         log.error(err);
     });
 
 }
 
-export async function bbchangePushTask(msg: IMessageEx) {
+export async function zzzchangePushTask(msg: IMessageEx) {
     if (msg.messageType != "GUILD") return true;
     const value = msg.content.includes("开启") ? true : false;
-    await redis.hSet("config:bbnewsPush", parseInt(msg.channel_id), `${value}`).then((v) => {
+    await redis.hSet("config:zzznewsPush", parseInt(msg.channel_id), `${value}`).then((v) => {
         if (value) return msg.sendMsgEx({
-            content: `崩坏学园2米游社公告推送已开启` + `\n每1分钟自动检测一次是否存在新更新公告` + `\n如有更新自动发送公告内容至此。`
+            content: `绝区零米游社公告推送已开启` + `\n每1分钟自动检测一次是否存在新更新公告` + `\n如有更新自动发送公告内容至此。`
         });
         else {
-            return msg.sendMsgEx({ content: `崩坏学园2米游社公告推送已关闭` });
+            return msg.sendMsgEx({ content: `绝区零米游社公告推送已关闭` });
         }
     }).catch(err => {
         log.error(err);
     });
 }
 
-export async function bbtaskPushNews() {
+export async function zzztaskPushNews() {
     const msgId = await redis.get("lastestMsgId");
     if (!msgId) return;
 
     const sendChannels: string[] = [];
-    const _newsPushChannels = await redis.hGetAll("config:bbnewsPush").catch(err => { log.error(err); });
+    const _newsPushChannels = await redis.hGetAll("config:zzznewsPush").catch(err => { log.error(err); });
     if (!_newsPushChannels) return;
 
     for (const channel in _newsPushChannels) {
@@ -105,8 +105,8 @@ export async function bbtaskPushNews() {
     }
     if (sendChannels.length == 0) return;
 
-    const ignoreReg = /已开奖|大别野/;
-    const pagesData = [{ type: "公告", list: (await kazuha.bbmiGetNewsList(1))?.list }, { type: "资讯", list: (await kazuha.bbmiGetNewsList(3))?.list }];
+    const ignoreReg = /作品展示|已开奖|大别野/;
+    const pagesData = [{ type: "公告", list: (await kazuha.zzzmiGetNewsList(1))?.list }, { type: "资讯", list: (await kazuha.zzzmiGetNewsList(3))?.list }];
     const postIds: string[] = [];
 
     for (const pageData of pagesData) {
@@ -120,7 +120,7 @@ export async function bbtaskPushNews() {
         }
     }
     for (const postId of postIds) {
-        const postFull = await kazuha.bbmiGetPostFull(postId);
+        const postFull = await kazuha.zzzmiGetPostFull(postId);
         if (!postFull) return;
         const data = await kazuha.detalData(postFull.post);
         //log.debug(data);
@@ -128,7 +128,7 @@ export async function bbtaskPushNews() {
             app: "mys",
             type: "mysNew",
             imgType: "jpeg",
-            render: { saveId: "NewBB" },
+            render: { saveId: "NewZZZ" },
             data: {
                 dataConent: data.post.content,
                 data,
@@ -144,7 +144,7 @@ export async function bbtaskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
-            log.mark(kazuha.chalk.blueBright(`[崩坏学园2公告推送] taskPushNews/NewBB.ts`));
+            log.mark(kazuha.chalk.blueBright(`[绝区零公告推送] taskPushNews/NewZZZ.ts`));
                 return Promise.all(_sendQueue).catch(err => {
                     log.error(err);
                 });
@@ -154,4 +154,3 @@ export async function bbtaskPushNews() {
         });
     }
 }
-

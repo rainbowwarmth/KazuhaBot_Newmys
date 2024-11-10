@@ -1,4 +1,4 @@
-import { PostFullPost } from "../models/API";
+import { PostFullPost } from "../../models/API";
 
 var emoticon: Map<any, any> | null = null;
 

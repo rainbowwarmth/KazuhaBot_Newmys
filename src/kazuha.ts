@@ -3,13 +3,13 @@ import { sendImage } from "./lib/IMessageEx";
 import _log, { setDevLog } from "./lib/logger";
 import { findOpts } from "./lib/findOpts" 
 import { render } from "./lib/render";
-import { taskPushNews } from "./plugins/NewYuanShen";
-import { bbbtaskPushNews } from "./plugins/NewBBB";
-import { bbtaskPushNews } from "./plugins/NewBB";
-import { srtaskPushNews } from "./plugins/NewStarRail";
-import { zzztaskPushNews } from "./plugins/NewZZZ";
-import { wdtaskPushNews } from "./plugins/NewWeiDing";
-import { dbytaskPushNews } from "./plugins/NewDBY";
+import { taskPushNews } from "./plugins/mihoyo/NewYuanShen";
+import { bbbtaskPushNews } from "./plugins/mihoyo/NewBBB";
+import { bbtaskPushNews } from "./plugins/mihoyo/NewBB";
+import { srtaskPushNews } from "./plugins/mihoyo/NewStarRail";
+import { zzztaskPushNews } from "./plugins/mihoyo/NewZZZ";
+import { wdtaskPushNews } from "./plugins/mihoyo/NewWeiDing";
+import { dbytaskPushNews } from "./plugins/mihoyo/NewDBY";
 import { bbbmiGetNewsList, bbbmiGetPostFull } from "./models/BBBAPI";
 import { bbmiGetNewsList, bbmiGetPostFull } from "./models/BBAPI";
 import { DBYmiGetNewsList, DBYmiGetPostFull } from "./models/DBYAPI";
@@ -19,7 +19,7 @@ import { ysmiGetNewsList, ysmiGetPostFull } from "./models/YuanShenAPI";
 import { zzzmiGetNewsList, zzzmiGetPostFull } from "./models/ZZZAPI";
 import Bot from "../package.json";
 import config from "../config/config.json"
-import { detalData } from "./plugins/NewAPI"
+import { detalData } from "./plugins/mihoyo/NewAPI"
 
 
 
