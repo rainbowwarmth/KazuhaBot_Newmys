@@ -42,10 +42,12 @@ function installDependencies() {
   }
 }
 
+// 执行复制
+
+copyDir(sourceDir, targetDir);
+console.log('“dist” 目录的内容已复制到项目根目录下!');
 // 执行安装依赖
 installDependencies();
 
-// 执行复制
-copyDir(sourceDir, targetDir);
 
-console.log('“dist” 目录的内容已复制到项目根目录下!');
+
