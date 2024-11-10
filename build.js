@@ -14,7 +14,7 @@ function deleteMapFiles(dir) {
       deleteMapFiles(filePath); // 递归删除子目录中的 .map 文件
     } else if (file.endsWith('.map')) {
       fs.unlinkSync(filePath);
-      console.log(`Deleted: ${filePath}`);
+      console.log(`已删除: ${filePath}`);
     }
   }
 }
@@ -36,12 +36,64 @@ function copyDir(src, dest) {
     const destPath = path.join(dest, entry.name);
 
     if (entry.isDirectory()) {
-      copyDir(srcPath, destPath);
+      copyDir(srcPath, destPath); // 递归复制子目录
     } else {
-      fs.copyFileSync(srcPath, destPath);
+      fs.copyFileSync(srcPath, destPath); // 复制文件
     }
   }
 }
 
 // 执行复制
 copyDir(sourceDir, targetDir);
+
+// 复制 config 文件夹到 dist
+const configSourceDir = path.join(__dirname, 'config');
+const configTargetDir = path.join(__dirname, 'dist', 'config');
+
+// 执行 config 文件夹复制
+copyDir(configSourceDir, configTargetDir);
+
+// 定义 src 目录和 dist 目录
+const srcDir = path.join(__dirname, 'dist', 'src');  // 编译后的 src 目录
+const distDir = path.join(__dirname, 'dist');  // 目标目录是 dist 根目录
+
+// 递归复制 dist/src 目录下的所有文件到 dist 根目录下
+function copySrcToDist(src, dest) {
+  const entries = fs.readdirSync(src, { withFileTypes: true });
+
+  for (let entry of entries) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+
+    if (entry.isDirectory()) {
+      // 如果是目录，递归处理，确保目标目录存在
+      fs.mkdirSync(destPath, { recursive: true });
+      copySrcToDist(srcPath, destPath);
+    } else {
+      // 复制文件
+      fs.copyFileSync(srcPath, destPath);
+      console.log(`已复制: ${srcPath} -> ${destPath}`);
+    }
+  }
+}
+
+// 执行复制 src 目录下的所有内容到 dist 根目录下
+copySrcToDist(srcDir, distDir);
+
+// 删除 dist/src 目录
+function deleteDir(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (let entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      deleteDir(fullPath);  // 递归删除子目录
+    } else {
+      fs.unlinkSync(fullPath);  // 删除文件
+    }
+  }
+  fs.rmdirSync(dir);  // 删除空目录
+  console.log(`已删除目录: ${dir}`);
+}
+
+// 删除 dist/src 目录
+deleteDir(srcDir);

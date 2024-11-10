@@ -1,41 +1,8 @@
 {
     "desc": "命令总览json,按照顺序进行匹配",
     "command": {
-        "admin": {
-            "ping": {
-                "reg": "^#ping$",
-                "fnc": "ping",
-                "type": ["DIRECT"],
-                "describe": "检测数据库是否正常"
-            },
-            "status": {
-                "reg": "^#(状态|status)$",
-                "fnc": "status",
-                "type": ["GUILD", "DIRECT"],
-                "describe": "查询bot状态"
-            }
-        },
-        "help": {
-            "helpimage": {
-                "reg": "^#help$",
-                "fnc": "helpimage",
-                "type": ["GUILD","DIRECT"],
-                "describe": "help信息"
-            },
-            "commits": {
-                "reg": "^#提交日志$",
-                "fnc": "commits",
-                "type": ["GUILD","DIRECT"],
-                "describe": "help信息"
-            },
-            "info": {
-                "reg": "^#版本$",
-                "fnc": "info",
-                "type": ["GUILD","DIRECT"],
-                "describe": "help信息"
-            }
-        },
         "NewYuanShen": {
+            "directory": "mihoyo",
             "newsContentBBS": {
                 "reg": "^#原神(公告|资讯|活动)[0-9]*$",
                 "fnc": "newsContentBBS",
@@ -64,6 +31,7 @@
             }
         },
         "NewBB": {
+            "directory": "mihoyo",
             "bbnewsContentBBS": {
                 "reg": "^#(崩二|崩坏学园二|崩坏二)(公告|资讯|活动)[0-9]*$",
                 "fnc": "bbnewsContentBBS",
@@ -92,6 +60,7 @@
             }
         },
         "NewBBB": {
+            "directory": "mihoyo",
             "bbbnewsContentBBS": {
                 "reg": "^#(崩坏三|崩三)?(公告|资讯|活动)[0-9]*$",
                 "fnc": "bbbnewsContentBBS",
@@ -120,6 +89,7 @@
             }
         },
         "NewStarRail": {
+            "directory": "mihoyo",
             "srnewsContentBBS": {
                 "reg": "^#(星铁|星穹|铁道|崩坏星穹铁道)?(公告|资讯|活动)[0-9]*$",
                 "fnc": "srnewsContentBBS",
@@ -148,6 +118,7 @@
             }
         },
         "NewZZZ": {
+            "directory": "mihoyo",
             "zzznewsContentBBS": {
                 "reg": "^#绝区零(公告|资讯|活动)[0-9]*$",
                 "fnc": "zzznewsContentBBS",
@@ -176,6 +147,7 @@
             }
         },
         "NewWeiDing": {
+            "directory": "mihoyo",
             "wdnewsContentBBS": {
                 "reg": "^#未定(公告|资讯|活动)[0-9]*$",
                 "fnc": "wdnewsContentBBS",
@@ -204,6 +176,7 @@
             }
         },
         "NewDBY": {
+            "directory": "mihoyo",
             "dbynewsContentBBS": {
                 "reg": "^#(大别野|别野)?(公告|活动|资讯)[0-9]*$",
                 "fnc": "dbynewsContentBBS",

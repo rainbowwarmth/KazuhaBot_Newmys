@@ -56,9 +56,9 @@ async function execute(msg: IMessageEx) {
             return;
         }
         if (kazuha.config.devEnv) {
-            log.debug(`${_path}/src/plugins/${opt.directory}/${opt.file}:${opt.fnc}`);
+            log.debug(`${_path}/plugins/${opt.directory}/${opt.file}:${opt.fnc}`);
         }
-        const pluginPath = path.join(_path, "src/plugins", opt.directory, `${opt.file}.js`);
+        const pluginPath = path.join(_path, "plugins", opt.directory, `${opt.file}.js`);
         
         try {
             const plugin = await import(pluginPath);
