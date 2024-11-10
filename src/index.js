@@ -76,8 +76,8 @@ async function execute(msg) {
         const opt = await kazuha_1.default.findOpts(msg);
         if (opt.path != "err") {
             if (kazuha_1.default.config.devEnv)
-                logger_1.default.debug(`./plugins/${opt.path}:${opt.fnc}`);
-            const plugin = await Promise.resolve(`${`./plugins/${opt.path}.js`}`).then(s => __importStar(require(s)));
+                logger_1.default.debug(`./src/plugins/${opt.path}:${opt.fnc}`);
+            const plugin = await Promise.resolve(`${`./src/plugins/${opt.path}.js`}`).then(s => __importStar(require(s)));
             if (typeof plugin[opt.fnc] == "function") {
                 return plugin[opt.fnc](msg).catch(err => {
                     logger_1.default.error(err);

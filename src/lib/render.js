@@ -117,7 +117,7 @@ async function browserInit() {
     logger_1.default.mark("puppeteer启动中");
     //初始化puppeteer
     await puppeteer_1.default.launch({
-        executablePath: kazuha_1.default.config.executablePath, //chromium其他路径
+        executablePath: kazuha_1.default.config.executablePath || undefined, //chromium其他路径
         headless: true,
         args: [
             "--disable-gpu",
