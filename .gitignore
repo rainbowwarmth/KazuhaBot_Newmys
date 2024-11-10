@@ -3,4 +3,3 @@ config/pm2
 config/config.json
 pnpm-lock.yaml
 generate
-dist
