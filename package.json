@@ -1,6 +1,6 @@
 {
     "name": "kazuha-bot",
-    "version": "2.2.28",
+    "version": "2.3.0",
     "description": "QQ频道米游社推送Bot",
     "private": false,
     "homepage": "https://github.com/rainbowwarmth/KazuhaBot",
@@ -8,7 +8,7 @@
         "url": "https://github.com/rainbowwarmth/KazuhaBot/issues"
     },
     "scripts": {
-        ".": "node src/app.js .",
+        ".": "node app.js .",
         "build": "node build.js",
         "pm2:start": "pm2 startOrRestart ./config/pm2/pm2.yaml",
         "pm2:stop": "pm2 stop ./config/pm2/pm2.yaml",
@@ -16,7 +16,7 @@
         "pm2:save": "pm2 save --force",
         "pm2:log": "pm2 logs --lines 400 KazuhaBot",
         "init": "node init.js",
-        "start": "node src/app.js start"
+        "start": "node app.js start"
     },
     "repository": {
         "type": "git",
@@ -45,10 +45,11 @@
         "node-schedule": "^2.1.0",
         "nodemon": "^2.0.16",
         "pm2": "^5.3.0",
-        "puppeteer": "^21.5.0",
+        "puppeteer": "^15.4.0",
         "qq-guild-bot": "^2.9.5",
         "redis": "^4.2.0",
         "resty-client": "^0.0.5",
+        "ts-node": "^10.9.2",
         "tsx": "^4.16.2",
         "typescript": "^5.5.4",
         "yaml": "^2.5.0"
