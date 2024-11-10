@@ -59,6 +59,7 @@ pnpm install -P
 打开config文件夹中的config.json，并更改其中的APP_ID和APP_TOKEN为机器人对应ID与TOKEN
 
 ## 编译
+> 使用PNPM安装请忽略
 终端进入 KazuhaBot 根目录，运行`npm run build`
 
 ## 运行
