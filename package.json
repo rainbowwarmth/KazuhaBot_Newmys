@@ -1,6 +1,6 @@
 {
     "name": "kazuha-bot",
-    "version": "2.2.23",
+    "version": "2.2.24",
     "description": "QQ频道米游社推送Bot",
     "private": false,
     "homepage": "https://github.com/rainbowwarmth/KazuhaBot",
@@ -15,7 +15,7 @@
         "pm2:delete": "pm2 delete ./config/pm2/pm2.yaml",
         "pm2:save": "pm2 save --force",
         "pm2:log": "pm2 logs --lines 400 KazuhaBot",
-        "init": "node create.js",
+        "init": "node init.js",
         "start": "node src/app.js start"
     },
     "repository": {
