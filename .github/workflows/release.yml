@@ -1,18 +1,47 @@
-on:
+name: Release
+
+on: 
   push:
     branches:
-      - main
-
-name: Release
+      - main  # 在 main 分支有推送时触发
 
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      - uses: GoogleCloudPlatform/release-please-action@v3
+      # 检出代码库
+      - name: 检出代码库
+        uses: actions/checkout@v3
+        
+      # 获取 package.json 中的版本号
+      - name: 获取当前版本号
+        id: get_version
+        run: |
+          version=$(jq -r .version package.json)
+          echo "当前版本号: $version"
+          echo "version=$version" >> $GITHUB_ENV
+
+      # 运行 release-please-action
+      - name: 执行 Release Please
+        uses: GoogleCloudPlatform/release-please-action@v3
         id: release
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           release-type: node
           package-name: standard-version
-          changelog-types: '[{"type": "types", "section":"Types", "hidden": false},{"type": "revert", "section":"Reverts", "hidden": false},{"type": "feat", "section": "Features", "hidden": false},{"type": "fix", "section": "Bug Fixes", "hidden": false},{"type": "improvement", "section": "Feature Improvements", "hidden": false},{"type": "docs", "section":"Docs", "hidden": false},{"type": "style", "section":"Styling", "hidden": false},{"type": "refactor", "section":"Code Refactoring", "hidden": false},{"type": "perf", "section":"Performance Improvements", "hidden": false},{"type": "test", "section":"Tests", "hidden": false},{"type": "build", "section":"Build System", "hidden": false},{"type": "ci", "section":"CI", "hidden":false}]'
+          version: ${{ env.version }}  # 使用提取到的版本号
+          changelog-types: |
+            [
+              {"type": "types", "section": "Types", "hidden": false},
+              {"type": "revert", "section": "Reverts", "hidden": false},
+              {"type": "feat", "section": "Features", "hidden": false},
+              {"type": "fix", "section": "Bug Fixes", "hidden": false},
+              {"type": "improvement", "section": "Feature Improvements", "hidden": false},
+              {"type": "docs", "section": "Docs", "hidden": false},
+              {"type": "style", "section": "Styling", "hidden": false},
+              {"type": "refactor", "section": "Code Refactoring", "hidden": false},
+              {"type": "perf", "section": "Performance Improvements", "hidden": false},
+              {"type": "test", "section": "Tests", "hidden": false},
+              {"type": "build", "section": "Build System", "hidden": false},
+              {"type": "ci", "section": "CI", "hidden": false}
+            ]
