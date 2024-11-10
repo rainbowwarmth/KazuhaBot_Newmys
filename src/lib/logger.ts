@@ -1,5 +1,4 @@
 import log4js from "log4js";
-import config from "../../config/config.json";
 import { _path } from "../models/global";
 
 const log = log4js.configure({
@@ -15,7 +14,7 @@ const log = log4js.configure({
     categories: {
         default: {
             appenders: ["console"],
-            level: config.log_level,
+            level: "all",
             enableCallStack: true
         }
     }

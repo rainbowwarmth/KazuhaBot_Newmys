@@ -10,10 +10,10 @@ import path from "path";
 export async function initialize(){
     init().then(() => {
 
-        ws.on('READY', (data) =>{
+        ws.on('READY', (data: any) =>{
             log.mark('[READY] 事件接收 :', data)
         });
-        ws.on('ERROR', (data) => {
+        ws.on('ERROR', (data: any) => {
             log.mark('[ERROR] 事件接收 :', data);
           });
         ws.on('GUILD_MESSAGES', async (data: IntentMessage) => {
