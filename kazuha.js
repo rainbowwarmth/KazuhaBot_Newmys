@@ -26,6 +26,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.config = void 0;
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
 const chalk_1 = __importDefault(require("chalk"));
 const IMessageEx_1 = require("./lib/IMessageEx");
 const logger_1 = __importStar(require("./lib/logger"));
@@ -46,8 +49,16 @@ const WeiDingAPI_1 = require("./models/WeiDingAPI");
 const YuanShenAPI_1 = require("./models/YuanShenAPI");
 const ZZZAPI_1 = require("./models/ZZZAPI");
 const package_json_1 = __importDefault(require("../package.json"));
-const config_json_1 = __importDefault(require("../config/config.json"));
 const NewAPI_1 = require("./plugins/mihoyo/NewAPI");
+// 使用 process.cwd() 获取当前工作目录
+const configFilePath = path.resolve(process.cwd(), 'config', 'config.json');
+// 检查路径和文件是否存在
+if (!fs.existsSync(configFilePath)) {
+    process.exit(1);
+}
+const config = JSON.parse(fs.readFileSync(configFilePath, 'utf8'));
+exports.config = config;
+// 导出读取的配置数据
 let kazuha = {
     chalk: chalk_1.default,
     taskPushNews: NewYuanShen_1.taskPushNews,
@@ -59,7 +70,7 @@ let kazuha = {
     dbytaskPushNews: NewDBY_1.dbytaskPushNews,
     findOpts: findOpts_1.findOpts,
     Bot: package_json_1.default,
-    config: config_json_1.default,
+    config,
     sendImage: IMessageEx_1.sendImage,
     _log: logger_1.default,
     setDevLog: logger_1.setDevLog,
