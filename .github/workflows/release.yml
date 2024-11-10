@@ -1,47 +1,62 @@
-name: Release
-
-on: 
+on:
   push:
     branches:
-      - main  # 在 main 分支有推送时触发
+      - main
+
+name: Release
 
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
-      # 检出代码库
-      - name: 检出代码库
+      # 检查代码库并读取版本号
+      - name: Checkout code
         uses: actions/checkout@v3
-        
-      # 获取 package.json 中的版本号
-      - name: 获取当前版本号
+
+      - name: Get version from package.json
         id: get_version
         run: |
-          version=$(jq -r .version package.json)
-          echo "当前版本号: $version"
-          echo "version=$version" >> $GITHUB_ENV
+          VERSION=$(jq -r '.version' package.json)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      # 运行 release-please-action
-      - name: 执行 Release Please
+      - name: Set version for cyclic increment
+        id: set_version
+        run: |
+          # 提取当前的主要和次要版本
+          MAJOR_MINOR=$(echo "${{ env.VERSION }}" | cut -d '.' -f 1,2)
+          PATCH=$(echo "${{ env.VERSION }}" | cut -d '.' -f 3)
+
+          # 检查 PATCH 版本号并根据需求调整
+          if [[ "$PATCH" -ge 30 ]]; then
+            # 周期结束，次要版本递增，PATCH 重置为 0
+            NEXT_MINOR=$(( $(echo "${MAJOR_MINOR}" | cut -d '.' -f 2) + 1 ))
+            VERSION=$(echo "${MAJOR_MINOR}" | cut -d '.' -f 1).${NEXT_MINOR}.0
+          else
+            # 周期内，PATCH 递增
+            VERSION="${MAJOR_MINOR}.$((PATCH + 1))"
+          fi
+
+          echo "New version is $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Update package.json version
+        run: |
+          jq --arg version "$VERSION" '.version = $version' package.json > tmp.$$.json && mv tmp.$$.json package.json
+
+      - name: Release Please Action
         uses: GoogleCloudPlatform/release-please-action@v3
         id: release
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           release-type: node
           package-name: standard-version
-          version: ${{ env.version }}  # 使用提取到的版本号
-          changelog-types: |
-            [
-              {"type": "types", "section": "Types", "hidden": false},
-              {"type": "revert", "section": "Reverts", "hidden": false},
-              {"type": "feat", "section": "Features", "hidden": false},
-              {"type": "fix", "section": "Bug Fixes", "hidden": false},
-              {"type": "improvement", "section": "Feature Improvements", "hidden": false},
-              {"type": "docs", "section": "Docs", "hidden": false},
-              {"type": "style", "section": "Styling", "hidden": false},
-              {"type": "refactor", "section": "Code Refactoring", "hidden": false},
-              {"type": "perf", "section": "Performance Improvements", "hidden": false},
-              {"type": "test", "section": "Tests", "hidden": false},
-              {"type": "build", "section": "Build System", "hidden": false},
-              {"type": "ci", "section": "CI", "hidden": false}
-            ]
+          version: ${{ env.VERSION }} # 动态使用版本号
+          changelog-types: '[{"type": "types", "section":"Types", "hidden": false},{"type": "revert", "section":"Reverts", "hidden": false},{"type": "feat", "section": "Features", "hidden": false},{"type": "fix", "section": "Bug Fixes", "hidden": false},{"type": "improvement", "section": "Feature Improvements", "hidden": false},{"type": "docs", "section":"Docs", "hidden": false},{"type": "style", "section":"Styling", "hidden": false},{"type": "refactor", "section":"Code Refactoring", "hidden": false},{"type": "perf", "section":"Performance Improvements", "hidden": false},{"type": "test", "section":"Tests", "hidden": false},{"type": "build", "section":"Build System", "hidden": false},{"type": "ci", "section":"CI", "hidden":false}]'
+
+      - name: Commit version update
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          git commit -m "chore: update version to $VERSION"
+          git push origin main
