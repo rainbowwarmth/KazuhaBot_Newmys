@@ -35,7 +35,7 @@ function installDependencies() {
   try {
     console.log('运行 pnpm install...');
     // Ensure pnpm install runs in the target directory (which is set to the root)
-    execSync('pnpm install --registry=https://registry.npmmirror.com', { stdio: 'inherit', cwd: targetDir });
+    execSync('pnpm install --registry=https://registry.npmmirror.com', { stdio: 'inherit', cwd: currentDir });
     console.log('依赖项安装成功!');
   } catch (error) {
     console.error('pnpm 安装期间出错:', error);
