@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - main
+      - main  # 监听 main 分支的推送事件
 
 name: Release
 
@@ -21,24 +21,26 @@ jobs:
           echo "Current version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      # 3. 检查 package.json 中版本号是否更新
+      # 3. 获取最新的 Release 版本号
+      - name: Get latest release version
+        id: get_latest_release
+        run: |
+          LATEST_RELEASE=$(curl --silent "https://api.github.com/repos/${{ github.repository }}/releases/latest" | jq -r '.tag_name')
+          echo "Latest release version: $LATEST_RELEASE"
+          echo "LATEST_RELEASE=$LATEST_RELEASE" >> $GITHUB_ENV
+
+      # 4. 判断版本号是否有更新
       - name: Check if version has changed
         id: check_version
         run: |
-          git fetch origin main  # 获取最新的远程 main 分支
-          PREVIOUS_VERSION=$(git show origin/main:package.json | jq -r '.version')
-          echo "Previous version: $PREVIOUS_VERSION"
-          
-          # 如果版本号发生变化，继续执行发布流程
-          if [ "$VERSION" != "$PREVIOUS_VERSION" ]; then
+          if [ "$VERSION" != "$LATEST_RELEASE" ]; then
             echo "Version has changed. Proceeding with release."
             echo "VERSION_UPDATED=true" >> $GITHUB_ENV
           else
             echo "No version update detected. Skipping release."
             echo "VERSION_UPDATED=false" >> $GITHUB_ENV
-          fi  # 确保 'if' 语句正确闭合
 
-      # 4. 设置版本号递增（如果检测到版本更新）
+      # 5. 设置版本号递增（如果检测到版本更新）
       - name: Set version for cyclic increment
         id: set_version
         if: env.VERSION_UPDATED == 'true'
@@ -56,13 +58,13 @@ jobs:
           echo "New version is $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      # 5. 更新 package.json 中的版本号
+      # 6. 更新 package.json 中的版本号
       - name: Update package.json version
         if: env.VERSION_UPDATED == 'true'
         run: |
           jq --arg version "$VERSION" '.version = $version' package.json > tmp.$$.json && mv tmp.$$.json package.json
 
-      # 6. 使用 release-please 进行发布
+      # 7. 使用 release-please 进行发布
       - name: Release Please Action
         if: env.VERSION_UPDATED == 'true'
         uses: GoogleCloudPlatform/release-please-action@v3
@@ -74,7 +76,7 @@ jobs:
           version: ${{ env.VERSION }}  # 动态使用更新后的版本号
           changelog-types: '[{"type": "types", "section":"Types", "hidden": false},{"type": "revert", "section":"Reverts", "hidden": false},{"type": "feat", "section": "Features", "hidden": false},{"type": "fix", "section": "Bug Fixes", "hidden": false},{"type": "improvement", "section": "Feature Improvements", "hidden": false},{"type": "docs", "section":"Docs", "hidden": false},{"type": "style", "section":"Styling", "hidden": false},{"type": "refactor", "section":"Code Refactoring", "hidden": false},{"type": "perf", "section":"Performance Improvements", "hidden": false},{"type": "test", "section":"Tests", "hidden": false},{"type": "build", "section":"Build System", "hidden": false},{"type": "ci", "section":"CI", "hidden":false}]'
 
-      # 7. 提交并推送更新后的版本号
+      # 8. 提交并推送更新后的版本号
       - name: Commit version update
         if: env.VERSION_UPDATED == 'true'
         run: |
