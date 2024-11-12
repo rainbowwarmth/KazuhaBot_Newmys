@@ -1,5 +1,5 @@
 import fs from "fs";
-import { _path, redis } from "../models/global";
+import { _path, redis } from "./global";
 import log from "./logger";
 
 export function writeFileSyncEx(filePath: string, data: string | Buffer, options?: fs.WriteFileOptions) {

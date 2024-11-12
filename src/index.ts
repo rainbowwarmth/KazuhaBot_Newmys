@@ -2,7 +2,7 @@
 import { loadGuildTree } from "./lib/Bot"
 import kazuha from "./kazuha";
 import { IMessageEx } from "./lib/IMessageEx";
-import { ws, redis, _path } from "./models/global"; 
+import { ws, redis, _path } from "./lib/global"; 
 import { IntentMessage } from "./lib/type";
 import log from "./lib/logger";
 import path from "path";
@@ -42,24 +42,35 @@ export async function initialize(){
     });
 }
 
-async function execute(msg: IMessageEx) {
+async function execute(msg: IMessageEx) {  
     try {
         redis.set("lastestMsgId", msg.id, { EX: 4 * 60 });
         if (msg && msg.content) {
             msg.content = msg.content.trim().replace(/^\//, "#");
         } else {
             log.error('检查消息为空，可能是图片和GIF导致的');
-            return
+            return;
         }
+
         const opt = await kazuha.findOpts(msg);
         if (!opt || opt.directory === "err") {
             return;
         }
-        if (kazuha.config.devEnv) {
+
+        if (kazuha.config.devEnv && ["system", "example", "other"].includes(opt.directory)) {
             log.debug(`${_path}/plugins/${opt.directory}/${opt.file}:${opt.fnc}`);
+        } else if(kazuha.config.devEnv) {
+            log.debug(`${_path}/plugins/${opt.directory}/apps/${opt.file}:${opt.fnc}`);
         }
-        const pluginPath = path.join(_path, "plugins", opt.directory, `${opt.file}.js`);
+
+        const isSpecialDir = ["system", "example", "other"].includes(opt.directory);
+
+        const pluginPath = isSpecialDir
+            ? path.join(_path, "plugins", opt.directory, `${opt.file}.js`)
+            : path.join(_path, "plugins", opt.directory, "apps", `${opt.file}.js`)
         
+        log.debug(`插件路径: ${pluginPath}`);
+
         try {
             const plugin = await import(pluginPath);
             if (typeof plugin[opt.fnc] === "function") {
@@ -75,5 +86,6 @@ async function execute(msg: IMessageEx) {
         log.error('执行过程中发生错误:', err);
     }
 }
+
 
 type PluginFnc = (msg: IMessageEx) => Promise<any>

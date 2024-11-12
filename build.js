@@ -2,8 +2,13 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-// 编译 TypeScript 文件
-execSync("tsc");
+try {
+  // 编译 TypeScript 文件并捕获错误
+  execSync("tsc", { stdio: 'inherit' });
+} catch (error) {
+  console.error("TypeScript 编译过程中发生错误:", error.message);
+  process.exit(1); // 编译失败时退出程序
+}
 
 // 删除 .map 文件的函数
 function deleteMapFiles(dir) {

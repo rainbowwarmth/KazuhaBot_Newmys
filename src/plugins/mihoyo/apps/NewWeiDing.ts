@@ -1,7 +1,7 @@
-import kazuha from "../../kazuha";
-import { IMessageEx } from "../../lib/IMessageEx";
-import log from "../../lib/logger";
-import { redis } from "../../models/global";
+import kazuha from "../../../kazuha";
+import { IMessageEx } from "../../../lib/IMessageEx";
+import log from "../../../lib/logger";
+import { redis } from '../../../lib/global';
 
 export async function wdnewsContentBBS(msg: IMessageEx) {
     var type = 1;

@@ -2,7 +2,7 @@
 import puppeteer from "puppeteer";
 import template from "art-template";
 import { writeFileSyncEx } from "./common";
-import { _path, botStatus } from "../models/global";
+import { _path, botStatus } from "./global";
 import kazuha from "../kazuha";
 import log from "./logger";
 //html模板
