@@ -7,7 +7,7 @@ exports.status = status;
 exports.ping = ping;
 exports.msgconnnet = msgconnnet;
 exports.isAdmin = isAdmin;
-const global_1 = require("../../models/global");
+const global_1 = require("../../lib/global");
 const logger_1 = __importDefault(require("../../lib/logger"));
 async function status(msg) {
     return msg.sendMsgEx({

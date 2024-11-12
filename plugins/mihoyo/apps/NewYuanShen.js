@@ -3,20 +3,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bbbnewsContentBBS = bbbnewsContentBBS;
-exports.bbbnewsListBBS = bbbnewsListBBS;
-exports.bbbchangePushTask = bbbchangePushTask;
-exports.bbbtaskPushNews = bbbtaskPushNews;
-const kazuha_1 = __importDefault(require("../../kazuha"));
-const logger_1 = __importDefault(require("../../lib/logger"));
-const global_1 = require("../../models/global");
-async function bbbnewsContentBBS(msg) {
+exports.newsContentBBS = newsContentBBS;
+exports.newsListBBS = newsListBBS;
+exports.changePushTask = changePushTask;
+exports.taskPushNews = taskPushNews;
+const kazuha_1 = __importDefault(require("../../../kazuha"));
+const logger_1 = __importDefault(require("../../../lib/logger"));
+const global_1 = require("../../../lib/global");
+async function newsContentBBS(msg) {
     var type = 1;
     if (msg.content.includes("资讯"))
         type = 3;
     if (msg.content.includes("活动"))
         type = 2;
-    const pagesData = await kazuha_1.default.bbbmiGetNewsList(type);
+    const pagesData = await kazuha_1.default.ysmiGetNewsList(type);
     const _page = msg.content.match(/[0-9]+/);
     const page = _page ? parseInt(_page[0]) : 1;
     if (!pagesData)
@@ -25,7 +25,7 @@ async function bbbnewsContentBBS(msg) {
         msg.sendMsgEx({ content: "目前只查前10条最新的公告，请输入1-10之间的整数。" });
         return true;
     }
-    const postFull = await kazuha_1.default.bbbmiGetPostFull(pagesData.list[page - 1].post.post_id);
+    const postFull = await kazuha_1.default.ysmiGetPostFull(pagesData.list[page - 1].post.post_id);
     if (!postFull)
         return;
     const data = await kazuha_1.default.detalData(postFull.post);
@@ -42,18 +42,18 @@ async function bbbnewsContentBBS(msg) {
     }).then((savePath) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-        logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[崩坏3公告] newsContentBBS/NewBBB.ts`));
+        logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[原神公告] newsContentBBS/NewYuanShen.ts`));
     }).catch((err) => {
         logger_1.default.error(err);
     });
 }
-async function bbbnewsListBBS(msg) {
+async function newsListBBS(msg) {
     var type = 1, typeName = "公告";
     if (msg.content.includes("资讯"))
         type = 3, typeName = "资讯";
     if (msg.content.includes("活动"))
         type = 2, typeName = "活动";
-    const data = await kazuha_1.default.bbbmiGetNewsList(type, 5);
+    const data = await kazuha_1.default.ysmiGetNewsList(type, 5);
     if (!data)
         return;
     var datas = data.list;
@@ -75,33 +75,33 @@ async function bbbnewsListBBS(msg) {
     }).then((savePath) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-        logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[崩坏3公告列表] newListBBS/NewBBB.ts`));
+        logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[原神公告列表] newListBBS/NewYuanShen.ts`));
     }).catch((err) => {
         logger_1.default.error(err);
     });
 }
-async function bbbchangePushTask(msg) {
+async function changePushTask(msg) {
     if (msg.messageType != "GUILD")
         return true;
     const value = msg.content.includes("开启") ? true : false;
-    await global_1.redis.hSet("config:bbbnewsPush", parseInt(msg.channel_id), `${value}`).then((v) => {
+    await global_1.redis.hSet("config:newsPush", parseInt(msg.channel_id), `${value}`).then((v) => {
         if (value)
             return msg.sendMsgEx({
-                content: `崩坏3米游社公告推送已开启` + `\n每1分钟自动检测一次是否存在新更新公告` + `\n如有更新自动发送公告内容至此。`
+                content: `原神米游社公告推送已开启` + `\n每30分钟自动检测一次是否存在新更新公告` + `\n如有更新自动发送公告内容至此。`
             });
         else {
-            return msg.sendMsgEx({ content: `崩坏3米游社公告推送已关闭` });
+            return msg.sendMsgEx({ content: `原神米游社公告推送已关闭` });
         }
     }).catch(err => {
         logger_1.default.error(err);
     });
 }
-async function bbbtaskPushNews() {
+async function taskPushNews() {
     const msgId = await global_1.redis.get("lastestMsgId");
     if (!msgId)
         return;
     const sendChannels = [];
-    const _newsPushChannels = await global_1.redis.hGetAll("config:bbbnewsPush").catch(err => { logger_1.default.error(err); });
+    const _newsPushChannels = await global_1.redis.hGetAll("config:newsPush").catch(err => { logger_1.default.error(err); });
     if (!_newsPushChannels)
         return;
     for (const channel in _newsPushChannels) {
@@ -110,8 +110,8 @@ async function bbbtaskPushNews() {
     }
     if (sendChannels.length == 0)
         return;
-    const ignoreReg = /封禁名单|大别野/;
-    const pagesData = [{ type: "公告", list: (await kazuha_1.default.bbbmiGetNewsList(1))?.list }, { type: "资讯", list: (await kazuha_1.default.bbbmiGetNewsList(3))?.list }];
+    const ignoreReg = /线下赛|晋级赛|战绩更新|海选赛|邀请赛|积分赛|战绩工具|交流平台|首日赛|线上赛|社区内容|个人专访|全民赛|决赛|总决赛|半决赛|淘汰赛|脚本外挂|集中反馈|作品展示|同人|已开奖|大别野/;
+    const pagesData = [{ type: "公告", list: (await kazuha_1.default.ysmiGetNewsList(1))?.list }, { type: "资讯", list: (await kazuha_1.default.ysmiGetNewsList(3))?.list }];
     const postIds = [];
     for (const pageData of pagesData) {
         if (!pageData.list)
@@ -128,7 +128,7 @@ async function bbbtaskPushNews() {
         }
     }
     for (const postId of postIds) {
-        const postFull = await kazuha_1.default.bbbmiGetPostFull(postId);
+        const postFull = await kazuha_1.default.ysmiGetPostFull(postId);
         if (!postFull)
             return;
         const data = await kazuha_1.default.detalData(postFull.post);
@@ -137,7 +137,7 @@ async function bbbtaskPushNews() {
             app: "mys",
             type: "mysNew",
             imgType: "jpeg",
-            render: { saveId: "NewBB" },
+            render: { saveId: "NewYuanShen" },
             data: {
                 dataConent: data.post.content,
                 data,
@@ -153,7 +153,7 @@ async function bbbtaskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
-                logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[崩坏3公告推送] taskPushNews/NewBBB.ts`));
+                logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[原神公告推送] taskPushNews/NewYuanShen.ts`));
                 return Promise.all(_sendQueue).catch(err => {
                     logger_1.default.error(err);
                 });
@@ -163,4 +163,4 @@ async function bbbtaskPushNews() {
         });
     }
 }
-//# sourceMappingURL=NewBBB.js.map
+//# sourceMappingURL=NewYuanShen.js.map

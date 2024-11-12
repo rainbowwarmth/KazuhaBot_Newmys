@@ -3,20 +3,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.srnewsContentBBS = srnewsContentBBS;
-exports.srnewsListBBS = srnewsListBBS;
-exports.srchangePushTask = srchangePushTask;
-exports.srtaskPushNews = srtaskPushNews;
-const kazuha_1 = __importDefault(require("../../kazuha"));
-const logger_1 = __importDefault(require("../../lib/logger"));
-const global_1 = require("../../models/global");
-async function srnewsContentBBS(msg) {
+exports.zzznewsContentBBS = zzznewsContentBBS;
+exports.zzznewsListBBS = zzznewsListBBS;
+exports.zzzchangePushTask = zzzchangePushTask;
+exports.zzztaskPushNews = zzztaskPushNews;
+const kazuha_1 = __importDefault(require("../../../kazuha"));
+const logger_1 = __importDefault(require("../../../lib/logger"));
+const global_1 = require("../../../lib/global");
+async function zzznewsContentBBS(msg) {
     var type = 1;
     if (msg.content.includes("资讯"))
         type = 3;
     if (msg.content.includes("活动"))
         type = 2;
-    const pagesData = await kazuha_1.default.srmiGetNewsList(type);
+    const pagesData = await kazuha_1.default.zzzmiGetNewsList(type);
     const _page = msg.content.match(/[0-9]+/);
     const page = _page ? parseInt(_page[0]) : 1;
     if (!pagesData)
@@ -25,7 +25,7 @@ async function srnewsContentBBS(msg) {
         msg.sendMsgEx({ content: "目前只查前10条最新的公告，请输入1-10之间的整数。" });
         return true;
     }
-    const postFull = await kazuha_1.default.srmiGetPostFull(pagesData.list[page - 1].post.post_id);
+    const postFull = await kazuha_1.default.zzzmiGetPostFull(pagesData.list[page - 1].post.post_id);
     if (!postFull)
         return;
     const data = await kazuha_1.default.detalData(postFull.post);
@@ -42,18 +42,18 @@ async function srnewsContentBBS(msg) {
     }).then((savePath) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-        logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[崩坏星穹铁道公告] newsContentBBS/NewStarRail.ts`));
+        logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[绝区零公告] newsContentBBS/NewZZZ.ts`));
     }).catch((err) => {
         logger_1.default.error(err);
     });
 }
-async function srnewsListBBS(msg) {
+async function zzznewsListBBS(msg) {
     var type = 1, typeName = "公告";
     if (msg.content.includes("资讯"))
         type = 3, typeName = "资讯";
     if (msg.content.includes("活动"))
         type = 2, typeName = "活动";
-    const data = await kazuha_1.default.srmiGetNewsList(type, 5);
+    const data = await kazuha_1.default.zzzmiGetNewsList(type, 5);
     if (!data)
         return;
     var datas = data.list;
@@ -75,33 +75,33 @@ async function srnewsListBBS(msg) {
     }).then((savePath) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-        logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[崩坏星穹铁道公告列表] newListBBS/NewStarRail.ts`));
+        logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[绝区零公告列表] newListBBS/NewZZZ.ts`));
     }).catch((err) => {
         logger_1.default.error(err);
     });
 }
-async function srchangePushTask(msg) {
+async function zzzchangePushTask(msg) {
     if (msg.messageType != "GUILD")
         return true;
     const value = msg.content.includes("开启") ? true : false;
-    await global_1.redis.hSet("config:srnewsPush", parseInt(msg.channel_id), `${value}`).then((v) => {
+    await global_1.redis.hSet("config:zzznewsPush", parseInt(msg.channel_id), `${value}`).then((v) => {
         if (value)
             return msg.sendMsgEx({
-                content: `星穹铁道米游社公告推送已开启` + `\n每1分钟自动检测一次是否存在新更新公告` + `\n如有更新自动发送公告内容至此。`
+                content: `绝区零米游社公告推送已开启` + `\n每1分钟自动检测一次是否存在新更新公告` + `\n如有更新自动发送公告内容至此。`
             });
         else {
-            return msg.sendMsgEx({ content: `星穹铁道米游社公告推送已关闭` });
+            return msg.sendMsgEx({ content: `绝区零米游社公告推送已关闭` });
         }
     }).catch(err => {
         logger_1.default.error(err);
     });
 }
-async function srtaskPushNews() {
+async function zzztaskPushNews() {
     const msgId = await global_1.redis.get("lastestMsgId");
     if (!msgId)
         return;
     const sendChannels = [];
-    const _newsPushChannels = await global_1.redis.hGetAll("config:srnewsPush").catch(err => { logger_1.default.error(err); });
+    const _newsPushChannels = await global_1.redis.hGetAll("config:zzznewsPush").catch(err => { logger_1.default.error(err); });
     if (!_newsPushChannels)
         return;
     for (const channel in _newsPushChannels) {
@@ -110,8 +110,8 @@ async function srtaskPushNews() {
     }
     if (sendChannels.length == 0)
         return;
-    const ignoreReg = /问题说明|意见反馈|账号封禁|工具|直播预告|大别野/;
-    const pagesData = [{ type: "公告", list: (await kazuha_1.default.srmiGetNewsList(1))?.list }, { type: "资讯", list: (await kazuha_1.default.srmiGetNewsList(3))?.list }];
+    const ignoreReg = /作品展示|已开奖|大别野/;
+    const pagesData = [{ type: "公告", list: (await kazuha_1.default.zzzmiGetNewsList(1))?.list }, { type: "资讯", list: (await kazuha_1.default.zzzmiGetNewsList(3))?.list }];
     const postIds = [];
     for (const pageData of pagesData) {
         if (!pageData.list)
@@ -128,7 +128,7 @@ async function srtaskPushNews() {
         }
     }
     for (const postId of postIds) {
-        const postFull = await kazuha_1.default.srmiGetPostFull(postId);
+        const postFull = await kazuha_1.default.zzzmiGetPostFull(postId);
         if (!postFull)
             return;
         const data = await kazuha_1.default.detalData(postFull.post);
@@ -137,7 +137,7 @@ async function srtaskPushNews() {
             app: "mys",
             type: "mysNew",
             imgType: "jpeg",
-            render: { saveId: "NewStarRail" },
+            render: { saveId: "NewZZZ" },
             data: {
                 dataConent: data.post.content,
                 data,
@@ -153,7 +153,7 @@ async function srtaskPushNews() {
                         messageType: "GUILD"
                     }));
                 }
-                logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[崩坏星穹铁道公告推送] taskPushNews/NewStarRail.ts`));
+                logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[绝区零公告推送] taskPushNews/NewZZZ.ts`));
                 return Promise.all(_sendQueue).catch(err => {
                     logger_1.default.error(err);
                 });
@@ -163,4 +163,4 @@ async function srtaskPushNews() {
         });
     }
 }
-//# sourceMappingURL=NewStarRail.js.map
+//# sourceMappingURL=NewZZZ.js.map

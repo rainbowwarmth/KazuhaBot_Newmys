@@ -7,9 +7,9 @@ exports.bbnewsContentBBS = bbnewsContentBBS;
 exports.bbnewsListBBS = bbnewsListBBS;
 exports.bbchangePushTask = bbchangePushTask;
 exports.bbtaskPushNews = bbtaskPushNews;
-const kazuha_1 = __importDefault(require("../../kazuha"));
-const logger_1 = __importDefault(require("../../lib/logger"));
-const global_1 = require("../../models/global");
+const kazuha_1 = __importDefault(require("../../../kazuha"));
+const logger_1 = __importDefault(require("../../../lib/logger"));
+const global_1 = require("../../../lib/global");
 async function bbnewsContentBBS(msg) {
     var type = 1;
     if (msg.content.includes("资讯"))

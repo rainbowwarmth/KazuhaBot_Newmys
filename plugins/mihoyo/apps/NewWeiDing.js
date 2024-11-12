@@ -7,9 +7,9 @@ exports.wdnewsContentBBS = wdnewsContentBBS;
 exports.wdnewsListBBS = wdnewsListBBS;
 exports.wdchangePushTask = wdchangePushTask;
 exports.wdtaskPushNews = wdtaskPushNews;
-const kazuha_1 = __importDefault(require("../../kazuha"));
-const logger_1 = __importDefault(require("../../lib/logger"));
-const global_1 = require("../../models/global");
+const kazuha_1 = __importDefault(require("../../../kazuha"));
+const logger_1 = __importDefault(require("../../../lib/logger"));
+const global_1 = require("../../../lib/global");
 async function wdnewsContentBBS(msg) {
     var type = 1;
     if (msg.content.includes("资讯"))

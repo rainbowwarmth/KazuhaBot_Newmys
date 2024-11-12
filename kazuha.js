@@ -34,22 +34,15 @@ const IMessageEx_1 = require("./lib/IMessageEx");
 const logger_1 = __importStar(require("./lib/logger"));
 const findOpts_1 = require("./lib/findOpts");
 const render_1 = require("./lib/render");
-const NewYuanShen_1 = require("./plugins/mihoyo/NewYuanShen");
-const NewBBB_1 = require("./plugins/mihoyo/NewBBB");
-const NewBB_1 = require("./plugins/mihoyo/NewBB");
-const NewStarRail_1 = require("./plugins/mihoyo/NewStarRail");
-const NewZZZ_1 = require("./plugins/mihoyo/NewZZZ");
-const NewWeiDing_1 = require("./plugins/mihoyo/NewWeiDing");
-const NewDBY_1 = require("./plugins/mihoyo/NewDBY");
-const BBBAPI_1 = require("./models/BBBAPI");
-const BBAPI_1 = require("./models/BBAPI");
-const DBYAPI_1 = require("./models/DBYAPI");
-const StarRailAPI_1 = require("./models/StarRailAPI");
-const WeiDingAPI_1 = require("./models/WeiDingAPI");
-const YuanShenAPI_1 = require("./models/YuanShenAPI");
-const ZZZAPI_1 = require("./models/ZZZAPI");
+const BBBAPI_1 = require("./plugins/mihoyo/models/BBBAPI");
+const BBAPI_1 = require("./plugins/mihoyo/models/BBAPI");
+const DBYAPI_1 = require("./plugins/mihoyo/models/DBYAPI");
+const StarRailAPI_1 = require("./plugins/mihoyo/models/StarRailAPI");
+const WeiDingAPI_1 = require("./plugins/mihoyo/models/WeiDingAPI");
+const YuanShenAPI_1 = require("./plugins/mihoyo/models/YuanShenAPI");
+const ZZZAPI_1 = require("./plugins/mihoyo/models/ZZZAPI");
 const package_json_1 = __importDefault(require("../package.json"));
-const NewAPI_1 = require("./plugins/mihoyo/NewAPI");
+const NewAPI_1 = require("./plugins/mihoyo/apps/NewAPI");
 // 使用 process.cwd() 获取当前工作目录
 const configFilePath = path.resolve(process.cwd(), 'config', 'config.json');
 // 检查路径和文件是否存在
@@ -61,13 +54,6 @@ exports.config = config;
 // 导出读取的配置数据
 let kazuha = {
     chalk: chalk_1.default,
-    taskPushNews: NewYuanShen_1.taskPushNews,
-    bbbtaskPushNews: NewBBB_1.bbbtaskPushNews,
-    bbtaskPushNews: NewBB_1.bbtaskPushNews,
-    srtaskPushNews: NewStarRail_1.srtaskPushNews,
-    zzztaskPushNews: NewZZZ_1.zzztaskPushNews,
-    wdtaskPushNews: NewWeiDing_1.wdtaskPushNews,
-    dbytaskPushNews: NewDBY_1.dbytaskPushNews,
     findOpts: findOpts_1.findOpts,
     Bot: package_json_1.default,
     config,

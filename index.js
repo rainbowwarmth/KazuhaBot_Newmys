@@ -31,7 +31,7 @@ const init_1 = require("./init");
 const Bot_1 = require("./lib/Bot");
 const kazuha_1 = __importDefault(require("./kazuha"));
 const IMessageEx_1 = require("./lib/IMessageEx");
-const global_1 = require("./models/global");
+const global_1 = require("./lib/global");
 const logger_1 = __importDefault(require("./lib/logger"));
 const path_1 = __importDefault(require("path"));
 async function initialize() {
@@ -79,10 +79,17 @@ async function execute(msg) {
         if (!opt || opt.directory === "err") {
             return;
         }
-        if (kazuha_1.default.config.devEnv) {
+        if (kazuha_1.default.config.devEnv && ["system", "example", "other"].includes(opt.directory)) {
             logger_1.default.debug(`${global_1._path}/plugins/${opt.directory}/${opt.file}:${opt.fnc}`);
         }
-        const pluginPath = path_1.default.join(global_1._path, "plugins", opt.directory, `${opt.file}.js`);
+        else if (kazuha_1.default.config.devEnv) {
+            logger_1.default.debug(`${global_1._path}/plugins/${opt.directory}/apps/${opt.file}:${opt.fnc}`);
+        }
+        const isSpecialDir = ["system", "example", "other"].includes(opt.directory);
+        const pluginPath = isSpecialDir
+            ? path_1.default.join(global_1._path, "plugins", opt.directory, `${opt.file}.js`)
+            : path_1.default.join(global_1._path, "plugins", opt.directory, "apps", `${opt.file}.js`);
+        logger_1.default.debug(`插件路径: ${pluginPath}`);
         try {
             const plugin = await Promise.resolve(`${pluginPath}`).then(s => __importStar(require(s)));
             if (typeof plugin[opt.fnc] === "function") {

@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.srmiGetNewsList = srmiGetNewsList;
-exports.srmiGetPostFull = srmiGetPostFull;
+exports.ysmiGetNewsList = ysmiGetNewsList;
+exports.ysmiGetPostFull = ysmiGetPostFull;
 const node_fetch_1 = __importDefault(require("node-fetch"));
-const logger_1 = __importDefault(require("../lib/logger"));
-async function srmiGetNewsList(type, pageSize = 10) {
-    return (0, node_fetch_1.default)(`https://bbs-api-static.miyoushe.com/painter/wapi/getNewsList?gids=6&page_size=${pageSize}&type=${type}`, {
+const logger_1 = __importDefault(require("../../../lib/logger"));
+async function ysmiGetNewsList(type, pageSize = 10) {
+    return (0, node_fetch_1.default)(`https://bbs-api-static.miyoushe.com/painter/wapi/getNewsList?gids=2&page_size=${pageSize}&type=${type}`, {
         method: "GET",
         headers: { Referer: 'https://www.miyoushe.com',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0' }
@@ -24,8 +24,8 @@ async function srmiGetNewsList(type, pageSize = 10) {
         return null;
     });
 }
-async function srmiGetPostFull(postId) {
-    return (0, node_fetch_1.default)(`https://bbs-api.miyoushe.com/post/wapi/getPostFull?gids=6&read=1&post_id=${postId}`, {
+async function ysmiGetPostFull(postId) {
+    return (0, node_fetch_1.default)(`https://bbs-api.miyoushe.com/post/wapi/getPostFull?gids=2&read=1&post_id=${postId}`, {
         method: "GET",
         headers: { Referer: 'https://www.miyoushe.com',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0' }
@@ -41,4 +41,4 @@ async function srmiGetPostFull(postId) {
         return null;
     });
 }
-//# sourceMappingURL=StarRailAPI.js.map
+//# sourceMappingURL=YuanShenAPI.js.map
