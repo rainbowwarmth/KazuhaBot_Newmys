@@ -3,7 +3,6 @@ import fs from 'fs';
 import kazuha from '../kazuha';
 import schedule from 'node-schedule'
 import path from 'path';
-import { IntentMessage } from '../lib/type'
 import { IMessageEx } from '../lib/IMessageEx';
 import log from './logger';
 

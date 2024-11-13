@@ -1,18 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import chalk from 'chalk';
-import { sendImage } from "./lib/IMessageEx";
 import _log, { setDevLog } from "./lib/logger";
 import { findOpts } from "./lib/findOpts" 
 import { render } from "./lib/render";
-import { bbbmiGetNewsList, bbbmiGetPostFull } from "./plugins/mihoyo/models/BBBAPI";
-import { bbmiGetNewsList, bbmiGetPostFull } from "./plugins/mihoyo/models/BBAPI";
-import { DBYmiGetNewsList, DBYmiGetPostFull } from "./plugins/mihoyo/models/DBYAPI";
-import { srmiGetNewsList, srmiGetPostFull } from "./plugins/mihoyo/models/StarRailAPI";
-import { wdmiGetNewsList, wdmiGetPostFull } from "./plugins/mihoyo/models/WeiDingAPI";
-import { ysmiGetNewsList, ysmiGetPostFull } from "./plugins/mihoyo/models/YuanShenAPI";
-import { zzzmiGetNewsList, zzzmiGetPostFull } from "./plugins/mihoyo/models/ZZZAPI";
-import { detalData } from "./plugins/mihoyo/apps/NewAPI"
 
 const configFilePath = path.resolve(process.cwd(), 'config', 'config.json');
 const botFilePath = path.resolve(process.cwd(), 'package.json');
@@ -33,25 +24,9 @@ let kazuha: any = {
     findOpts,
     Bot,
     config,
-    sendImage,
     _log,
     setDevLog,
     render,
-    bbbmiGetNewsList,
-    bbbmiGetPostFull,
-    bbmiGetNewsList,
-    bbmiGetPostFull,
-    DBYmiGetNewsList,
-    DBYmiGetPostFull,
-    srmiGetNewsList,
-    srmiGetPostFull,
-    wdmiGetNewsList,
-    wdmiGetPostFull,
-    ysmiGetNewsList,
-    ysmiGetPostFull,
-    zzzmiGetNewsList,
-    zzzmiGetPostFull,
-    detalData
 }
 
 export default kazuha
