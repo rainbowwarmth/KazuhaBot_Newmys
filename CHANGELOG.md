@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.14](https://github.com/rainbowwarmth/KazuhaBot/compare/2.3.13...v2.3.14) (2024-11-13)
+
+
+### Bug Fixes
+
+* 调整resources部分资源，插件包新增resources目录 ([52202c2](https://github.com/rainbowwarmth/KazuhaBot/commit/52202c2c2dc5fae8d040f2fa399f5ea85d343aa3))
+
 ## [2.3.10](https://github.com/rainbowwarmth/KazuhaBot/compare/v2.3.1...v2.3.2) (2024-11-13)
 
 
