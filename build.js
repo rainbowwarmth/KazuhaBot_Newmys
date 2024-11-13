@@ -64,15 +64,40 @@ function copyDir(src, dest) {
   }
 }
 
-// 执行复制
+// 执行复制资源文件夹
 copyDir(sourceDir, targetDir);
 
 // 复制 config 文件夹到 dist
 const configSourceDir = path.join(__dirname, 'config');
 const configTargetDir = path.join(__dirname, 'dist', 'config');
-
-// 执行 config 文件夹复制
 copyDir(configSourceDir, configTargetDir);
+
+// 复制插件目录内的 resources 文件夹
+const pluginsDir = path.resolve(__dirname, './src/plugins');
+const distPluginsDir = path.resolve(__dirname, './dist/plugins');
+const pluginPaths = fs.readdirSync(pluginsDir).filter((file) => {
+  const filePath = path.join(pluginsDir, file);
+  return fs.statSync(filePath).isDirectory(); // 只筛选目录
+});
+
+const excludedPlugins = ['other', 'system', 'example'];
+
+for (const plugin of pluginPaths) {
+  if (excludedPlugins.includes(plugin)) {
+    continue; // 跳过被排除的插件
+  }
+
+  const pluginPath = path.join(pluginsDir, plugin); // 插件的路径
+  const pluginDistPath = path.join(distPluginsDir, plugin); // 目标路径
+
+  // 如果插件包内存在 resources 文件夹，则复制
+  const pluginResourcesDir = path.join(pluginPath, 'resources');
+  if (fs.existsSync(pluginResourcesDir)) {
+    const pluginDistResourcesDir = path.join(pluginDistPath, 'resources');
+    copyDir(pluginResourcesDir, pluginDistResourcesDir);
+    console.log(`已复制插件 ${plugin} 的 resources 文件夹`);
+  }
+}
 
 // 删除 dist/src 目录的函数
 function deleteDir(dir) {

@@ -5,6 +5,7 @@ import { writeFileSyncEx } from "./common";
 import { _path, botStatus } from "./global";
 import kazuha from "../kazuha";
 import log from "./logger";
+import path from "path";
 //html模板
 const html: any = {};
 //截图数达到时重启浏览器 避免生成速度越来越慢
@@ -17,16 +18,35 @@ var lock = false;
 var shoting: any[] = [];
 
 export async function render(renderData: Render) {
+    const pluginsDir = path.resolve(__dirname, '../plugins');
+    const pluginPaths = fs.readdirSync(pluginsDir).filter((file) => {
+        const filePath = path.join(pluginsDir, file);
+        return fs.statSync(filePath).isDirectory();
+    });
+    
+    const excludedPlugins = ['other', 'system', 'example'];
 
-    //log.debug(renderData);
-    if (renderData.render.template) renderData.render.resFile = `${_path}/resources/${renderData.app}/${renderData.type}/${renderData.render.template}.html`;
-    else renderData.render.resFile = `${_path}/resources/${renderData.app}/${renderData.type}/index.html`;
+    for (const plugin of pluginPaths) {
+        if (excludedPlugins.includes(plugin)) {
+            continue
+        }
 
+        if (renderData.render.template) {
+            renderData.render.resFile = `${_path}/plugins/${plugin}/resources/html/${renderData.app}/${renderData.type}/${renderData.render.template}.html`;
+        } else {
+            renderData.render.resFile = `${_path}/plugins/${plugin}/resources/html/${renderData.app}/${renderData.type}/index.html`;
+        }
+        
+        if (excludedPlugins.includes(plugin)){
+            renderData.data.resPath = `${_path}/`;
+        } else {
+            renderData.data.resPath = `${_path}/plugins/mihoyo/resources/`;
+        }
+    }
+    
     if (!renderData.render.saveFile)
-        renderData.render.saveFile = `${_path}/generate/html/${renderData.app}/${renderData.type}/${renderData.render.saveId}.html`;
-    if (!renderData.data.resPath)
-        renderData.data.resPath = `${_path}/resources`;
-    //renderData.data.resPath = `/resources`;//测试用
+        renderData.render.saveFile = `${_path}/data/html/${renderData.app}/${renderData.type}/${renderData.render.saveId}.html`;
+
 
     return await doRender(renderData).catch(err => {
         log.error(err);
