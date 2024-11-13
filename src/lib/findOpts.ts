@@ -29,7 +29,7 @@ export async function findOpts(msg: IMessageEx): Promise<{ directory: string; fi
     });
 
     // 动态加载 config/command 文件夹下的每个插件对应的配置文件
-    const configDir = path.resolve(__dirname, '../../config/command');
+    const configDir = path.resolve(__dirname, '../config/command');
 
     for (const plugin of pluginPaths) {
         // 构造每个插件对应的配置文件路径

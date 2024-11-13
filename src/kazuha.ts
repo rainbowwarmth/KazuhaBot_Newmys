@@ -12,17 +12,19 @@ import { srmiGetNewsList, srmiGetPostFull } from "./plugins/mihoyo/models/StarRa
 import { wdmiGetNewsList, wdmiGetPostFull } from "./plugins/mihoyo/models/WeiDingAPI";
 import { ysmiGetNewsList, ysmiGetPostFull } from "./plugins/mihoyo/models/YuanShenAPI";
 import { zzzmiGetNewsList, zzzmiGetPostFull } from "./plugins/mihoyo/models/ZZZAPI";
-import Bot from "../package.json";
 import { detalData } from "./plugins/mihoyo/apps/NewAPI"
 
-// 使用 process.cwd() 获取当前工作目录
 const configFilePath = path.resolve(process.cwd(), 'config', 'config.json');
-// 检查路径和文件是否存在
+const botFilePath = path.resolve(process.cwd(), 'package.json');
 if (!fs.existsSync(configFilePath)) {
   process.exit(1);
 }
+if (!fs.existsSync(botFilePath)) {
+  process.exit(1);
+}
 const config = JSON.parse(fs.readFileSync(configFilePath, 'utf8'));
-export { config };
+const Bot = JSON.parse(fs.readFileSync(botFilePath, 'utf8'));
+export { config, Bot };
 
 // 导出读取的配置数据
 
