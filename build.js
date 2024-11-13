@@ -24,15 +24,31 @@ function deleteMapFiles(dir) {
   }
 }
 
-// 删除编译输出目录中的 .map 文件
+// 删除编译输出目录中的 .map 文件 (但不删除文件夹)
 deleteMapFiles(path.join(__dirname, 'dist'));
 
 // 定义源目录和目标目录
 const sourceDir = path.join(__dirname, 'resources');
 const targetDir = path.join(__dirname, 'dist', 'resources');
 
+const packageJsonPath = path.join(__dirname, 'package.json');
+const distPackageJsonPath = path.join(__dirname, 'dist', 'package.json');
+
+// 复制 package.json 文件到 dist 目录
+if (fs.existsSync(packageJsonPath)) {
+  fs.copyFileSync(packageJsonPath, distPackageJsonPath);
+  console.log(`已复制 package.json 到: ${distPackageJsonPath}`);
+} else {
+  console.log("未找到 package.json 文件，无法复制");
+}
+
 // 递归复制目录函数
 function copyDir(src, dest) {
+  if (!fs.existsSync(src)) {
+    console.log(`源目录不存在: ${src}`);
+    return;
+  }
+
   fs.mkdirSync(dest, { recursive: true });
   const entries = fs.readdirSync(src, { withFileTypes: true });
 
@@ -58,38 +74,12 @@ const configTargetDir = path.join(__dirname, 'dist', 'config');
 // 执行 config 文件夹复制
 copyDir(configSourceDir, configTargetDir);
 
-// 定义 src 目录和 dist 目录
-const srcDir = path.join(__dirname, 'dist', 'src');  // 编译后的 src 目录
-const distDir = path.join(__dirname, 'dist');  // 目标目录是 dist 根目录
-
-// 递归复制 dist/src 目录下的所有文件到 dist 根目录下
-function copySrcToDist(src, dest) {
-  if (!fs.existsSync(src)) {
-    console.log(`目录不存在: ${src}`);
+// 删除 dist/src 目录的函数
+function deleteDir(dir) {
+  if (!fs.existsSync(dir)) {
+    console.log(`目录不存在: ${dir}`);
     return;
   }
-
-  const entries = fs.readdirSync(src, { withFileTypes: true });
-  for (let entry of entries) {
-    const srcPath = path.join(src, entry.name);
-    const destPath = path.join(dest, entry.name);
-
-    if (entry.isDirectory()) {
-      fs.mkdirSync(destPath, { recursive: true });
-      copySrcToDist(srcPath, destPath);
-    } else {
-      fs.copyFileSync(srcPath, destPath);
-      console.log(`已复制: ${srcPath} -> ${destPath}`);
-    }
-  }
-}
-
-// 执行复制 src 目录下的所有内容到 dist 根目录下
-copySrcToDist(srcDir, distDir);
-
-// 删除 dist/src 目录
-function deleteDir(dir) {
-  if (!fs.existsSync(dir)) return; // 检查目录是否存在
 
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (let entry of entries) {
@@ -104,5 +94,6 @@ function deleteDir(dir) {
   console.log(`已删除目录: ${dir}`);
 }
 
-// 删除 dist/src 目录
+// 删除 dist/src 目录（如果存在）
+const srcDir = path.join(__dirname, 'dist', 'src');
 deleteDir(srcDir);
