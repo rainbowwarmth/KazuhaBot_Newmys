@@ -1,13 +1,14 @@
+name: Release
+
 on:
   push:
     branches:
       - main  # 监听 main 分支的推送事件
 
-name: Release
-
 jobs:
   release-please:
     runs-on: ubuntu-latest
+
     steps:
       # 1. 检查代码库并读取版本号
       - name: Checkout code
@@ -40,7 +41,7 @@ jobs:
           else
             echo "No version update detected. Skipping release."
             echo "VERSION_UPDATED=false" >> $GITHUB_ENV
-          fi  # 确保有关闭的 fi
+          fi
 
       # 5. 设置版本号递增（如果检测到版本更新）
       - name: Set version for cyclic increment
@@ -92,7 +93,15 @@ jobs:
               {"type": "ci", "section": "CI", "hidden": false}
             ]
 
-      # 8. 提交并推送更新后的版本号
+      # 8. 上传构建的发行包（可选）
+      - name: Upload release assets
+        if: env.VERSION_UPDATED == 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-release-asset
+          path: ./path/to/your/build/artifacts/*.tar.gz
+
+      # 9. 提交并推送更新后的版本号
       - name: Commit version update
         if: env.VERSION_UPDATED == 'true'
         run: |
@@ -101,3 +110,18 @@ jobs:
           git add package.json
           git commit -m "chore: update version to $VERSION"
           git push origin main
+
+      # 10. 创建 GitHub Release（如果需要）
+      - name: Create GitHub Release
+        if: env.VERSION_UPDATED == 'true'
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -d '{
+              "tag_name": "${{ env.VERSION }}",
+              "name": "Release ${{ env.VERSION }}",
+              "body": "Release notes for version ${{ env.VERSION }}",
+              "draft": false,
+              "prerelease": false
+            }' \
+            https://api.github.com/repos/${{ github.repository }}/releases
