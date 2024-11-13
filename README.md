@@ -14,7 +14,7 @@
 > 与[KazuhaBot](https://github.com/feilongproject/KazuhaBot)对比
  * 本项目仅保留了公告推送内容，更加简洁高效。
 
-> 注意V2.1.5开始使用js运行，抛弃之前的ts方法，请务必进行编译后运行项目
+> 注意V2.1.5开始使用js运行，抛弃之前的ts方法。
 
 ---
 
@@ -33,10 +33,10 @@ npm install pnpm -g
 
 ```
 // 使用PNPM
-pnpm init && pnpm pkg set scripts.start="node app.js start" && pnpm i kazuha-bot && node node_modules\kazuha-bot\init.js
+pnpm init && pnpm i kazuha-bot && node node_modules\kazuha-bot\init.js
 
 // 使用PNPM镜像(网络不好首选)
-pnpm init && pnpm pkg set scripts.start="node app.js start" && pnpm i kazuha-bot --registry=https://registry.npmmirror.com && node node_modules\kazuha-bot\init.js
+pnpm init && pnpm i kazuha-bot --registry=https://registry.npmmirror.com && node node_modules\kazuha-bot\init.js
 ```
 
 ### 使用Git安装（第二推荐）
