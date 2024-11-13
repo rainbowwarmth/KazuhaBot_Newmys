@@ -64,18 +64,20 @@ const distDir = path.join(__dirname, 'dist');  // 目标目录是 dist 根目录
 
 // 递归复制 dist/src 目录下的所有文件到 dist 根目录下
 function copySrcToDist(src, dest) {
-  const entries = fs.readdirSync(src, { withFileTypes: true });
+  if (!fs.existsSync(src)) {
+    console.log(`目录不存在: ${src}`);
+    return;
+  }
 
+  const entries = fs.readdirSync(src, { withFileTypes: true });
   for (let entry of entries) {
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
 
     if (entry.isDirectory()) {
-      // 如果是目录，递归处理，确保目标目录存在
       fs.mkdirSync(destPath, { recursive: true });
       copySrcToDist(srcPath, destPath);
     } else {
-      // 复制文件
       fs.copyFileSync(srcPath, destPath);
       console.log(`已复制: ${srcPath} -> ${destPath}`);
     }
@@ -87,6 +89,8 @@ copySrcToDist(srcDir, distDir);
 
 // 删除 dist/src 目录
 function deleteDir(dir) {
+  if (!fs.existsSync(dir)) return; // 检查目录是否存在
+
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (let entry of entries) {
     const fullPath = path.join(dir, entry.name);
