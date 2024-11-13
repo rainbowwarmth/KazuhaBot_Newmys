@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.config = void 0;
+exports.Bot = exports.config = void 0;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const chalk_1 = __importDefault(require("chalk"));
@@ -41,21 +41,24 @@ const StarRailAPI_1 = require("./plugins/mihoyo/models/StarRailAPI");
 const WeiDingAPI_1 = require("./plugins/mihoyo/models/WeiDingAPI");
 const YuanShenAPI_1 = require("./plugins/mihoyo/models/YuanShenAPI");
 const ZZZAPI_1 = require("./plugins/mihoyo/models/ZZZAPI");
-const package_json_1 = __importDefault(require("../package.json"));
 const NewAPI_1 = require("./plugins/mihoyo/apps/NewAPI");
-// 使用 process.cwd() 获取当前工作目录
 const configFilePath = path.resolve(process.cwd(), 'config', 'config.json');
-// 检查路径和文件是否存在
+const botFilePath = path.resolve(process.cwd(), 'package.json');
 if (!fs.existsSync(configFilePath)) {
+    process.exit(1);
+}
+if (!fs.existsSync(botFilePath)) {
     process.exit(1);
 }
 const config = JSON.parse(fs.readFileSync(configFilePath, 'utf8'));
 exports.config = config;
+const Bot = JSON.parse(fs.readFileSync(botFilePath, 'utf8'));
+exports.Bot = Bot;
 // 导出读取的配置数据
 let kazuha = {
     chalk: chalk_1.default,
     findOpts: findOpts_1.findOpts,
-    Bot: package_json_1.default,
+    Bot,
     config,
     sendImage: IMessageEx_1.sendImage,
     _log: logger_1.default,
