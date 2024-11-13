@@ -30,18 +30,9 @@ exports.Bot = exports.config = void 0;
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const chalk_1 = __importDefault(require("chalk"));
-const IMessageEx_1 = require("./lib/IMessageEx");
 const logger_1 = __importStar(require("./lib/logger"));
 const findOpts_1 = require("./lib/findOpts");
 const render_1 = require("./lib/render");
-const BBBAPI_1 = require("./plugins/mihoyo/models/BBBAPI");
-const BBAPI_1 = require("./plugins/mihoyo/models/BBAPI");
-const DBYAPI_1 = require("./plugins/mihoyo/models/DBYAPI");
-const StarRailAPI_1 = require("./plugins/mihoyo/models/StarRailAPI");
-const WeiDingAPI_1 = require("./plugins/mihoyo/models/WeiDingAPI");
-const YuanShenAPI_1 = require("./plugins/mihoyo/models/YuanShenAPI");
-const ZZZAPI_1 = require("./plugins/mihoyo/models/ZZZAPI");
-const NewAPI_1 = require("./plugins/mihoyo/apps/NewAPI");
 const configFilePath = path.resolve(process.cwd(), 'config', 'config.json');
 const botFilePath = path.resolve(process.cwd(), 'package.json');
 if (!fs.existsSync(configFilePath)) {
@@ -60,25 +51,9 @@ let kazuha = {
     findOpts: findOpts_1.findOpts,
     Bot,
     config,
-    sendImage: IMessageEx_1.sendImage,
     _log: logger_1.default,
     setDevLog: logger_1.setDevLog,
     render: render_1.render,
-    bbbmiGetNewsList: BBBAPI_1.bbbmiGetNewsList,
-    bbbmiGetPostFull: BBBAPI_1.bbbmiGetPostFull,
-    bbmiGetNewsList: BBAPI_1.bbmiGetNewsList,
-    bbmiGetPostFull: BBAPI_1.bbmiGetPostFull,
-    DBYmiGetNewsList: DBYAPI_1.DBYmiGetNewsList,
-    DBYmiGetPostFull: DBYAPI_1.DBYmiGetPostFull,
-    srmiGetNewsList: StarRailAPI_1.srmiGetNewsList,
-    srmiGetPostFull: StarRailAPI_1.srmiGetPostFull,
-    wdmiGetNewsList: WeiDingAPI_1.wdmiGetNewsList,
-    wdmiGetPostFull: WeiDingAPI_1.wdmiGetPostFull,
-    ysmiGetNewsList: YuanShenAPI_1.ysmiGetNewsList,
-    ysmiGetPostFull: YuanShenAPI_1.ysmiGetPostFull,
-    zzzmiGetNewsList: ZZZAPI_1.zzzmiGetNewsList,
-    zzzmiGetPostFull: ZZZAPI_1.zzzmiGetPostFull,
-    detalData: NewAPI_1.detalData
 };
 exports.default = kazuha;
 //# sourceMappingURL=kazuha.js.map

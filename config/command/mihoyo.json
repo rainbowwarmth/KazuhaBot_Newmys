@@ -1,208 +1,34 @@
 {
     "desc": "命令总览json,按照顺序进行匹配",
     "command": {
-        "NewYuanShen": {
+        "mysNew": {
             "directory": "mihoyo",
             "newsContentBBS": {
-                "reg": "^#原神(公告|资讯|活动)[0-9]*$",
+                "reg": "^#(原神|未定事件簿|未定|绝区零|大别野|别野|崩坏星穹铁道|星铁|铁道|星穹铁道|崩坏三|崩三|崩坏二|崩坏学院二|崩二)?(公告|活动|资讯)[0-9]*$",
                 "fnc": "newsContentBBS",
                 "type": ["GUILD", "DIRECT"],
                 "permission": "anyone",
-                "describe": "【#原神公告】原神官方公告"
+                "describe": "米游社社区官方公告"
             },
             "newsListBBS": {
-                "reg": "^#原神(公告|资讯|活动)列表$",
+                "reg": "^#(原神|未定事件簿|未定|绝区零|大别野|别野|崩坏星穹铁道|星铁|铁道|星穹铁道|崩坏三|崩三|崩坏二|崩坏学院二|崩二)?(公告|活动|资讯)列表$",
                 "fnc": "newsListBBS",
                 "type": ["GUILD", "DIRECT"],
                 "permission": "anyone",
-                "describe": "【#原神公告列表】原神官方公告列表"
+                "describe": "米游社社区官方公告列表"
             },
             "changePushTask": {
-                "reg": "^#(开启|关闭)原神公告推送$",
+                "reg": "^#(原神|未定事件簿|未定|绝区零|大别野|别野|崩坏星穹铁道|星铁|铁道|星穹铁道|崩坏三|崩三|崩坏二|崩坏学院二|崩二)公告推送$",
                 "fnc": "changePushTask",
                 "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭原神公告推送】"
+                "describe": "开启/关闭公告推送"
             },
             "taskPushNews": {
-                "reg": "^#测试原神公告推送$",
+                "reg": "^#测试(原神|未定事件簿|未定|绝区零|大别野|别野|崩坏星穹铁道|星铁|铁道|星穹铁道|崩坏三|崩三|崩坏二|崩坏学院二|崩二)公告推送$",
                 "fnc": "taskPushNews",
                 "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭原神公告推送】"
-            }
-        },
-        "NewBB": {
-            "directory": "mihoyo",
-            "bbnewsContentBBS": {
-                "reg": "^#(崩二|崩坏学园二|崩坏二)(公告|资讯|活动)[0-9]*$",
-                "fnc": "bbnewsContentBBS",
-                "type": ["GUILD", "DIRECT"],
-                "permission": "anyone",
-                "describe": "【#崩二公告】崩坏学园二官方公告"
-            },
-            "bbnewsListBBS": {
-                "reg": "^#(崩二|崩坏学园二|崩坏二)?(公告|资讯|活动)列表$",
-                "fnc": "bbnewsListBBS",
-                "type": ["GUILD", "DIRECT"],
-                "permission": "anyone",
-                "describe": "【#崩二公告列表】崩坏学园二官方公告列表"
-            },
-            "bbchangePushTask": {
-                "reg": "^#(开启|关闭)?(崩二|崩坏学园二|崩坏二)公告推送$",
-                "fnc": "bbchangePushTask",
-                "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭崩坏学园二公告推送】"
-            },
-            "bbtaskPushNews": {
-                "reg": "^#测试崩坏二公告推送$",
-                "fnc": "bbtaskPushNews",
-                "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭崩坏学园二公告推送】"
-            }
-        },
-        "NewBBB": {
-            "directory": "mihoyo",
-            "bbbnewsContentBBS": {
-                "reg": "^#(崩坏三|崩三)?(公告|资讯|活动)[0-9]*$",
-                "fnc": "bbbnewsContentBBS",
-                "type": ["GUILD", "DIRECT"],
-                "permission": "anyone",
-                "describe": "【#崩三】崩坏3官方公告"
-            },
-            "bbbnewsListBBS": {
-                "reg": "^#(崩坏三|崩三)?(公告|资讯|活动)列表$",
-                "fnc": "bbbnewsListBBS",
-                "type": ["GUILD", "DIRECT"],
-                "permission": "anyone",
-                "describe": "【#崩三列表】崩三官方公告列表"
-            },
-            "bbbchangePushTask": {
-                "reg": "^#(开启|关闭)?(崩坏三|崩三)公告推送$",
-                "fnc": "bbbchangePushTask",
-                "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭崩三公告推送】"
-            },
-            "bbbtaskPushNews": {
-                "reg": "^#测试崩坏三公告推送$",
-                "fnc": "bbbtaskPushNews",
-                "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭崩三公告推送】"
-            }
-        },
-        "NewStarRail": {
-            "directory": "mihoyo",
-            "srnewsContentBBS": {
-                "reg": "^#(星铁|星穹|铁道|崩坏星穹铁道)?(公告|资讯|活动)[0-9]*$",
-                "fnc": "srnewsContentBBS",
-                "type": ["GUILD", "DIRECT"],
-                "permission": "anyone",
-                "describe": "【#星穹铁道公告】星穹铁道官方公告"
-            },
-            "srnewsListBBS": {
-                "reg": "^#(星铁|星穹|铁道|崩坏星穹铁道)?(公告|资讯|活动)列表$",
-                "fnc": "srnewsListBBS",
-                "type": ["GUILD", "DIRECT"],
-                "permission": "anyone",
-                "describe": "【#官方公告列表】星穹铁道官方公告列表"
-            },
-            "srchangePushTask": {
-                "reg": "^#(开启|关闭)?(星铁|星穹|铁道|崩坏星穹铁道)公告推送$",
-                "fnc": "srchangePushTask",
-                "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭星穹铁道公告推送】"
-            },
-            "srtaskPushNews": {
-                "reg": "^#测试星铁公告推送$",
-                "fnc": "srtaskPushNews",
-                "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭星穹铁道公告推送】"
-            }
-        },
-        "NewZZZ": {
-            "directory": "mihoyo",
-            "zzznewsContentBBS": {
-                "reg": "^#绝区零(公告|资讯|活动)[0-9]*$",
-                "fnc": "zzznewsContentBBS",
-                "type": ["GUILD", "DIRECT"],
-                "permission": "anyone",
-                "describe": "【#绝区零公告】绝区零官方公告"
-            },
-            "zzznewsListBBS": {
-                "reg": "^#绝区零(公告|资讯|活动)列表$",
-                "fnc": "zzznewsListBBS",
-                "type": ["GUILD", "DIRECT"],
-                "permission": "anyone",
-                "describe": "【#绝区零公告列表】绝区零官方公告列表"
-            },
-            "zzzchangePushTask": {
-                "reg": "^#(开启|关闭)绝区零公告推送$",
-                "fnc": "zzzchangePushTask",
-                "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭绝区零公告推送】"
-            },
-            "zzztaskPushNews": {
-                "reg": "^#测试绝区零公告推送$",
-                "fnc": "zzztaskPushNews",
-                "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭绝区零公告推送】"
-            }
-        },
-        "NewWeiDing": {
-            "directory": "mihoyo",
-            "wdnewsContentBBS": {
-                "reg": "^#未定(公告|资讯|活动)[0-9]*$",
-                "fnc": "wdnewsContentBBS",
-                "type": ["GUILD", "DIRECT"],
-                "permission": "anyone",
-                "describe": "【#未定公告】未定事件簿官方公告"
-            },
-            "wdnewsListBBS": {
-                "reg": "^#未定(公告|资讯|活动)列表$",
-                "fnc": "wdnewsListBBS",
-                "type": ["GUILD", "DIRECT"],
-                "permission": "anyone",
-                "describe": "【#未定公告列表】未定事件簿官方公告列表"
-            },
-            "wdchangePushTask": {
-                "reg": "^#(开启|关闭)未定公告推送$",
-                "fnc": "wdchangePushTask",
-                "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭未定公告推送】"
-            },
-            "wdtaskPushNews": {
-                "reg": "^#测试公告推送$",
-                "fnc": "wdtaskPushNews",
-                "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭未定公告推送】"
-            }
-        },
-        "NewDBY": {
-            "directory": "mihoyo",
-            "dbynewsContentBBS": {
-                "reg": "^#(大别野|别野)?(公告|活动|资讯)[0-9]*$",
-                "fnc": "dbynewsContentBBS",
-                "type": ["GUILD", "DIRECT"],
-                "permission": "anyone",
-                "describe": "【#大别野公告】大别野官方公告"
-            },
-            "dbynewsListBBS": {
-                "reg": "^#(大别野|别野)?(公告|活动|资讯)列表$",
-                "fnc": "dbynewsListBBS",
-                "type": ["GUILD", "DIRECT"],
-                "permission": "anyone",
-                "describe": "【#大别野公告列表】大别野官方公告列表"
-            },
-            "dbychangePushTask": {
-                "reg": "^#(开启|关闭)?(大别野|别野)公告推送$",
-                "fnc": "dbychangePushTask",
-                "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭大别野公告推送】"
-            },
-            "dbytaskPushNews": {
-                "reg": "^#测试(大别野|别野)公告推送$",
-                "fnc": "dbytaskPushNews",
-                "type": ["GUILD", "DIRECT"],
-                "describe": "【#开启/关闭大别野公告推送】"
-                }
+                "describe": "开启/关闭公告推送"
             }
         }
     }
+}
