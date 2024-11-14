@@ -124,67 +124,106 @@ async function newsListBBS(msg) {
 async function changePushTask(msg) {
     if (msg.messageType !== "GUILD")
         return true;
-    let gid = 2;
-    if (msg.content.includes("崩三") && msg.content.includes("崩坏三"))
-        gid = 1;
-    if (msg.content.includes("原神"))
-        gid = 2;
-    if (msg.content.includes("崩坏二") && msg.content.includes("崩坏学院二") && msg.content.includes("崩二"))
-        gid = 3;
-    if (msg.content.includes("未定事件簿") && msg.content.includes("未定"))
-        gid = 4;
-    if (msg.content.includes("大别野") && msg.content.includes("别野"))
-        gid = 5;
-    if (msg.content.includes("崩坏星穹铁道") && msg.content.includes("星铁") && msg.content.includes("星穹铁道") && msg.content.includes("铁道"))
-        gid = 6;
-    if (msg.content.includes("绝区零"))
-        gid = 8;
+    let gid = 1; // 默认值
+    // 输出收到的消息内容
+    logger_1.default.debug(`消息内容: ${msg.content}`);
+    // 优先检查每个关键词，确保顺序正确
+    if (msg.content.includes("崩坏星穹铁道") || msg.content.includes("星铁")) {
+        gid = 6; // 崩坏星穹铁道
+        logger_1.default.debug("匹配到 崩坏星穹铁道 -> gid = 6");
+    }
+    else if (msg.content.includes("崩三") && msg.content.includes("崩坏三")) {
+        gid = 1; // 崩坏三
+        logger_1.default.debug("匹配到 崩坏三 -> gid = 1");
+    }
+    else if (msg.content.includes("原神")) {
+        gid = 2; // 原神
+        logger_1.default.debug("匹配到 原神 -> gid = 2");
+    }
+    else if (msg.content.includes("崩坏二") && msg.content.includes("崩坏学院二") && msg.content.includes("崩二")) {
+        gid = 3; // 崩坏二
+        logger_1.default.debug("匹配到 崩坏二 -> gid = 3");
+    }
+    else if (msg.content.includes("未定事件簿")) {
+        gid = 4; // 未定事件簿
+        logger_1.default.debug("匹配到 未定事件簿 -> gid = 4");
+    }
+    else if (msg.content.includes("大别野") && msg.content.includes("别野")) {
+        gid = 5; // 大别野
+        logger_1.default.debug("匹配到 大别野 -> gid = 5");
+    }
+    else if (msg.content.includes("绝区零")) {
+        gid = 8; // 绝区零
+        logger_1.default.debug("匹配到 绝区零 -> gid = 8");
+    }
+    // 记录最终的gid值
+    logger_1.default.debug(`最终匹配的gid值: ${gid}`);
+    // 游戏前缀处理
+    const gamePrefix = gid === 1 ? 'bbb' :
+        gid === 2 ? 'ys' :
+            gid === 3 ? 'bb' :
+                gid === 4 ? 'wd' : // 确保未定事件簿匹配到 wd
+                    gid === 5 ? 'dby' :
+                        gid === 6 ? 'sr' : // 崩坏星穹铁道 xq
+                            gid === 8 ? 'zzz' :
+                                'unknown';
+    logger_1.default.debug(`设置的gamePrefix: ${gamePrefix}`);
     const value = msg.content.includes("开启");
-    await global_1.redis.hSet(`config:bbbnewsPush:${gid}`, parseInt(msg.channel_id), `${value}`)
+    await global_1.redis.hSet(`config:${gamePrefix}newsPush`, parseInt(msg.channel_id), `${value}`)
         .then(() => {
         const gameName = gameIds[gid] || "未知游戏";
-        const statusMessage = value ? `${gameName}米游社公告推送已开启\n每1分钟自动检测一次是否存在新更新公告\n如有更新自动发送公告内容至此。`
+        const statusMessage = value
+            ? `${gameName}米游社公告推送已开启\n每1分钟自动检测一次是否存在新更新公告\n如有更新自动发送公告内容至此。`
             : `${gameName}米游社公告推送已关闭`;
+        // 发送状态信息
         msg.sendMsgEx({ content: statusMessage });
     })
         .catch(err => logger_1.default.error(err));
 }
 async function taskPushNews() {
-    const gameGids = [1, 2, 3, 4, 6, 8];
+    // List of all available game IDs (gid)
+    const allGameIds = [1, 2, 3, 4, 5, 6, 8]; // Add or remove game IDs as needed
     const msgId = await global_1.redis.get("lastestMsgId");
     if (!msgId)
         return;
-    const sendChannels = [];
-    const _newsPushChannels = await global_1.redis.hGetAll(`config:newsPush:${gameGids}`).catch(err => logger_1.default.error(err));
-    if (!_newsPushChannels)
-        return;
-    for (const channel in _newsPushChannels) {
-        if (_newsPushChannels[channel] === "true")
-            sendChannels.push(channel);
-    }
-    if (sendChannels.length === 0)
-        return;
-    const ignoreReg = /封禁名单|大别野/;
-    for (const gid of gameGids) {
+    // Loop through each game ID
+    for (const gid of allGameIds) {
+        const _newsPushChannels = await global_1.redis.hGetAll(`config:${getGamePrefix(gid)}newsPush`).catch(err => { logger_1.default.error(err); });
+        if (!_newsPushChannels)
+            continue;
+        const sendChannels = []; // 每次开始时清空 sendChannels
+        // 获取当前游戏的所有频道推送设置
+        for (const channel in _newsPushChannels) {
+            if (_newsPushChannels[channel] == "true") {
+                sendChannels.push(channel); // 如果开启了公告推送，将频道添加到 sendChannels
+            }
+        }
+        if (sendChannels.length == 0)
+            continue; // 如果没有频道开启推送，则跳过
+        const gameName = getGameName(gid);
+        logger_1.default.mark(`${gameName} 官方公告检查中`);
+        const ignoreReg = getIgnoreReg(gid);
         const pagesData = [
             { type: "公告", list: (await (0, mysNew_1.miGetNewsList)(gid, 1))?.list },
             { type: "资讯", list: (await (0, mysNew_1.miGetNewsList)(gid, 3))?.list }
         ];
         const postIds = [];
+        // Process each page for the game
         for (const pageData of pagesData) {
             if (!pageData.list)
                 continue;
             for (const page of pageData.list) {
                 if (ignoreReg.test(page.post.subject))
                     continue;
-                if (Date.now() / 1000 - page.post.created_at > 3600)
+                if (new Date().getTime() / 1000 - page.post.created_at > 43200)
                     continue;
-                if (await global_1.redis.get(`mysNews:${gid}:${page.post.post_id}`) === "true")
+                if (await global_1.redis.get(`mysNews:${page.post.post_id}`) == `${true}`)
                     continue;
-                await global_1.redis.set(`mysNews:${gid}:${page.post.post_id}`, "true", { EX: 3600 * 2 });
+                await global_1.redis.set(`mysNews:${page.post.post_id}`, `${true}`, { EX: 3600 * 2 });
                 postIds.push(page.post.post_id);
             }
         }
+        // Process posts for the game
         for (const postId of postIds) {
             const postFull = await (0, mysNew_1.miGetPostFull)(gid, postId);
             if (!postFull)
@@ -201,17 +240,25 @@ async function taskPushNews() {
                 }
             }).then((savePath) => {
                 if (savePath) {
-                    const _sendQueue = sendChannels.map(channel => (0, IMessageEx_1.sendImage)({
-                        msgId,
-                        imagePath: savePath,
-                        channelId: channel,
-                        messageType: "GUILD"
-                    }));
-                    logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[${gameIds[gid]}公告推送] taskPushNews/NewBBB.ts`));
-                    return Promise.all(_sendQueue).catch(err => logger_1.default.error(err));
+                    const _sendQueue = [];
+                    for (const sendChannel of sendChannels) {
+                        _sendQueue.push((0, IMessageEx_1.sendImage)({
+                            msgId,
+                            imagePath: savePath,
+                            channelId: sendChannel,
+                            messageType: "GUILD"
+                        }));
+                    }
+                    logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[${gameName}公告推送] taskPushNews/NewBBB.ts`));
+                    return Promise.all(_sendQueue).catch(err => {
+                        logger_1.default.error(err);
+                    });
                 }
-            }).catch((err) => logger_1.default.error(err));
+            }).catch((err) => {
+                logger_1.default.error(err);
+            });
         }
+        logger_1.default.mark(`${gameName} 官方公告检查完成`);
     }
 }
 async function detalData(data) {
@@ -251,5 +298,42 @@ async function detalData(data) {
         data.stat[i] = data.stat[i] > 10000 ? (data.stat[i] / 10000).toFixed(2) + "万" : data.stat[i];
     }
     return data;
+}
+function getGameName(gid) {
+    const gameNames = {
+        1: '崩坏三',
+        2: '原神',
+        3: '崩坏二',
+        4: '未定事件簿',
+        5: '大别野',
+        6: '崩坏星穹铁道',
+        8: '绝区零'
+    };
+    return gameNames[gid] || "未知游戏";
+}
+// Helper function to get ignore regex based on gid
+function getIgnoreReg(gid) {
+    const ignoreRegs = {
+        1: /封禁名单|大别野/,
+        2: /封禁名单|大别野/,
+        3: /已开奖|大别野/,
+        4: /大别野/,
+        5: /大别野/,
+        6: /星铁/,
+        8: /绝区零/
+    };
+    return ignoreRegs[gid] || /大别野/;
+}
+function getGamePrefix(gid) {
+    const gamePrefixes = {
+        1: "bbb", // 崩坏3
+        2: "ys", // 原神
+        3: "bb", // 崩坏学园2
+        4: "wd", // 未定
+        5: "dby", // 大别野
+        6: "sr", // 星铁
+        8: "zzz" // 绝区零
+    };
+    return gamePrefixes[gid] || "unknown"; // Default to "unknown" if gid doesn't match
 }
 //# sourceMappingURL=mysNew.js.map

@@ -51,7 +51,7 @@ let kazuha = {
     findOpts: findOpts_1.findOpts,
     Bot,
     config,
-    _log: logger_1.default,
+    logger: logger_1.default,
     setDevLog: logger_1.setDevLog,
     render: render_1.render,
 };

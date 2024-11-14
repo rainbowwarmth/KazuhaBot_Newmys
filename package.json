@@ -33,7 +33,6 @@
     "@types/ws": "^8.5.12"
   },
   "dependencies": {
-    "@redis/client": "^1.6.0",
     "art-template": "^4.13.2",
     "chalk": "^4.0.0",
     "form-data": "^4.0.1",
@@ -46,7 +45,7 @@
     "nodemon": "^2.0.16",
     "pm2": "^5.3.0",
     "puppeteer": "^15.4.0",
-    "qq-guild-bot": "^2.9.5",
+    "qq-bot-sdk": "^1.9.0",
     "redis": "^4.2.0",
     "resty-client": "^0.0.5",
     "tsx": "^4.16.2",
