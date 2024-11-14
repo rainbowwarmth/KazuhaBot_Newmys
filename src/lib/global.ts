@@ -1,8 +1,9 @@
 import { createClient } from 'redis'
-import { createOpenAPI, createWebsocket } from 'qq-guild-bot'
-import kazuha from '../kazuha'
+import { createOpenAPI, createWebsocket } from 'qq-bot-sdk'
+import { config } from '../kazuha'
+import logger from './logger'
 
-export const adminId = ["2492083538938174755"]
+export const adminId = config.initConfig.adminId
 export const _path = process.cwd()
 export const botStatus = {
     startTime: new Date(),
@@ -15,5 +16,12 @@ export const redis = createClient({
     database: 1,
 });
 
-export const client = createOpenAPI(kazuha.config.initConfig)
-export const ws = createWebsocket(kazuha.config.initConfig as any)
+const initConfig = {
+    appID: config.initConfig.appID,
+    token: config.initConfig.token,
+    intents: config.initConfig.intents,
+    sandbox: false,
+    logger: logger
+}
+export const client = createOpenAPI(initConfig)
+export const ws = createWebsocket(initConfig as any)

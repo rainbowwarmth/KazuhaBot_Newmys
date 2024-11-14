@@ -1,6 +1,6 @@
 import fs from "fs";
 import { _path, redis } from "./global";
-import log from "./logger";
+import logger from "./logger";
 
 export function writeFileSyncEx(filePath: string, data: string | Buffer, options?: fs.WriteFileOptions) {
 
@@ -39,7 +39,7 @@ export function cacheJson<T>(opt: "w" | "r", app: string, data?: T): T | boolean
             return true;
         }
     } catch (error) {
-        log.error(error);
+        logger.error(error);
         if (opt == "r") return null;
         else return false;
     }

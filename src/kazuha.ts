@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import chalk from 'chalk';
-import _log, { setDevLog } from "./lib/logger";
+import logger, { setDevLog } from "./lib/logger";
 import { findOpts } from "./lib/findOpts" 
 import { render } from "./lib/render";
 
@@ -24,7 +24,7 @@ let kazuha: any = {
     findOpts,
     Bot,
     config,
-    _log,
+    logger,
     setDevLog,
     render,
 }

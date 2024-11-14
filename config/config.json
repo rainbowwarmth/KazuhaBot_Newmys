@@ -6,7 +6,10 @@
             "GUILD_MESSAGES",
             "DIRECT_MESSAGE"
         ],
-        "sandbox": false
+        "sandbox": false,
+        "adminId": [
+            "2492083538938174755"
+        ]
     },
     "databaseConfig": {
         "unixsocket": "/run/redis/redis-server.sock"

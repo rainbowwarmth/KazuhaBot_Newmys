@@ -1,7 +1,7 @@
 import { IMessageEx } from "../../lib/IMessageEx";
-import { IMember } from "qq-guild-bot";
+import { IMember } from "qq-bot-sdk";
 import {botStatus, redis, adminId, client} from "../../lib/global"
-import log from "../../lib/logger";
+import logger from "../../lib/logger";
 
 export async function status(msg: IMessageEx) {
     return msg.sendMsgEx({
@@ -29,7 +29,7 @@ export async function isAdmin(uid: string, iMember?: IMember, srcGuild?: string)
         iMember = await client.guildApi.guildMember(srcGuild, uid).then(d => {
             return d.data;
         }).catch(err => {
-            log.error(err);
+            logger.error(err);
             return undefined;
         });
     }

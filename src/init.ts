@@ -2,9 +2,9 @@
 import kazuha from './kazuha';
 
 export async function init() {
-    kazuha._log.mark(`-------(≡^∇^≡)-------`);
-    kazuha._log.mark(kazuha.chalk.cyan(kazuha.Bot.name + ' v' + kazuha.Bot.version + '启动中...'))
-    kazuha._log.mark(kazuha.chalk.greenBright('https://github.com/rainbowwarmth/KazuhaBot_Newmys.git'))
+    kazuha.logger.mark(`-------(≡^∇^≡)-------`);
+    kazuha.logger.mark(kazuha.chalk.cyan(kazuha.Bot.name + ' v' + kazuha.Bot.version + '启动中...'))
+    kazuha.logger.mark(kazuha.chalk.greenBright('https://github.com/rainbowwarmth/KazuhaBot_Newmys.git'))
     process.title = 'kazuhaBot' + ' v' + kazuha.Bot.version + ' © 2023-2024 ' + '@' + kazuha.Bot.author;
     process.env.TZ = "Asia/Shanghai";
 

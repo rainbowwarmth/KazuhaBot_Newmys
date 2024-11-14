@@ -1,6 +1,6 @@
 import log4js from "log4js";
-import { RedisClientType } from "@redis/client";
-import { IMessage } from "qq-guild-bot";
+import { RedisClientType } from "redis";
+import { IMessage } from "qq-bot-sdk";
 import { OpenAPI, WebsocketClient } from "../types/qq-guild-bot";
 
 export let _path: string;

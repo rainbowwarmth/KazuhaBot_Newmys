@@ -4,7 +4,7 @@ import template from "art-template";
 import { writeFileSyncEx } from "./common";
 import { _path, botStatus } from "./global";
 import kazuha from "../kazuha";
-import log from "./logger";
+import logger from "./logger";
 import path from "path";
 //html模板
 const html: any = {};
@@ -49,7 +49,7 @@ export async function render(renderData: Render) {
 
 
     return await doRender(renderData).catch(err => {
-        log.error(err);
+        logger.error(err);
     });
 }
 
@@ -81,7 +81,7 @@ async function doRender(renderData: Render): Promise<string | null> {
             omitBackground: true,
         });
     }).catch(err => {
-        log.error(err);
+        logger.error(err);
     });
     await page.close();
     if (fs.existsSync(savePic)) {
@@ -110,9 +110,9 @@ export async function renderURL(renderData: RenderURL) {
         document.querySelector("#__layout > div > div.header")?.remove();
 
     });
-    //log.debug(`goto${url}`);
+    //logger.debug(`goto${url}`);
     await page.$("#__layout > div > div.root-page-container > div > div.mhy-layout__main > div.mhy-article-page__main.mhy-container").then(f => {
-        //log.debug(f);
+        //logger.debug(f);
         if (f) {
             return f.screenshot({
                 type: imgType,
@@ -123,7 +123,7 @@ export async function renderURL(renderData: RenderURL) {
             });
         }
     }).catch(err => {
-        log.error(err);
+        logger.error(err);
     });
     await page.close();
     return savePath;
@@ -131,14 +131,14 @@ export async function renderURL(renderData: RenderURL) {
 
 async function browserInit() {
     if (global.browser) {
-        if (kazuha.config.devEnv) log.debug(`puppeteer已经启动`);
+        if (kazuha.config.devEnv) logger.debug(`puppeteer已经启动`);
         return true;
     }
     if (lock) {
         return false;
     }
     lock = true;
-    log.mark("puppeteer启动中");
+    logger.mark("puppeteer启动中");
     //初始化puppeteer
     await puppeteer.launch({
         executablePath: kazuha.config.executablePath || undefined,//chromium其他路径
@@ -155,13 +155,13 @@ async function browserInit() {
         ]
     }).then(_browser => {
         global.browser = _browser;
-        log.info("puppeteer启动成功");
+        logger.info("puppeteer启动成功");
         global.browser.on("disconnected", function () {
-            log.error("Chromium实例关闭或崩溃！");
+            logger.error("Chromium实例关闭或崩溃！");
             global.browser = null;
         });
     }).catch((err) => {
-        log.error(err);
+        logger.error(err);
     });
     lock = false;
 
