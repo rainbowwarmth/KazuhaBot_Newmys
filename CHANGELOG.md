@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.3.15](https://github.com/rainbowwarmth/KazuhaBot/compare/v2.3.14...v2.3.15) (2024-11-14)
+## [2.4.0](https://github.com/rainbowwarmth/KazuhaBot/compare/v2.3.14...v2.3.15) (2024-11-14)
 
 
 ### Bug Fixes
