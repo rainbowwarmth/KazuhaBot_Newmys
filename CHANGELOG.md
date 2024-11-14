@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/rainbowwarmth/KazuhaBot/compare/v2.3.14...v2.3.15) (2024-11-14)
+
+
+### Bug Fixes
+
+* 心跳日志放进info，修复公告推送问题 ([c459139](https://github.com/rainbowwarmth/KazuhaBot/commit/c459139715d177aec6b04644197e44a756aabe3c))
+
 ## [2.3.14](https://github.com/rainbowwarmth/KazuhaBot/compare/2.3.13...v2.3.14) (2024-11-13)
 
 
