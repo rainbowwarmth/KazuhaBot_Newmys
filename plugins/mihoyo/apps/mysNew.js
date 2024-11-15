@@ -218,7 +218,7 @@ async function taskPushNews() {
             for (const page of pageData.list) {
                 if (ignoreReg.test(page.post.subject))
                     continue;
-                if (new Date().getTime() / 1000 - page.post.created_at > 43200)
+                if (new Date().getTime() / 1000 - page.post.created_at > 3600)
                     continue;
                 if (await global_1.redis.get(`mysNews:${page.post.post_id}`) == `${true}`)
                     continue;
