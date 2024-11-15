@@ -36,6 +36,15 @@
                 "type": ["GUILD","DIRECT"],
                 "describe": "help信息"
             }
+        },
+        "update": {
+            "directory": "other",
+            "update": {
+                "reg": "^#更新$",
+                "fnc": "update",
+                "type": ["GUILD","DIRECT"],
+                "describe": "help信息"
+            }
         }
     }
 }
