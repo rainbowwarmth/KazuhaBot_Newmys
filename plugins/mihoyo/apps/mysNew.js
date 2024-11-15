@@ -69,7 +69,7 @@ async function newsContentBBS(msg) {
     }).then((savePath) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-        logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[${gameIds[gid]}公告] newsContentBBS/NewBBB.ts`));
+        logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[${gameIds[gid]}公告] newsContentBBS/mysNew.ts`));
     }).catch((err) => {
         logger_1.default.error(err);
     });
@@ -116,7 +116,7 @@ async function newsListBBS(msg) {
     }).then((savePath) => {
         if (savePath)
             msg.sendMsgEx({ imagePath: savePath });
-        logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[${gameIds[gid]}公告列表] newListBBS/NewBBB.ts`));
+        logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[${gameIds[gid]}公告列表] newListBBS/mysNew.ts`));
     }).catch((err) => {
         logger_1.default.error(err);
     });
@@ -126,7 +126,6 @@ async function changePushTask(msg) {
         return true;
     let gid = 1; // 默认值
     // 输出收到的消息内容
-    logger_1.default.debug(`消息内容: ${msg.content}`);
     // 优先检查每个关键词，确保顺序正确
     if (msg.content.includes("崩坏星穹铁道") || msg.content.includes("星铁")) {
         gid = 6; // 崩坏星穹铁道
@@ -177,6 +176,10 @@ async function changePushTask(msg) {
             : `${gameName}米游社公告推送已关闭`;
         // 发送状态信息
         msg.sendMsgEx({ content: statusMessage });
+        const loggerMessage = value
+            ? `[${gameName}开启公告推送] changePushTask/mysNew.ts`
+            : `[${gameName}关闭公告推送] changePushTask/mysNew.ts`;
+        logger_1.default.mark(loggerMessage);
     })
         .catch(err => logger_1.default.error(err));
 }
@@ -201,7 +204,7 @@ async function taskPushNews() {
         if (sendChannels.length == 0)
             continue; // 如果没有频道开启推送，则跳过
         const gameName = getGameName(gid);
-        logger_1.default.mark(`${gameName} 官方公告检查中`);
+        logger_1.default.debug(`${gameName} 官方公告检查中`);
         const ignoreReg = getIgnoreReg(gid);
         const pagesData = [
             { type: "公告", list: (await (0, mysNew_1.miGetNewsList)(gid, 1))?.list },
@@ -249,7 +252,7 @@ async function taskPushNews() {
                             messageType: "GUILD"
                         }));
                     }
-                    logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[${gameName}公告推送] taskPushNews/NewBBB.ts`));
+                    logger_1.default.mark(kazuha_1.default.chalk.blueBright(`[${gameName}公告推送] taskPushNews/mysNew.ts`));
                     return Promise.all(_sendQueue).catch(err => {
                         logger_1.default.error(err);
                     });
@@ -258,7 +261,7 @@ async function taskPushNews() {
                 logger_1.default.error(err);
             });
         }
-        logger_1.default.mark(`${gameName} 官方公告检查完成`);
+        logger_1.default.debug(`${gameName} 官方公告检查完成`);
     }
 }
 async function detalData(data) {
