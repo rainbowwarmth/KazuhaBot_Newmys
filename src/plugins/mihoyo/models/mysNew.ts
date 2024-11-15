@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import { MihoyoAPI } from "../../../lib/type";
-import log from "../../../lib/logger";
+import logger from "../../../lib/logger";
 
 export async function miGetNewsList(gid: number, type: number, pageSize = 10) {
     return fetch(`https://bbs-api-static.miyoushe.com/painter/wapi/getNewsList?gids=${gid}&page_size=${pageSize}&type=${type}`, {
@@ -13,7 +13,7 @@ export async function miGetNewsList(gid: number, type: number, pageSize = 10) {
         if (json.data) return json.data;
         else throw new Error("not found data");
     }).catch(err => {
-        log.error(err);
+        logger.error(err);
         return null;
     });
 }
@@ -29,7 +29,7 @@ export async function miGetPostFull(gid: number, postId: string) {
         if (json.data) return json.data;
         else throw new Error("not found data");
     }).catch(err => {
-        log.error(err);
+        logger.error(err);
         return null;
     });
 }

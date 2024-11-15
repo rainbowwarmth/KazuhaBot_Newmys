@@ -56,7 +56,7 @@ pnpm install -P
 
 ## 修改设置文件
 
-打开config文件夹中的config.json，并更改其中的APP_ID和APP_TOKEN为机器人对应ID与TOKEN
+打开config文件夹,选中config.example.json文件重命名为config.json文件，并更改其中的APP_ID和APP_TOKEN为机器人对应ID与TOKEN
 
 ## 运行
 > 启动redis后
