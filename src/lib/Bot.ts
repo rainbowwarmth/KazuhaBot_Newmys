@@ -5,7 +5,7 @@ import schedule from 'node-schedule'
 import path from 'path';
 import { IMessageEx } from '../lib/IMessageEx';
 import logger from './logger';
-import { Logger } from 'qq-bot-sdk'
+
 type PluginFnc = (msg: IMessageEx) => Promise<any>;
 
 interface Task {

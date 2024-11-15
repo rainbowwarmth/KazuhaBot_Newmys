@@ -1,12 +1,9 @@
-import kazuha from "../../../kazuha"; 
-import { IMessageEx, sendImage } from "../../../lib/IMessageEx";
-import logger from "../../../lib/logger";
-import { redis } from '../../../lib/global';
-import { miGetNewsList, miGetPostFull } from "../models/mysNew";
-import { PostFullPost } from "../models/mysNew";
-import path from "path";
-import yaml from "yaml"
-import fs from "fs"
+import kazuha from "../../../kazuha";
+import { IMessageEx, sendImage } from "../../../lib/IMessageEx"
+import logger from "../../../lib/logger"
+import { redis } from '../../../lib/global'
+import { miGetNewsList, miGetPostFull } from "../models/mysNew"
+import { PostFullPost } from "../models/mysNew"
 
 var emoticon: Map<any, any> | null = null;
 
@@ -20,30 +17,31 @@ const gameIds: { [key: number]: string } = {
     8: '绝区零'
 };
 
+
 export async function newsContentBBS(msg: IMessageEx) {
     let gid = 2
-    if (msg.content.includes("崩三") && msg.content.includes("崩坏三")) gid = 1;
-    if (msg.content.includes("原神")) gid = 2;
-    if (msg.content.includes("崩坏二") && msg.content.includes("崩坏学院二") && msg.content.includes("崩二")) gid = 3;
-    if (msg.content.includes("未定事件簿") && msg.content.includes("未定")) gid = 4;
+    if (msg.content.includes("崩三") && msg.content.includes("崩坏三")) gid = 1
+    if (msg.content.includes("原神")) gid = 2
+    if (msg.content.includes("崩坏二") && msg.content.includes("崩坏学院二") && msg.content.includes("崩二")) gid = 3
+    if (msg.content.includes("未定事件簿") && msg.content.includes("未定")) gid = 4
     if (msg.content.includes("大别野") && msg.content.includes("别野")) gid = 5;
-    if (msg.content.includes("崩坏星穹铁道") && msg.content.includes("星铁") && msg.content.includes("星穹铁道") && msg.content.includes("铁道")) gid = 6;
-    if (msg.content.includes("绝区零")) gid = 8;
+    if (msg.content.includes("崩坏星穹铁道") && msg.content.includes("星铁") && msg.content.includes("星穹铁道") && msg.content.includes("铁道")) gid = 6
+    if (msg.content.includes("绝区零")) gid = 8
 
     let type = 1;
-    if (msg.content.includes("资讯")) type = 3;
-    if (msg.content.includes("活动")) type = 2;
+    if (msg.content.includes("资讯")) type = 3
+    if (msg.content.includes("活动")) type = 2
 
-    const pagesData = await miGetNewsList(gid, type);
-    const _page = msg.content.match(/[0-9]+/);
-    const page = _page ? parseInt(_page[0]) : 1;
+    const pagesData = await miGetNewsList(gid, type)
+    const _page = msg.content.match(/[0-9]+/)
+    const page = _page ? parseInt(_page[0]) : 1
     if (!pagesData) return;
 
     if (page <= 0 || page > pagesData.list.length) {
-        msg.sendMsgEx({ content: "目前只查前10条最新的公告，请输入1-10之间的整数。" });
+        msg.sendMsgEx({ content: "目前只查前10条最新的公告，请输入1-10之间的整数。" })
         return true;
     }
-    const postFull = await miGetPostFull(gid, pagesData.list[page - 1].post.post_id);
+    const postFull = await miGetPostFull(gid, pagesData.list[page - 1].post.post_id)
     if (!postFull) return;
     const data = await detalData(postFull.post);
     kazuha.render({
@@ -57,7 +55,7 @@ export async function newsContentBBS(msg: IMessageEx) {
         }
     }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        logger.mark(kazuha.chalk.blueBright(`[${gameIds[gid]}公告] newsContentBBS/NewBBB.ts`));
+        logger.mark(kazuha.chalk.blueBright(`[${gameIds[gid]}公告] newsContentBBS/mysNew.ts`));
     }).catch((err: any) => {
         logger.error(err);
     });
@@ -98,7 +96,7 @@ export async function newsListBBS(msg: IMessageEx) {
         }
     }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        logger.mark(kazuha.chalk.blueBright(`[${gameIds[gid]}公告列表] newListBBS/NewBBB.ts`));
+        logger.mark(kazuha.chalk.blueBright(`[${gameIds[gid]}公告列表] newListBBS/mysNew.ts`));
     }).catch((err: any) => {
         logger.error(err);
     });
@@ -111,7 +109,6 @@ export async function changePushTask(msg: IMessageEx) {
     let gid = 1;  // 默认值
 
     // 输出收到的消息内容
-    logger.debug(`消息内容: ${msg.content}`);
 
     // 优先检查每个关键词，确保顺序正确
     if (msg.content.includes("崩坏星穹铁道") || msg.content.includes("星铁")) {
@@ -168,6 +165,11 @@ export async function changePushTask(msg: IMessageEx) {
 
             // 发送状态信息
             msg.sendMsgEx({ content: statusMessage });
+            const loggerMessage = value 
+            ? `[${gameName}开启公告推送] changePushTask/mysNew.ts` 
+            : `[${gameName}关闭公告推送] changePushTask/mysNew.ts`;
+
+            logger.mark(loggerMessage)
         })
         .catch(err => logger.error(err));
 }
@@ -195,7 +197,7 @@ export async function taskPushNews() {
         if (sendChannels.length == 0) continue;  // 如果没有频道开启推送，则跳过
 
         const gameName = getGameName(gid);
-        logger.mark(`${gameName} 官方公告检查中`);
+        logger.debug(`${gameName} 官方公告检查中`);
 
         const ignoreReg = getIgnoreReg(gid);
         const pagesData = [
@@ -243,7 +245,7 @@ export async function taskPushNews() {
                             messageType: "GUILD"
                         }));
                     }
-                    logger.mark(kazuha.chalk.blueBright(`[${gameName}公告推送] taskPushNews/NewBBB.ts`));
+                    logger.mark(kazuha.chalk.blueBright(`[${gameName}公告推送] taskPushNews/mysNew.ts`));
                     return Promise.all(_sendQueue).catch(err => {
                         logger.error(err);
                     });
@@ -253,7 +255,7 @@ export async function taskPushNews() {
             });
         }
 
-        logger.mark(`${gameName} 官方公告检查完成`);
+        logger.debug(`${gameName} 官方公告检查完成`);
     }
 }
 

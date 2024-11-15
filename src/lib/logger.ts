@@ -1,6 +1,5 @@
 import log4js from "log4js";
 import { _path } from "./global";
-import { config } from "../kazuha";
 
 const logger = log4js.configure({
     appenders: {
@@ -15,7 +14,7 @@ const logger = log4js.configure({
     categories: {
         default: {
             appenders: ["console"],
-            level: config.log,
+            level: "mark",
             enableCallStack: true
         }
     }
