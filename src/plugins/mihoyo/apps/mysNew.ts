@@ -212,7 +212,7 @@ export async function taskPushNews() {
             if (!pageData.list) continue;
             for (const page of pageData.list) {
                 if (ignoreReg.test(page.post.subject)) continue;
-                if (new Date().getTime() / 1000 - page.post.created_at > 43200) continue;
+                if (new Date().getTime() / 1000 - page.post.created_at > 3600) continue;
                 if (await redis.get(`mysNews:${page.post.post_id}`) == `${true}`) continue;
                 await redis.set(`mysNews:${page.post.post_id}`, `${true}`, { EX: 3600 * 2 });
                 postIds.push(page.post.post_id);

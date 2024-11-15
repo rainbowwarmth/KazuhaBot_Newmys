@@ -14,9 +14,9 @@ interface Task {
 }
 
 export async function init() {
-    kazuha._logger.mark(`-------(≡^∇^≡)-------`);
-    kazuha._logger.mark(kazuha.chalk.cyan(kazuha.Bot.name + ' v' + kazuha.Bot.version + '启动中...'));
-    kazuha._logger.mark(kazuha.chalk.greenBright('https://github.com/rainbowwarmth/KazuhaBot_Newmys.git'));
+    logger.mark(`-------(≡^∇^≡)-------`);
+    logger.mark(kazuha.chalk.cyan(kazuha.Bot.name + ' v' + kazuha.Bot.version + '启动中...'));
+    logger.mark(kazuha.chalk.greenBright('https://github.com/rainbowwarmth/KazuhaBot_Newmys.git'));
     process.title = 'kazuhaBot' + ' v' + kazuha.Bot.version + ' © 2023-2024 ' + '@' + kazuha.Bot.author;
     process.env.TZ = "Asia/Shanghai";
     
