@@ -20,7 +20,7 @@ const initConfig = {
     appID: config.initConfig.appID,
     token: config.initConfig.token,
     intents: config.initConfig.intents,
-    sandbox: false,
+    sandbox: config.initConfig.sandbox,
     logger: logger
 }
 export const client = createOpenAPI(initConfig)

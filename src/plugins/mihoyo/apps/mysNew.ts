@@ -4,6 +4,7 @@ import logger from "../../../lib/logger"
 import { redis } from '../../../lib/global'
 import { miGetNewsList, miGetPostFull } from "../models/mysNew"
 import { PostFullPost } from "../models/mysNew"
+import { version } from "os";
 
 var emoticon: Map<any, any> | null = null;
 
@@ -20,13 +21,35 @@ const gameIds: { [key: number]: string } = {
 
 export async function newsContentBBS(msg: IMessageEx) {
     let gid = 2
-    if (msg.content.includes("崩三") && msg.content.includes("崩坏三")) gid = 1
-    if (msg.content.includes("原神")) gid = 2
-    if (msg.content.includes("崩坏二") && msg.content.includes("崩坏学院二") && msg.content.includes("崩二")) gid = 3
-    if (msg.content.includes("未定事件簿") && msg.content.includes("未定")) gid = 4
-    if (msg.content.includes("大别野") && msg.content.includes("别野")) gid = 5;
-    if (msg.content.includes("崩坏星穹铁道") && msg.content.includes("星铁") && msg.content.includes("星穹铁道") && msg.content.includes("铁道")) gid = 6
-    if (msg.content.includes("绝区零")) gid = 8
+
+    if (msg.content.includes("崩坏星穹铁道") || msg.content.includes("星铁")) {
+        gid = 6;  // 崩坏星穹铁道
+        logger.debug("匹配到 崩坏星穹铁道 -> gid = 6");
+    } 
+    else if (msg.content.includes("崩坏三") || msg.content.includes("崩三")) {
+        gid = 1;  // 崩坏三
+        logger.debug("匹配到 崩坏三 -> gid = 1");
+    } 
+    else if (msg.content.includes("原神")) {
+        gid = 2;  // 原神
+        logger.debug("匹配到 原神 -> gid = 2");
+    } 
+    else if (msg.content.includes("崩坏学园二") || msg.content.includes("崩坏二") || msg.content.includes("崩二")) {
+        gid = 3;  // 崩坏二
+        logger.debug("匹配到 崩坏二 -> gid = 3");
+    } 
+    else if (msg.content.includes("未定事件簿")) {
+        gid = 4;  // 未定事件簿
+        logger.debug("匹配到 未定事件簿 -> gid = 4");
+    } 
+    else if (msg.content.includes("大别野") || msg.content.includes("别野")) {
+        gid = 5;  // 大别野
+        logger.debug("匹配到 大别野 -> gid = 5");
+    } 
+    else if (msg.content.includes("绝区零")) {
+        gid = 8;  // 绝区零
+        logger.debug("匹配到 绝区零 -> gid = 8");
+    }
 
     let type = 1;
     if (msg.content.includes("资讯")) type = 3
@@ -62,14 +85,36 @@ export async function newsContentBBS(msg: IMessageEx) {
 }
 
 export async function newsListBBS(msg: IMessageEx) {
-    let gid = 2
-    if (msg.content.includes("崩三") && msg.content.includes("崩坏三")) gid = 1;
-    if (msg.content.includes("原神")) gid = 2;
-    if (msg.content.includes("崩坏二") && msg.content.includes("崩坏学院二") && msg.content.includes("崩二")) gid = 3;
-    if (msg.content.includes("未定事件簿") && msg.content.includes("未定")) gid = 4;
-    if (msg.content.includes("大别野") && msg.content.includes("别野")) gid = 5;
-    if (msg.content.includes("崩坏星穹铁道") && msg.content.includes("星铁") && msg.content.includes("星穹铁道") && msg.content.includes("铁道")) gid = 6;
-    if (msg.content.includes("绝区零")) gid = 8;
+    let gid = 2, gameName = "原神"
+
+    if (msg.content.includes("崩坏星穹铁道") || msg.content.includes("星铁")) {
+        gid = 6, gameName = "崩坏星穹铁道"
+        logger.debug("匹配到 崩坏星穹铁道 -> gid = 6");
+    } 
+    else if (msg.content.includes("崩坏三") || msg.content.includes("崩三")) {
+        gid = 1, gameName = "崩坏3"
+        logger.debug("匹配到 崩坏三 -> gid = 1");
+    } 
+    else if (msg.content.includes("原神")) {
+        gid = 2, gameName = "原神"
+        logger.debug("匹配到 原神 -> gid = 2");
+    } 
+    else if (msg.content.includes("崩坏学园二") || msg.content.includes("崩坏二") || msg.content.includes("崩二")) {
+        gid = 3, gameName = "崩坏学圆2"
+        logger.debug("匹配到 崩坏二 -> gid = 3");
+    } 
+    else if (msg.content.includes("未定事件簿")) {
+        gid = 4, gameName = "未定事件簿"
+        logger.debug("匹配到 未定事件簿 -> gid = 4");
+    } 
+    else if (msg.content.includes("大别野") || msg.content.includes("别野")) {
+        gid = 5, gameName = "大别野"
+        logger.debug("匹配到 大别野 -> gid = 5");
+    } 
+    else if (msg.content.includes("绝区零")) {
+        gid = 8, gameName = "绝区零"
+        logger.debug("匹配到 绝区零 -> gid = 8");
+    }
 
     let type = 1, typeName = "公告";
     if (msg.content.includes("资讯")) type = 3, typeName = "资讯";
@@ -92,11 +137,12 @@ export async function newsListBBS(msg: IMessageEx) {
         render: { saveId: msg.author.id },
         data: {
             datas,
-            typeName
+            typeName,
+            gameName
         }
     }).then((savePath: any) => {
         if (savePath) msg.sendMsgEx({ imagePath: savePath });
-        logger.mark(kazuha.chalk.blueBright(`[${gameIds[gid]}公告列表] newListBBS/mysNew.ts`));
+        logger.mark(kazuha.chalk.blueBright(`[${gameName}${typeName}列表] newListBBS/mysNew.ts`));
     }).catch((err: any) => {
         logger.error(err);
     });
@@ -104,37 +150,31 @@ export async function newsListBBS(msg: IMessageEx) {
 
 export async function changePushTask(msg: IMessageEx) {
     if (msg.messageType !== "GUILD") return true;
-
-
-    let gid = 1;  // 默认值
-
-    // 输出收到的消息内容
-
-    // 优先检查每个关键词，确保顺序正确
+    let gid = 1;
     if (msg.content.includes("崩坏星穹铁道") || msg.content.includes("星铁")) {
         gid = 6;  // 崩坏星穹铁道
         logger.debug("匹配到 崩坏星穹铁道 -> gid = 6");
-    }
-    else if (msg.content.includes("崩三") && msg.content.includes("崩坏三")) {
+    } 
+    else if (msg.content.includes("崩坏三") || msg.content.includes("崩三")) {
         gid = 1;  // 崩坏三
         logger.debug("匹配到 崩坏三 -> gid = 1");
-    }
+    } 
     else if (msg.content.includes("原神")) {
         gid = 2;  // 原神
         logger.debug("匹配到 原神 -> gid = 2");
-    }
-    else if (msg.content.includes("崩坏二") && msg.content.includes("崩坏学院二") && msg.content.includes("崩二")) {
+    } 
+    else if (msg.content.includes("崩坏学园二") || msg.content.includes("崩坏二") || msg.content.includes("崩二")) {
         gid = 3;  // 崩坏二
         logger.debug("匹配到 崩坏二 -> gid = 3");
-    }
+    } 
     else if (msg.content.includes("未定事件簿")) {
         gid = 4;  // 未定事件簿
         logger.debug("匹配到 未定事件簿 -> gid = 4");
-    }
-    else if (msg.content.includes("大别野") && msg.content.includes("别野")) {
+    } 
+    else if (msg.content.includes("大别野") || msg.content.includes("别野")) {
         gid = 5;  // 大别野
         logger.debug("匹配到 大别野 -> gid = 5");
-    }
+    } 
     else if (msg.content.includes("绝区零")) {
         gid = 8;  // 绝区零
         logger.debug("匹配到 绝区零 -> gid = 8");
@@ -270,12 +310,12 @@ export async function detalData(data: PostFullPost) {
     if (typeof json == "object") {
         if (json.imgs && json.imgs.length > 0) {
             for (const val of json.imgs) {
-                data.post.content = ` <div class="ql-image-box"><img src="${val}?x-oss-process=image//resize,s_300/quality,q_40/auto-orient,0/interlace,1/format,jpg"></div>`;
+                data.post.content = ` <div class="ql-image-box"><img src="${val}?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></div>`;
             }
         }
     } else {
         for (const img of data.post.images) {
-            data.post.content = data.post.content.replace(img, img + "?x-oss-process=image//resize,s_300/quality,q_40/auto-orient,0/interlace,1/format,jpg");
+            data.post.content = data.post.content.replace(img, img + "?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg");
         }
         data.post.content = data.post.content.replace(/_\([^)]*\)/g, function (t, e) {
             t = t.replace(/_\(|\)/g, "");

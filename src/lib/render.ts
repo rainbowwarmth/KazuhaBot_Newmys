@@ -1,20 +1,17 @@
 ﻿import fs from "fs";
 import puppeteer from "puppeteer";
 import template from "art-template";
+import sharp from "sharp"; // 引入 sharp 库
 import { writeFileSyncEx } from "./common";
 import { _path, botStatus } from "./global";
 import kazuha from "../kazuha";
 import logger from "./logger";
 import path from "path";
-//html模板
+
 const html: any = {};
-//截图数达到时重启浏览器 避免生成速度越来越慢
 var restartNum = 30;
-//截图次数
 var renderNum = 0;
-//锁住
 var lock = false;
-//截图中
 var shoting: any[] = [];
 
 export async function render(renderData: Render) {
@@ -28,7 +25,7 @@ export async function render(renderData: Render) {
 
     for (const plugin of pluginPaths) {
         if (excludedPlugins.includes(plugin)) {
-            continue
+            continue;
         }
 
         if (renderData.render.template) {
@@ -47,16 +44,13 @@ export async function render(renderData: Render) {
     if (!renderData.render.saveFile)
         renderData.render.saveFile = `${_path}/data/html/${renderData.app}/${renderData.type}/${renderData.render.saveId}.html`;
 
-
     return await doRender(renderData).catch(err => {
         logger.error(err);
     });
 }
 
 async function doRender(renderData: Render): Promise<string | null> {
-
     var { app, type, imgType, render, data } = renderData;
-
     const savePic = `${render.saveFile}.${imgType}`;
     html[`${app}.${type}`] = fs.readFileSync(render.resFile!, "utf8");
 
@@ -72,17 +66,22 @@ async function doRender(renderData: Render): Promise<string | null> {
         waitUntil: "networkidle0",
     }).then(() => {
         return page.$("#container");
-    }).then(body => {
-        return body?.screenshot({
+    }).then(async (body) => {
+        await body?.screenshot({
             type: imgType,
             encoding: "binary",
             quality: 100,
             path: savePic,
             omitBackground: true,
         });
+        // 使用 sharp 压缩截图
+        await sharp(savePic)
+            .jpeg({ quality: 80 }) // 设置压缩质量
+            .toFile(savePic); // 覆盖原文件，生成压缩版本
     }).catch(err => {
         logger.error(err);
     });
+
     await page.close();
     if (fs.existsSync(savePic)) {
         botStatus.imageRenderNum++;
@@ -93,11 +92,8 @@ async function doRender(renderData: Render): Promise<string | null> {
 }
 
 export async function renderURL(renderData: RenderURL) {
-
     var { app, type, imgType, url, saveId } = renderData;
-
     const savePath = `${_path}/generate/url/${app}/${type}/${saveId}.${imgType}`;
-
 
     if (!(await browserInit())) return false;
     if (!global.browser) return false;
@@ -108,23 +104,26 @@ export async function renderURL(renderData: RenderURL) {
     });
     await page.evaluate(() => {
         document.querySelector("#__layout > div > div.header")?.remove();
-
     });
-    //logger.debug(`goto${url}`);
-    await page.$("#__layout > div > div.root-page-container > div > div.mhy-layout__main > div.mhy-article-page__main.mhy-container").then(f => {
-        //logger.debug(f);
+
+    await page.$("#__layout > div > div.root-page-container > div > div.mhy-layout__main > div.mhy-article-page__main.mhy-container").then(async (f) => {
         if (f) {
-            return f.screenshot({
+            await f.screenshot({
                 type: imgType,
                 encoding: "binary",
                 quality: 100,
                 path: savePath,
                 omitBackground: true,
             });
+            // 使用 sharp 压缩截图
+            await sharp(savePath)
+                .jpeg({ quality: 80 }) // 设置压缩质量
+                .toFile(savePath); // 覆盖原文件，生成压缩版本
         }
     }).catch(err => {
         logger.error(err);
     });
+
     await page.close();
     return savePath;
 }
@@ -139,9 +138,9 @@ async function browserInit() {
     }
     lock = true;
     logger.mark("puppeteer启动中");
-    //初始化puppeteer
+
     await puppeteer.launch({
-        executablePath: kazuha.config.executablePath || undefined,//chromium其他路径
+        executablePath: kazuha.config.executablePath || undefined,
         headless: true,
         args: [
             "--disable-gpu",
@@ -151,7 +150,7 @@ async function browserInit() {
             "--no-sandbox",
             "--no-zygote",
             "--single-process",
-            "--windows-size=1920,1080"
+            "--window-size=1920,1080"
         ]
     }).then(_browser => {
         global.browser = _browser;
@@ -187,5 +186,4 @@ interface RenderURL {
     imgType: "jpeg" | "png";
     url: string;
     saveId: string;
-
 };
