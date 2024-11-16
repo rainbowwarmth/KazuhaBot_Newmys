@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.4](https://github.com/rainbowwarmth/KazuhaBot/compare/2.4.3...v2.4.4) (2024-11-16)
+
+
+### Bug Fixes
+
+* 米游社公告匹配逻辑，图片压缩 ([518c033](https://github.com/rainbowwarmth/KazuhaBot/commit/518c033596b7de4c1f7e3a60a93573242c1d3b70))
+
 ## [2.4.0](https://github.com/rainbowwarmth/KazuhaBot/compare/v2.3.14...v2.3.15) (2024-11-14)
 
 
